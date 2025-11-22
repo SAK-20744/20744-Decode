@@ -1,27 +1,35 @@
 package org.firstinspires.ftc.teamcode.opmode;
 
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_WITHOUT_ENCODER;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.*;
 
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp
-public class ApolloTeleOp extends OpMode {
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-    private double looptime = 0;
+@TeleOp
+public class PIDTele extends OpMode {
+
+    private double looptime = 0, targetVelocity = 0;
     private boolean far = false;
     private double hoodTarget = HOOD_CLOSE;
     private double lKickerTarget = LKICKER_DOWN;
     private double mKickerTarget = MKICKER_DOWN;
     private double rKickerTarget = RKICKER_DOWN;
     private double intakePower = INTAKE_OFF;
-    private double shooterPower = SHOOTER_OFF;
+//    private double shooterPower = SHOOTER_OFF;
 
-    DcMotor fl, bl, fr, br, intake, lShooter, rShooter;
+    DcMotor fl, bl, fr, br, intake;
+    DcMotorEx lShooter, rShooter;
     Servo lKicker, mKicker, rKicker, hood;
 
     public void init() {
@@ -31,8 +39,8 @@ public class ApolloTeleOp extends OpMode {
         fr = hardwareMap.dcMotor.get("fr");
         br = hardwareMap.dcMotor.get("br");
         intake = hardwareMap.dcMotor.get("intake");
-        lShooter = hardwareMap.dcMotor.get("lShooter");
-        rShooter = hardwareMap.dcMotor.get("rShooter");
+        lShooter = hardwareMap.get(DcMotorEx.class, "lShooter");
+        rShooter = hardwareMap.get(DcMotorEx.class, "rShooter");
 
         lKicker = hardwareMap.servo.get("lKicker");
         mKicker = hardwareMap.servo.get("mKicker");
@@ -43,6 +51,9 @@ public class ApolloTeleOp extends OpMode {
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        rShooter.setMode(RUN_USING_ENCODER);
+        lShooter.setMode(RUN_WITHOUT_ENCODER);
 
         fl.setDirection(flDir);
         bl.setDirection(blDir);
@@ -58,15 +69,19 @@ public class ApolloTeleOp extends OpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         intakePower = INTAKE_OFF;
-        shooterPower = SHOOTER_OFF;
+//        shooterPower = SHOOTER_OFF;
 
         lKicker.setPosition(lKickerTarget);
         mKicker.setPosition(mKickerTarget);
         rKicker.setPosition(rKickerTarget);
         hood.setPosition(hoodTarget);
         intake.setPower(intakePower);
-        lShooter.setPower(shooterPower);
-        rShooter.setPower(shooterPower);
+//        lShooter.setPower(shooterPower);
+//        rShooter.setPower(shooterPower);
+
+        rShooter.setVelocity(targetVelocity, AngleUnit.DEGREES);
+        lShooter.setVelocity(targetVelocity, AngleUnit.DEGREES);
+
     }
 
     public void init_loop(){
@@ -106,10 +121,12 @@ public class ApolloTeleOp extends OpMode {
         if (gamepad1.dpad_down) far = true;
 
         if(far){
-            shooterPower = SHOOTER_FAR;
+//            shooterPower = SHOOTER_FAR;
+            targetVelocity = VELOCITY_FAR;
             hoodTarget = HOOD_FAR;
         } else {
-            shooterPower = SHOOTER_CLOSE;
+//            shooterPower = SHOOTER_CLOSE;
+            targetVelocity = VELOCITY_CLOSE;
             hoodTarget = HOOD_CLOSE;
         }
 
@@ -118,16 +135,22 @@ public class ApolloTeleOp extends OpMode {
         rKicker.setPosition(rKickerTarget);
         hood.setPosition(hoodTarget);
         intake.setPower(intakePower);
-        lShooter.setPower(shooterPower);
-        rShooter.setPower(shooterPower);
+//        lShooter.setPower(shooterPower);
+//        rShooter.setPower(shooterPower);
 
-        telemetry.addData("Left Kicker ", lKicker.getPosition());
-        telemetry.addData("Middle Kicker", mKicker.getPosition());
-        telemetry.addData("Right Kicker", rKicker.getPosition());
-        telemetry.addData("Hood", hood.getPosition());
-        telemetry.addData("Intake", intake.getPower());
+        rShooter.setVelocity(targetVelocity, AngleUnit.DEGREES);
+        lShooter.setVelocity(targetVelocity, AngleUnit.DEGREES);
+
+//        telemetry.addData("Left Kicker ", lKicker.getPosition());
+//        telemetry.addData("Middle Kicker", mKicker.getPosition());
+//        telemetry.addData("Right Kicker", rKicker.getPosition());
+//        telemetry.addData("Hood", hood.getPosition());
+//        telemetry.addData("Intake", intake.getPower());
         telemetry.addData("Left Shooter", lShooter.getPower());
         telemetry.addData("Right Shooter", rShooter.getPower());
+        telemetry.addData("Left Shooter Vel", lShooter.getVelocity());
+        telemetry.addData("Right Shooter Vel", rShooter.getVelocity());
+        telemetry.addData("Shooter Vel Reported", targetVelocity);
 
         double loop = System.nanoTime();
         telemetry.addData("hz ", 1000000000 / (loop - looptime));
