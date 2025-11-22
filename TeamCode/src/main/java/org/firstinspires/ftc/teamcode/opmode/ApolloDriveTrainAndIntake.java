@@ -25,9 +25,11 @@ import static org.firstinspires.ftc.teamcode.config.ApolloConstants.rShooterDir;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+@TeleOp
 public class ApolloDriveTrainAndIntake extends OpMode {
 
     private double looptime = 0;
