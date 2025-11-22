@@ -14,7 +14,7 @@ public class ApolloConstants {
         MKICKER_DOWN = 0,
         RKICKER_DOWN = 0.1,
         LKICKER_UP = 0.27,
-        MKICKER_UP = 031,
+        MKICKER_UP = 0.31,
         RKICKER_UP = 0.39,
         HOOD_CLOSE = 0.2,
         HOOD_FAR = 0.9,
