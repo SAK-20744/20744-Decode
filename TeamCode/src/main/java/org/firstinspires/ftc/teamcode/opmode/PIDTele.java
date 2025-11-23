@@ -15,6 +15,7 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.config.ApolloConstants;
 
 @TeleOp
 public class PIDTele extends OpMode {
@@ -34,10 +35,10 @@ public class PIDTele extends OpMode {
 
     public void init() {
 
-        fl = hardwareMap.dcMotor.get("fl");
-        bl = hardwareMap.dcMotor.get("bl");
-        fr = hardwareMap.dcMotor.get("fr");
-        br = hardwareMap.dcMotor.get("br");
+        fl = hardwareMap.dcMotor.get(ApolloConstants.dt.fl);
+        bl = hardwareMap.dcMotor.get(ApolloConstants.dt.bl);
+        fr = hardwareMap.dcMotor.get(ApolloConstants.dt.fr);
+        br = hardwareMap.dcMotor.get(ApolloConstants.dt.br);
         intake = hardwareMap.dcMotor.get("intake");
         lShooter = hardwareMap.get(DcMotorEx.class, "lShooter");
         rShooter = hardwareMap.get(DcMotorEx.class, "rShooter");
@@ -80,7 +81,7 @@ public class PIDTele extends OpMode {
 //        rShooter.setPower(shooterPower);
 
         rShooter.setVelocity(targetVelocity, AngleUnit.DEGREES);
-        lShooter.setVelocity(targetVelocity, AngleUnit.DEGREES);
+        lShooter.setPower(rShooter.getPower());
 
     }
 
@@ -139,7 +140,7 @@ public class PIDTele extends OpMode {
 //        rShooter.setPower(shooterPower);
 
         rShooter.setVelocity(targetVelocity, AngleUnit.DEGREES);
-        lShooter.setVelocity(targetVelocity, AngleUnit.DEGREES);
+        lShooter.setPower(rShooter.getPower());
 
 //        telemetry.addData("Left Kicker ", lKicker.getPosition());
 //        telemetry.addData("Middle Kicker", mKicker.getPosition());

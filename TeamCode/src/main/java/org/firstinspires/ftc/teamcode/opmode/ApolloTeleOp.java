@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.config.ApolloConstants;
+
 @TeleOp
 public class ApolloTeleOp extends OpMode {
 
@@ -26,10 +28,10 @@ public class ApolloTeleOp extends OpMode {
 
     public void init() {
 
-        fl = hardwareMap.dcMotor.get("fl");
-        bl = hardwareMap.dcMotor.get("bl");
-        fr = hardwareMap.dcMotor.get("fr");
-        br = hardwareMap.dcMotor.get("br");
+        fl = hardwareMap.dcMotor.get(ApolloConstants.dt.fl);
+        bl = hardwareMap.dcMotor.get(ApolloConstants.dt.bl);
+        fr = hardwareMap.dcMotor.get(ApolloConstants.dt.fr);
+        br = hardwareMap.dcMotor.get(ApolloConstants.dt.br);
         intake = hardwareMap.dcMotor.get("intake");
         lShooter = hardwareMap.dcMotor.get("lShooter");
         rShooter = hardwareMap.dcMotor.get("rShooter");

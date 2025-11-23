@@ -23,7 +23,6 @@ public class ApolloConstants {
         SHOOTER_OFF = 0,
         VELOCITY_FAR = 180,
         VELOCITY_CLOSE = 120;
-
     public static DcMotorSimple.Direction
         frDir = DcMotorSimple.Direction.FORWARD,
         brDir = DcMotorSimple.Direction.FORWARD,
@@ -32,4 +31,12 @@ public class ApolloConstants {
         intakeDir = DcMotorSimple.Direction.REVERSE,
         lShooterDir = DcMotorSimple.Direction.REVERSE,
         rShooterDir = DcMotorSimple.Direction.FORWARD;
+    public static class dt {
+        //drivetrain
+        public static String
+                fl = "fl",
+                fr = "fr",
+                bl = "bl",
+                br = "br";
+    }
 }
