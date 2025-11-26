@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.config.ApolloConstants;
+import org.firstinspires.ftc.teamcode.config.ApolloHardwareNames;
 
 @TeleOp
 public class ApolloTeleOp extends OpMode {
@@ -36,9 +37,9 @@ public class ApolloTeleOp extends OpMode {
         lShooter = hardwareMap.dcMotor.get("lShooter");
         rShooter = hardwareMap.dcMotor.get("rShooter");
 
-        lKicker = hardwareMap.servo.get("lKicker");
-        mKicker = hardwareMap.servo.get("mKicker");
-        rKicker = hardwareMap.servo.get("rKicker");
+        lKicker = hardwareMap.servo.get(ApolloHardwareNames.lKicker);
+        mKicker = hardwareMap.servo.get(ApolloHardwareNames.mKicker);
+        rKicker = hardwareMap.servo.get(ApolloHardwareNames.rKicker);
         hood = hardwareMap.servo.get("hood");
 
         fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

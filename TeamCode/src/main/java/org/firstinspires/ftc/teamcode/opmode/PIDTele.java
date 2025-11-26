@@ -16,6 +16,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.config.ApolloConstants;
+import org.firstinspires.ftc.teamcode.config.ApolloHardwareNames;
 
 @TeleOp
 public class PIDTele extends OpMode {
@@ -43,9 +44,9 @@ public class PIDTele extends OpMode {
         lShooter = hardwareMap.get(DcMotorEx.class, "lShooter");
         rShooter = hardwareMap.get(DcMotorEx.class, "rShooter");
 
-        lKicker = hardwareMap.servo.get("lKicker");
-        mKicker = hardwareMap.servo.get("mKicker");
-        rKicker = hardwareMap.servo.get("rKicker");
+        lKicker = hardwareMap.servo.get(ApolloHardwareNames.lKicker);
+        mKicker = hardwareMap.servo.get(ApolloHardwareNames.mKicker);
+        rKicker = hardwareMap.servo.get(ApolloHardwareNames.rKicker);
         hood = hardwareMap.servo.get("hood");
 
         fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
