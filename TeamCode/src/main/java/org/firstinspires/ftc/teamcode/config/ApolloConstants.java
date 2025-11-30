@@ -21,8 +21,8 @@ public class ApolloConstants {
         SHOOTER_CLOSE = 0.65,
         SHOOTER_FAR = 0.8,
         SHOOTER_OFF = 0,
-        VELOCITY_FAR = 180,
-        VELOCITY_CLOSE = 120;
+        VELOCITY_FAR = 400,
+        VELOCITY_CLOSE = 280;
     public static DcMotorSimple.Direction
         frDir = DcMotorSimple.Direction.FORWARD,
         brDir = DcMotorSimple.Direction.FORWARD,

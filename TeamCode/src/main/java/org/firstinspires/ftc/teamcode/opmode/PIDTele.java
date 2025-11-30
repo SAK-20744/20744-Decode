@@ -150,8 +150,8 @@ public class PIDTele extends OpMode {
 //        telemetry.addData("Intake", intake.getPower());
         telemetry.addData("Left Shooter", lShooter.getPower());
         telemetry.addData("Right Shooter", rShooter.getPower());
-        telemetry.addData("Left Shooter Vel", lShooter.getVelocity());
-        telemetry.addData("Right Shooter Vel", rShooter.getVelocity());
+        telemetry.addData("Left Shooter Vel", lShooter.getVelocity(AngleUnit.DEGREES));
+        telemetry.addData("Right Shooter Vel", rShooter.getVelocity(AngleUnit.DEGREES));
         telemetry.addData("Shooter Vel Reported", targetVelocity);
 
         double loop = System.nanoTime();
