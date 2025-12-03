@@ -7,6 +7,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.*;
 import org.firstinspires.ftc.teamcode.config.ApolloHardwareNames;
 public class Kickers {
+
+    public enum Kicker {
+        L,M,R
+    }
+
     Servo lKicker, mKicker, rKicker;
     double kickerUpTime = 0.1, kickerDownTime = 0.1; //Time kicker waits till going back down and time before next kicker can go up
     ElapsedTime kickerTimer = new ElapsedTime();
@@ -40,7 +45,4 @@ public class Kickers {
         else if (kickerDown())    servo.setPosition(downPos);
         else                      currentUp = null;
     }
-}
-enum Kicker {
-    L,M,R
 }

@@ -27,9 +27,9 @@ public class Turret {
     public static boolean on = true, manual = false;
 
     public Turret(HardwareMap hardwareMap) {
-        m = hardwareMap.get(DcMotorEx.class, "t");
+        m = hardwareMap.get(DcMotorEx.class, "turret");
         m.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    //m.setDirection(DcMotor.Direction.REVERSE);
+//        m.setDirection(DcMotor.Direction.REVERSE);
         m.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         p = new PIDFController(new PIDFCoefficients(kp, 0, kd, kf));

@@ -22,12 +22,24 @@ public class ApolloConstants {
         SHOOTER_FAR = 0.8,
         SHOOTER_OFF = 0,
         VELOCITY_FAR = 400,
-        VELOCITY_CLOSE = 280;
+        VELOCITY_CLOSE = 275,
+        tpl = 0.032,
+        til = 0.021,
+        tdl = 0.003,
+        tps = 0.023,
+        tis = 0.042,
+        tds = 0.001,
+        TURRET_THRESHOLD = 25;
+    public static int
+        TURRET_LEFT = -50,
+        TURRET_MIDDLE = 0,
+        TURRET_RIGHT = 50;
     public static DcMotorSimple.Direction
         frDir = DcMotorSimple.Direction.FORWARD,
         brDir = DcMotorSimple.Direction.FORWARD,
         flDir = DcMotorSimple.Direction.REVERSE,
         blDir = DcMotorSimple.Direction.REVERSE,
+        turretDir = DcMotorSimple.Direction.FORWARD,
         intakeDir = DcMotorSimple.Direction.REVERSE,
         lShooterDir = DcMotorSimple.Direction.REVERSE,
         rShooterDir = DcMotorSimple.Direction.FORWARD;

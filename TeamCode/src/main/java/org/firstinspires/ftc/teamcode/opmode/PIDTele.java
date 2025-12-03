@@ -1,9 +1,13 @@
 package org.firstinspires.ftc.teamcode.opmode;
 
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_WITHOUT_ENCODER;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.*;
+import static org.firstinspires.ftc.teamcode.util.Alliance.*;
 
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -13,10 +17,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.seattlesolvers.solverslib.controller.PIDController;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.config.ApolloConstants;
 import org.firstinspires.ftc.teamcode.config.ApolloHardwareNames;
+import org.firstinspires.ftc.teamcode.util.Alliance;
+
+import java.util.List;
 
 @TeleOp
 public class PIDTele extends OpMode {
@@ -28,11 +36,20 @@ public class PIDTele extends OpMode {
     private double mKickerTarget = MKICKER_DOWN;
     private double rKickerTarget = RKICKER_DOWN;
     private double intakePower = INTAKE_OFF;
+
+    private double turretTarget = TURRET_MIDDLE;
 //    private double shooterPower = SHOOTER_OFF;
 
+    private Limelight3A l;
+    private Alliance a = RED;
+    private static final int shoot = 0, zone = 1;
+    private int pipeline = shoot;
+
     DcMotor fl, bl, fr, br, intake;
-    DcMotorEx lShooter, rShooter;
+    DcMotorEx lShooter, rShooter, turret;
     Servo lKicker, mKicker, rKicker, hood;
+
+    private PIDController turretPIDLarge, turretPIDSmall;
 
     public void init() {
 
@@ -43,6 +60,9 @@ public class PIDTele extends OpMode {
         intake = hardwareMap.dcMotor.get("intake");
         lShooter = hardwareMap.get(DcMotorEx.class, "lShooter");
         rShooter = hardwareMap.get(DcMotorEx.class, "rShooter");
+        turret = hardwareMap.get(DcMotorEx.class, "turret");
+
+        l = hardwareMap.get(Limelight3A.class, "limelight");
 
         lKicker = hardwareMap.servo.get(ApolloHardwareNames.lKicker);
         mKicker = hardwareMap.servo.get(ApolloHardwareNames.mKicker);
@@ -53,20 +73,25 @@ public class PIDTele extends OpMode {
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        turret.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+//        turret.setTargetPosition(TURRET_MIDDLE);
 
         rShooter.setMode(RUN_USING_ENCODER);
         lShooter.setMode(RUN_WITHOUT_ENCODER);
+//        turret.setMode(RUN_TO_POSITION);
 
         fl.setDirection(flDir);
         bl.setDirection(blDir);
         fr.setDirection(frDir);
         br.setDirection(brDir);
+        turret.setDirection(turretDir);
         intake.setDirection(intakeDir);
         lShooter.setDirection(lShooterDir);
         rShooter.setDirection(rShooterDir);
 
-//        liftPID = new PIDController(lp, li, ld);
-//        extendoPID = new PIDController(ep, ei, ed);
+        turretPIDLarge = new PIDController(tpl, til, tdl);
+        turretPIDSmall = new PIDController(tps, tis, tds);
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
@@ -92,6 +117,21 @@ public class PIDTele extends OpMode {
         lShooter.setPower(0);
         rShooter.setPower(0);
         telemetry.update();
+
+        if (gamepad1.x)
+            resetTurret();
+
+        if(gamepad1.dpad_left)
+            a=BLUE;
+        if(gamepad1.dpad_right)
+            a=RED;
+
+        telemetry.addData("TurretTargetPos", turret.getTargetPosition());
+        telemetry.addData("TurretRealPos", turret.getCurrentPosition());
+        telemetry.addData("Turrettarget", turretTarget);
+        telemetry.addData("Alliance", a);
+        telemetry.update();
+
     }
 
     @Override
@@ -132,13 +172,38 @@ public class PIDTele extends OpMode {
             hoodTarget = HOOD_CLOSE;
         }
 
+        if(a==RED)
+            turretTarget = angleFromRed() * 110/45;
+        else if(a==BLUE)
+            turretTarget = angleFromBlue() * 110/45;
+        else
+            turretTarget = TURRET_MIDDLE;
+
+
+
         lKicker.setPosition(lKickerTarget);
         mKicker.setPosition(mKickerTarget);
         rKicker.setPosition(rKickerTarget);
         hood.setPosition(hoodTarget);
         intake.setPower(intakePower);
+
+//        turret.setPower(1);
+//        turret.setTargetPosition((int) turretTarget);
 //        lShooter.setPower(shooterPower);
 //        rShooter.setPower(shooterPower);
+
+        turretPIDSmall.setPID(tps,tis,tds);
+        turretPIDLarge.setPID(tpl,til,tdl);
+        int tpos = turret.getCurrentPosition();
+        double tpower;
+        if(Math.abs(tpos - turretTarget) > TURRET_THRESHOLD)
+            tpower = turretPIDLarge.calculate(tpos, turretTarget);
+        else
+            tpower = turretPIDSmall.calculate(tpos, turretTarget);
+        telemetry.addData("tPower", tpower);
+        turret.setPower(tpower);
+
+
 
         rShooter.setVelocity(targetVelocity, AngleUnit.DEGREES);
         lShooter.setPower(rShooter.getPower());
@@ -148,6 +213,11 @@ public class PIDTele extends OpMode {
 //        telemetry.addData("Right Kicker", rKicker.getPosition());
 //        telemetry.addData("Hood", hood.getPosition());
 //        telemetry.addData("Intake", intake.getPower());
+
+//        telemetry.addData("TurretTargetPos", turret.getTargetPosition());
+        telemetry.addData("TurretRealPos", turret.getCurrentPosition());
+        telemetry.addData("Turrettarget", turretTarget);
+
         telemetry.addData("Left Shooter", lShooter.getPower());
         telemetry.addData("Right Shooter", rShooter.getPower());
         telemetry.addData("Left Shooter Vel", lShooter.getVelocity(AngleUnit.DEGREES));
@@ -167,5 +237,45 @@ public class PIDTele extends OpMode {
 
     @Override
     public void stop() { super.stop(); }
+
+    public void switchToShoot() {
+        if (pipeline != shoot)
+            l.pipelineSwitch(shoot);
+        l.setPollRateHz(20);
+        l.start();
+    }
+
+    public double angleFromTag(double tagID) {
+        switchToShoot();
+        List<LLResultTypes.FiducialResult> r = l.getLatestResult().getFiducialResults();
+
+        if (r.isEmpty()) return 0;
+
+        LLResultTypes.FiducialResult target = null;
+        for (LLResultTypes.FiducialResult i: r) {
+            if (i != null && i.getFiducialId() ==  tagID) {
+                target = i;
+                break;
+            }
+        }
+
+        if (target != null)
+            return target.getTargetXDegrees();
+
+        return 0;
+    }
+
+    public double angleFromBlue() {
+        return angleFromTag(20);
+    }
+
+    public double angleFromRed() {
+        return angleFromTag(24);
+    }
+
+    public void resetTurret() {
+        turret.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        turret.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
 
 }
