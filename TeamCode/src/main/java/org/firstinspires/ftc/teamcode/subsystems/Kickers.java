@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.*;
+
+import org.firstinspires.ftc.teamcode.config.ApolloConstants;
 import org.firstinspires.ftc.teamcode.config.ApolloHardwareNames;
 public class Kickers {
 
@@ -13,7 +15,7 @@ public class Kickers {
     }
 
     Servo lKicker, mKicker, rKicker;
-    double kickerUpTime = 0.1, kickerDownTime = 0.1; //Time kicker waits till going back down and time before next kicker can go up
+    double kickerUpTime = KICKER_UPTIME, kickerDownTime = KICKER_DOWNTIME; //Time kicker waits till going back down and time before next kicker can go up
     ElapsedTime kickerTimer = new ElapsedTime();
     Kicker currentUp = null, queuedUp = null;
     public Kickers(HardwareMap hardwareMap) {
@@ -29,6 +31,7 @@ public class Kickers {
             currentUp = queuedUp;
             queuedUp = null;
         }
+        if (currentUp != null)
         switch (currentUp) {
             case L: updateKicker(lKicker,LKICKER_UP,LKICKER_DOWN); break;
             case M: updateKicker(mKicker,MKICKER_UP,MKICKER_DOWN); break;
@@ -39,7 +42,7 @@ public class Kickers {
     public Kicker getQueued() {return currentUp;}
     public double kickerTime() {return kickerTimer.seconds();}
     public boolean kickerUp() {return kickerTime() < kickerUpTime;}
-    public boolean kickerDown() {return kickerTime() < kickerDownTime;}
+    public boolean kickerDown() {return kickerTime() < kickerDownTime+kickerUpTime;}
     private void updateKicker(Servo servo, double upPos, double downPos) {
         if (kickerUp())           servo.setPosition(upPos);
         else if (kickerDown())    servo.setPosition(downPos);
