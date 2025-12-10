@@ -27,7 +27,7 @@ public class kickersUnitTest extends LinearOpMode {
                 kickers.kick(Kickers.Kicker.R);
             rPressed = gamepad1.b;
 
-            kickers.update();
+            kickers.periodic();
 
             telemetry.addData("Kicker Up",kickers.kickerUp());
             telemetry.addData("Kicker Down",kickers.kickerDown());

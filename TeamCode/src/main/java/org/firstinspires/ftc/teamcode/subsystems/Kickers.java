@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.*;
 
-import org.firstinspires.ftc.teamcode.config.ApolloConstants;
 import org.firstinspires.ftc.teamcode.config.ApolloHardwareNames;
 public class Kickers {
 
@@ -25,7 +24,7 @@ public class Kickers {
 
     }
     public void kick(Kicker kicker) {queuedUp = kicker;}
-    public void update() {
+    public void periodic() {
         if (currentUp == null && queuedUp != null) {
             kickerTimer.reset();
             currentUp = queuedUp;
