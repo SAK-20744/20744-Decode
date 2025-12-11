@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystems.Kickers;
 
-@Disabled
+
 @TeleOp
 public class kickersUnitTest extends LinearOpMode {
     boolean lPressed=false,mPressed=false,rPressed=false;

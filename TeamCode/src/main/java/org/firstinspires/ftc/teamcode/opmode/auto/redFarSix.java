@@ -43,13 +43,16 @@ public class redFarSix extends OpMode {
         toLaunch = drive.pathBuilder()
                 .addPath(new BezierLine(FieldPoses.redHPPickup, FieldPoses.redFarStart))
                 .build();
+        turret.off();
     }
     @Override
     public void start() {
-        turret.face(drive.getPose(),FieldPoses.redHoop);
-        ElapsedTime timer = new ElapsedTime();
-        while (timer.seconds() < 2)
-            update();
+//        turret.face(FieldPoses.redHoop,drive.getPose());
+//        turret.setYaw(Math.PI/2);
+//        ElapsedTime timer = new ElapsedTime();
+//        while (timer.seconds() < 2) {
+//            update();
+//        }
         Shoot();
         drive.followPath(toHumanPlayer); // Put drive to human player path in here
         while(drive.isBusy()) {
@@ -57,12 +60,10 @@ public class redFarSix extends OpMode {
             if (drive.getPathCompletion() > 0.75) {
                 intake.setPower(1);
             }
-            telem();
         }
         drive.followPath(toLaunch); // Drive back to redFarStart to be back in far launch zone
         while (drive.isBusy()) {
             update();
-            telem();
         }
         Shoot();
     }
@@ -88,8 +89,13 @@ public class redFarSix extends OpMode {
         shooter.periodic();
         turret.periodic();
         kickers.periodic();
+
+        telem();
     }
     public void telem() {
+        telemetry.addData("Shooter Vel", shooter.getVelocity());
+        telemetry.addData("Shooter Target", shooter.getTarget());
+        telemetry.addData("Turret Angle", turret.getYaw());
         telemetry.addData("Bot Pose",drive.getPose());
         telemetry.addData("Path Completion",drive.getPathCompletion());
         telemetry.update();

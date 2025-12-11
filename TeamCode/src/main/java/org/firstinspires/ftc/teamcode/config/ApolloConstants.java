@@ -31,7 +31,7 @@ public class ApolloConstants {
         tds = 0.001,
         TURRET_THRESHOLD = 25;
     public static double
-        KICKER_UPTIME = 0.2,
+        KICKER_UPTIME = 0.3,
         KICKER_DOWNTIME = 0.1;
     public static int
         TURRET_LEFT = -50,

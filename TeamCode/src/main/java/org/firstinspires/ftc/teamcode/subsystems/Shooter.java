@@ -10,6 +10,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.seattlesolvers.solverslib.command.SubsystemBase;
 
+import org.firstinspires.ftc.teamcode.config.ApolloConstants;
+
 @Config
 @Configurable
 
@@ -18,14 +20,14 @@ public class Shooter extends SubsystemBase {
     private DcMotorEx l, r;
 
     private double t = 0;
-    public static double kS = 0.08, kV = 0.00039, kP = 0.001;
+    public static double kS = 0.01, kV = 0.00054, kP = 0.002;
 
     private boolean activated = true;
 
     public static double close = 1250;
-    public static double far = 1400;
-    public static double flipUp = 0.3;
-    public static double flipDown = 0.71;
+    public static double far = 1800;
+    public static double flipUp = ApolloConstants.HOOD_FAR;
+    public static double flipDown = ApolloConstants.HOOD_CLOSE;
 
     public Shooter(HardwareMap hardwareMap) {
         l = hardwareMap.get(DcMotorEx.class, "lShooter");
@@ -43,8 +45,8 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setPower(double p) {
-        l.setPower(-p);
-        r.setPower(-p);
+        l.setPower(p);
+        r.setPower(p);
     }
 
     public void off() {
