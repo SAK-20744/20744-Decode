@@ -76,10 +76,11 @@ public class redFarSix extends OpMode {
         shooter.far();
         while (!shooter.atTarget()) update();
         kickers.kick(Kickers.Kicker.L);
-        while (!kickers.kickerDown()) update();
+        while (kickers.kickerDown()) update();
         kickers.kick(Kickers.Kicker.M);
-        while (!kickers.kickerDown()) update();
+        while (kickers.kickerDown()) update();
         kickers.kick(Kickers.Kicker.R);
+        while (kickers.kickerDown()) update();
         shooter.setTarget(0);
         shooter.setPower(0);
 
