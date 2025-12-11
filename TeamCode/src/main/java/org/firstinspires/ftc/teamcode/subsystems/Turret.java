@@ -17,7 +17,9 @@ import com.seattlesolvers.solverslib.command.SubsystemBase;
 @Config
 public class Turret {
     public static double error = 0, power = 0, manualPower = 0;
-    public static double rpt = /*0.0029919*/1/(145.1*(145/24));
+
+    private static double TICKS_PER_REV = 145.1, GEAR_RATIO = 145/24;
+    public static double rpt = /*0.0029919*/ 1 / ( (TICKS_PER_REV*GEAR_RATIO)/2 );
 
     public final DcMotorEx m;
     private PIDFController p, s; // pidf controller for turret
