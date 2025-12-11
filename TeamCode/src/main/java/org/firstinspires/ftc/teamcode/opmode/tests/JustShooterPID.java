@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 
-@TeleOp
+@TeleOp (group="UnitTest")
 public class JustShooterPID extends LinearOpMode {
     FtcDashboard dashboard = FtcDashboard.getInstance();
     Shooter shooter;
