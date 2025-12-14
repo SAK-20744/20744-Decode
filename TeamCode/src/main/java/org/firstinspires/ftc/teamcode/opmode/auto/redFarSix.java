@@ -1,12 +1,15 @@
 package org.firstinspires.ftc.teamcode.opmode.auto;
 
-import static org.firstinspires.ftc.teamcode.config.ApolloConstants.autoTurret;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.*;
+import static org.firstinspires.ftc.teamcode.util.Alliance.RED;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -19,6 +22,10 @@ import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
 import org.firstinspires.ftc.teamcode.subsystems.cursedKicker;
 import org.firstinspires.ftc.teamcode.subsystems.pedroPathing.Constants;
+import org.firstinspires.ftc.teamcode.util.Alliance;
+import org.firstinspires.ftc.teamcode.util.Pattern;
+
+import java.util.List;
 
 @Autonomous
 public class redFarSix extends OpMode {
@@ -28,11 +35,18 @@ public class redFarSix extends OpMode {
     cursedKicker kickers;
     DcMotor intake;
     Follower drive;
+    Limelight3A l;
+
+    private Alliance a = RED;
+    private static final int shoot = 0, zone = 1;
+    private int pipeline = shoot;
+
 
     private double looptime = 0;
 
     ElapsedTime kTimer = new ElapsedTime();
 
+    private Pattern p = Pattern.NONE;
 
     PathChain toBall1Start, toBall1End, toLaunch1, toBall2Start, toBall2End, toLaunch2;
 
@@ -45,6 +59,10 @@ public class redFarSix extends OpMode {
         kickers = new cursedKicker(hardwareMap);
         intake = hardwareMap.get(DcMotor.class, "intake");
         intake.setDirection(ApolloConstants.intakeDir);
+
+
+        l = hardwareMap.get(Limelight3A.class, "limelight");
+
 
         drive = Constants.createFollower(hardwareMap);
         drive.setPose(FieldPoses.redFarStart);
@@ -79,6 +97,20 @@ public class redFarSix extends OpMode {
     public void init_loop() {
         if (gamepad1.x)
             turret.resetTurret();
+
+        if(detectedID() == 21)
+            p = Pattern.GPP21;
+        else if(detectedID() == 22)
+            p = Pattern.PGP22;
+        else if(detectedID() == 23)
+            p = Pattern.PPG23;
+
+        telemetry.addData("Detected ID: ", p);
+        telemetry.addData("Turret Angle:", turret.getTurret());
+        telemetry.update();
+
+
+
     }
 
     @Override
@@ -108,6 +140,7 @@ public class redFarSix extends OpMode {
 
         drive.followPath(toLaunch1);
         while(drive.isBusy()) { update(); }
+        turret.setYaw(Math.toRadians(autoTurret2));
         cursedShoot();
         drive.followPath(toBall2Start); // Put drive to human player path in here
         while(drive.isBusy()) { update(); }
@@ -117,6 +150,7 @@ public class redFarSix extends OpMode {
         intake.setPower(0.4);
         drive.followPath(toLaunch2);
         while(drive.isBusy()) { update(); }
+        turret.setYaw(Math.toRadians(autoTurret3));
         cursedShoot();
         while(shooter.isActivated()) { update(); }
         while(shooter.isActivated()) { update(); }
@@ -160,23 +194,23 @@ public class redFarSix extends OpMode {
 
     public void lKick (){
         kickers.lKickerUp(); kTimer.reset();
-        while(kTimer.milliseconds()<1000) {update();}
+        while(kTimer.milliseconds()<KUP) {update();}
         kickers.lKickerDown();  kTimer.reset();
-        while(kTimer.milliseconds()<400) {update();}
+        while(kTimer.milliseconds()<KDOWN) {update();}
     }
 
     public void mKick (){
         kickers.mKickerUp(); kTimer.reset();
-        while(kTimer.milliseconds()<1000) {update();}
+        while(kTimer.milliseconds()<KUP) {update();}
         kickers.mKickerDown(); kTimer.reset();
-        while(kTimer.milliseconds()<400) {update();}
+        while(kTimer.milliseconds()<KDOWN) {update();}
     }
 
     public void rKick (){
         kickers.rKickerUp(); kTimer.reset();
-        while(kTimer.milliseconds()<1000) {update();}
+        while(kTimer.milliseconds()<KUP) {update();}
         kickers.rKickerDown(); kTimer.reset();
-        while(kTimer.milliseconds()<400) {update();}
+        while(kTimer.milliseconds()<KDOWN) {update();}
     }
 
 
@@ -205,5 +239,36 @@ public class redFarSix extends OpMode {
         telemetry.addData("Path Completion",drive.getPathCompletion());
         telemetry.update();
     }
+
+
+
+    public void switchToShoot() {
+        if (pipeline != shoot)
+            l.pipelineSwitch(shoot);
+        l.setPollRateHz(20);
+        l.start();
+    }
+
+    public double detectedID() {
+        switchToShoot();
+        List<LLResultTypes.FiducialResult> r = l.getLatestResult().getFiducialResults();
+
+        if (r.isEmpty()) return 0;
+
+        LLResultTypes.FiducialResult target = null;
+        for (LLResultTypes.FiducialResult i: r) {
+            if (i != null && i.getFiducialId() == 21)
+                return 21;
+            else if (i != null && i.getFiducialId() == 22)
+                return 22;
+            else if (i != null && i.getFiducialId() == 23)
+                return 23;
+        }
+
+        return 0;
+    }
+
+
+
     private void sleep(int ms) {ElapsedTime timer = new ElapsedTime(); while (timer.milliseconds() < ms);}
 }

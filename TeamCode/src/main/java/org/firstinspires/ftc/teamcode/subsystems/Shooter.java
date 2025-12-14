@@ -20,12 +20,12 @@ public class Shooter extends SubsystemBase {
     private DcMotorEx l, r;
 
     private double t = 0;
-    public static double kS = 0.013, kV = 0.00054, kP = 0.002;
+    public static double kS = 0.013, kV = 0.0005, kP = 0.002;
 
     private boolean activated = true;
 
     public static double close = 1250;
-    public static double far = 1860;
+    public static double far = 1880;
     public static double flipUp = ApolloConstants.HOOD_FAR;
     public static double flipDown = ApolloConstants.HOOD_CLOSE;
 
