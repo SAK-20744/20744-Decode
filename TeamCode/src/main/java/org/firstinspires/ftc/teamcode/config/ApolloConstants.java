@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 @Config
 public class ApolloConstants {
 
+    public static double autoTurret = 128.67;
+
     public static double
         INTAKE_IN = 1,
         INTAKE_OUT = -1,
@@ -31,8 +33,8 @@ public class ApolloConstants {
         tds = 0.001,
         TURRET_THRESHOLD = 25;
     public static double
-        KICKER_UPTIME = 0.3,
-        KICKER_DOWNTIME = 0.1;
+        KICKER_UPTIME = 0.5,
+        KICKER_DOWNTIME = 0.3;
     public static int
         TURRET_LEFT = -50,
         TURRET_MIDDLE = 0,
