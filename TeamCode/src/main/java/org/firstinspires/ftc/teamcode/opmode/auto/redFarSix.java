@@ -17,17 +17,21 @@ import org.firstinspires.ftc.teamcode.config.FieldPoses;
 import org.firstinspires.ftc.teamcode.subsystems.Kickers;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
+import org.firstinspires.ftc.teamcode.subsystems.cursedKicker;
 import org.firstinspires.ftc.teamcode.subsystems.pedroPathing.Constants;
 
 @Autonomous
 public class redFarSix extends OpMode {
     Shooter shooter;
     Turret turret;
-    Kickers kickers;
+//    Kickers kickers;
+    cursedKicker kickers;
     DcMotor intake;
     Follower drive;
 
     private double looptime = 0;
+
+    ElapsedTime kTimer = new ElapsedTime();
 
 
     PathChain toBall1Start, toBall1End, toLaunch1, toBall2Start, toBall2End, toLaunch2;
@@ -36,7 +40,9 @@ public class redFarSix extends OpMode {
     public void init() {
         turret = new Turret(hardwareMap);
         shooter = new Shooter(hardwareMap);
-        kickers = new Kickers(hardwareMap);
+//        kickers = new Kickers(hardwareMap);
+
+        kickers = new cursedKicker(hardwareMap);
         intake = hardwareMap.get(DcMotor.class, "intake");
         intake.setDirection(ApolloConstants.intakeDir);
 
@@ -52,11 +58,11 @@ public class redFarSix extends OpMode {
                 .setConstantHeadingInterpolation(FieldPoses.redFarStart.getHeading())
                 .build();
         toLaunch1 = drive.pathBuilder()
-                .addPath(new BezierCurve(FieldPoses.redBall1End, FieldPoses.redBall1Start, FieldPoses.redFarStart))
+                .addPath(new BezierCurve(FieldPoses.redBall1End, FieldPoses.redBall1Start, FieldPoses.shooting))
                 .setConstantHeadingInterpolation(FieldPoses.redFarStart.getHeading())
                 .build();
         toBall2Start = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.redFarStart, FieldPoses.redBall2Start))
+                .addPath(new BezierLine(FieldPoses.shooting, FieldPoses.redBall2Start))
                 .setConstantHeadingInterpolation(FieldPoses.redFarStart.getHeading())
                 .build();
         toBall2End = drive.pathBuilder()
@@ -64,37 +70,56 @@ public class redFarSix extends OpMode {
                 .setConstantHeadingInterpolation(FieldPoses.redFarStart.getHeading())
                 .build();
         toLaunch2 = drive.pathBuilder()
-                .addPath(new BezierCurve(FieldPoses.redBall2End, FieldPoses.redBall2Start, FieldPoses.redFarStart))
+                .addPath(new BezierCurve(FieldPoses.redBall2End, FieldPoses.redBall2Start, FieldPoses.shooting))
                 .setConstantHeadingInterpolation(FieldPoses.redFarStart.getHeading())
                 .build();
 //        turret.off();
     }
     @Override
+    public void init_loop() {
+        if (gamepad1.x)
+            turret.resetTurret();
+    }
+
+    @Override
     public void start() {
 //        turret.face(FieldPoses.redHoop,drive.getPose());
         turret.setYaw(Math.toRadians(autoTurret));
-        Shoot();
-        while(drive.isBusy()) { update(); }
+//        Shoot();
+//        while(shooter.isActivated()) { update(); }
+
+        cursedShoot();
+
+//        shooter.far();
+//        while(!shooter.atTarget()) { update(); }
+//        lKick();
+//        while(!shooter.atTarget()) { update(); }
+//        rKick();
+//        while(!shooter.atTarget()) { update(); }
+//        mKick();
+//        while(!shooter.atTarget()) { update(); }
+
         drive.followPath(toBall1Start); // Put drive to human player path in here
         while(drive.isBusy()) { update(); }
         intake.setPower(1);
         drive.followPath(toBall1End);
         while(drive.isBusy()) { update(); }
-        intake.setPower(0);
+        intake.setPower(0.4);
+
         drive.followPath(toLaunch1);
         while(drive.isBusy()) { update(); }
-        Shoot();
-        while(drive.isBusy()) { update(); }
+        cursedShoot();
         drive.followPath(toBall2Start); // Put drive to human player path in here
         while(drive.isBusy()) { update(); }
         intake.setPower(1);
         drive.followPath(toBall2End);
         while(drive.isBusy()) { update(); }
-        intake.setPower(0);
+        intake.setPower(0.4);
         drive.followPath(toLaunch2);
         while(drive.isBusy()) { update(); }
-        Shoot();
-        while(drive.isBusy()) { update(); }
+        cursedShoot();
+        while(shooter.isActivated()) { update(); }
+        while(shooter.isActivated()) { update(); }
 
 //        drive.followPath(toLaunch); // Drive back to redFarStart to be back in far launch zone
 //        while (drive.isBusy()) {
@@ -106,20 +131,57 @@ public class redFarSix extends OpMode {
     public void loop() {
 
     }
-    public void Shoot() {
-        //Shoot stuff here
-        shooter.far();
-        while (!shooter.atTarget()) a();
-        kickers.kick(Kickers.Kicker.L);
-        while (kickers.kickerDown()) b();
-        kickers.kick(Kickers.Kicker.M);
-        while (kickers.kickerDown()) b();
-        kickers.kick(Kickers.Kicker.R);
-        while (kickers.kickerDown()) b();
-        shooter.setTarget(0);
-        shooter.setPower(0);
+//    public void Shoot() {
+//        //Shoot stuff here
+//        shooter.far();
+//        while (!shooter.atTarget()) a();
+//        kickers.kick(Kickers.Kicker.L);
+//        while (!kickers.kickerDown()) b();
+//        kickers.kick(Kickers.Kicker.M);
+//        while (!kickers.kickerDown()) b();
+//        kickers.kick(Kickers.Kicker.R);
+//        while (!kickers.kickerDown()) b();
+//        shooter.setTarget(0);
+//        shooter.setPower(0);
+//
+//    }
 
+    public void cursedShoot() {
+        shooter.far();
+        while(!shooter.atTarget()) { update(); }
+        lKick();
+        while(!shooter.atTarget()) { update(); }
+        rKick();
+        while(!shooter.atTarget()) { update(); }
+        mKick();
+        while(!shooter.atTarget()) { update(); }
     }
+
+
+    public void lKick (){
+        kickers.lKickerUp(); kTimer.reset();
+        while(kTimer.milliseconds()<1000) {update();}
+        kickers.lKickerDown();  kTimer.reset();
+        while(kTimer.milliseconds()<400) {update();}
+    }
+
+    public void mKick (){
+        kickers.mKickerUp(); kTimer.reset();
+        while(kTimer.milliseconds()<1000) {update();}
+        kickers.mKickerDown(); kTimer.reset();
+        while(kTimer.milliseconds()<400) {update();}
+    }
+
+    public void rKick (){
+        kickers.rKickerUp(); kTimer.reset();
+        while(kTimer.milliseconds()<1000) {update();}
+        kickers.rKickerDown(); kTimer.reset();
+        while(kTimer.milliseconds()<400) {update();}
+    }
+
+
+
+
     public void a() {telemetry.addLine("Getting Up to Speed\n");update();}
     public void b() {telemetry.addLine("Kicking\n");update();}
     public void update() {

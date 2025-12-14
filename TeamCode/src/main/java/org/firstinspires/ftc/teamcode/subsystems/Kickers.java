@@ -31,7 +31,7 @@ public class Kickers {
             queuedUp = null;
         }
         if (currentUp != null)
-        switch (currentUp) {
+            switch (currentUp) {
             case L: updateKicker(lKicker,LKICKER_UP,LKICKER_DOWN); break;
             case M: updateKicker(mKicker,MKICKER_UP,MKICKER_DOWN); break;
             case R: updateKicker(rKicker,RKICKER_UP,RKICKER_DOWN); break;
