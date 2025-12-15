@@ -2,14 +2,18 @@ package org.firstinspires.ftc.teamcode.opmode.tests;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.bylazar.configurables.annotations.IgnoreConfigurable;
+import com.bylazar.telemetry.PanelsTelemetry;
+import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
-import com.pedropathing.follower.FollowerConstants;
+import com.pedropathing.util.PoseHistory;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.config.FieldPoses;
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
 import org.firstinspires.ftc.teamcode.subsystems.pedroPathing.Constants;
+import org.firstinspires.ftc.teamcode.subsystems.pedroPathing.Drawing;
 
 @TeleOp (group="UnitTest")
 public class TurretTest extends LinearOpMode {
@@ -18,15 +22,37 @@ public class TurretTest extends LinearOpMode {
 
     boolean tOnPressed = false, tOffPressed = false;
     boolean targetPressed = false;
+
+
+    @IgnoreConfigurable
+    static PoseHistory poseHistory;
+
+    @IgnoreConfigurable
+    public static TelemetryManager telemetryM;
+
+
+
     @Override
     public void runOpMode() {
         drive = Constants.createFollower(hardwareMap);
         turret = new Turret(hardwareMap);
         turret.off();
 
+
+        telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
+
+        Drawing.init();
+
+
+
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         waitForStart();
         while (opModeIsActive()) {
+
+            {
+                Drawing.drawDebug(drive);
+            }
+
             if (gamepad1.a && !tOnPressed)
                 turret.on();
             tOnPressed = gamepad1.a;
