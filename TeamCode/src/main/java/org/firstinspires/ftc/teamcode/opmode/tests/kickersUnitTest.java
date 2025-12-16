@@ -108,6 +108,6 @@ public class kickersUnitTest extends LinearOpMode {
         }
     }
     boolean inCRange(double r,double g,double b, double tr, double tg, double tb) {
-        return (Math.abs(tr-r) < colorError && Math.abs(tg-g) < colorError && Math.abs(tb-b) < colorError)
+        return (Math.abs(tr-r) < colorError && Math.abs(tg-g) < colorError && Math.abs(tb-b) < colorError);
     }
 }
