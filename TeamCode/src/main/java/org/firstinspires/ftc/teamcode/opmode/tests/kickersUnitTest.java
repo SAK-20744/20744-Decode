@@ -2,11 +2,11 @@ package org.firstinspires.ftc.teamcode.opmode.tests;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.config.ApolloConstants;
 import org.firstinspires.ftc.teamcode.subsystems.Kickers;
 import org.firstinspires.ftc.teamcode.util.BallColor;
 
@@ -15,16 +15,19 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 
 @TeleOp (group="UnitTest")
 public class kickersUnitTest extends LinearOpMode {
-
+    boolean cyclePressed = false;
     boolean lPressed=false,mPressed=false,rPressed=false;
 
     RevColorSensorV3 m1,m2, l1,l2,r1,r2;
     boolean left, mid, right = false;
 
     double colorError= 0.005;
-    double l2R, l2G, l2B;
+    double sensor1R, sensor1G, sensor1B;
+    double sensor2R, sensor2G, sensor2B;
 
-    BallColor l2Color = BallColor.N;
+    BallColor sensor1Color = BallColor.N,sensor2Color = BallColor.N;
+    String selectedSensor = "L";
+    RevColorSensorV3 sensor1 = l1,sensor2 = l2;
 
     @Override
     public void runOpMode() {
@@ -36,13 +39,11 @@ public class kickersUnitTest extends LinearOpMode {
         r1 = hardwareMap.get(RevColorSensorV3.class, "r1");
         r2 = hardwareMap.get(RevColorSensorV3.class, "r2");
 
-
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-
-
 
         waitForStart();
         while (opModeIsActive()) {
+
             if (gamepad1.x && !lPressed)
                 kickers.kick(Kickers.Kicker.L);
             lPressed = gamepad1.x;
@@ -54,6 +55,10 @@ public class kickersUnitTest extends LinearOpMode {
             if (gamepad1.b && !rPressed)
                 kickers.kick(Kickers.Kicker.R);
             rPressed = gamepad1.b;
+
+            if (gamepad1.a && !cyclePressed)
+                cycleSensor();
+            cyclePressed = gamepad1.a;
 
             if(l1.getDistance(DistanceUnit.MM) < 30 || l2.getDistance(DistanceUnit.MM) < 25)
                 left=true;
@@ -67,37 +72,59 @@ public class kickersUnitTest extends LinearOpMode {
                 mid=true;
             else mid = false;
 
-            l2R = l2.getNormalizedColors().red;
-            l2G = l2.getNormalizedColors().green;
-            l2B = l2.getNormalizedColors().blue;
+            if (selectedSensor == "L") {sensor1 = l1;sensor2 = l2;}
+            if (selectedSensor == "M") {sensor1 = m1;sensor2 = m1;}
+            if (selectedSensor == "R") {sensor1 = r1;sensor2 = r2;}
 
-            if (inCRange(l2R,l2G,l2B,0.006,0.0025,0.018))
-                l2Color = BallColor.G;
-            else if (inCRange(l2R,l2G,l2B,0.015,0.018,0.028))
-                l2Color = BallColor.P;
+            sensor1R = sensor1.getNormalizedColors().red;
+            sensor1G = sensor1.getNormalizedColors().green;
+            sensor1B = sensor1.getNormalizedColors().blue;
+
+            sensor2R = sensor2.getNormalizedColors().red;
+            sensor2G = sensor2.getNormalizedColors().green;
+            sensor2B = sensor2.getNormalizedColors().blue;
+
+            if (inCRange(sensor1R,sensor1G,sensor1B, ApolloConstants.CS.G.l1R,ApolloConstants.CS.G.l1G,ApolloConstants.CS.G.l1B))
+                sensor1Color = BallColor.G;
+            else if (inCRange(sensor1R,sensor1G,sensor1B,ApolloConstants.CS.P.l1R,ApolloConstants.CS.P.l1G,ApolloConstants.CS.P.l1B))
+                sensor1Color = BallColor.P;
             else
-                l2Color = BallColor.N;
+                sensor1Color = BallColor.N;
+
+            if (inCRange(sensor2R,sensor2G,sensor2B, ApolloConstants.CS.G.l2R,ApolloConstants.CS.G.l2G,ApolloConstants.CS.G.l2B))
+                sensor2Color = BallColor.G;
+            else if (inCRange(sensor2R,sensor2G,sensor2B,ApolloConstants.CS.P.l2R,ApolloConstants.CS.P.l2G,ApolloConstants.CS.P.l2B))
+                sensor2Color = BallColor.P;
+            else
+                sensor2Color = BallColor.N;
 
             kickers.periodic();
 
+            telemetry.addData("Sensor Selected",selectedSensor);
             telemetry.addData("Left?", left);
             telemetry.addData("Right?", right);
             telemetry.addData("Middle?", mid);
 
             telemetry.addData("m1 Dist", m1.getDistance(DistanceUnit.MM));
 
-            telemetry.addData("L1 Red", "%.3f", l1.getNormalizedColors().red);
-            telemetry.addData("L1 Green", "%.3f", l1.getNormalizedColors().green);
-            telemetry.addData("L1 Blue", "%.3f", l1.getNormalizedColors().blue);
+            telemetry.addData("sensor1 Red", "%.3f", sensor1.getNormalizedColors().red);
+            telemetry.addData("sensor1 Green", "%.3f", sensor1.getNormalizedColors().green);
+            telemetry.addData("sensor1 Blue", "%.3f", sensor1.getNormalizedColors().blue);
 
-            telemetry.addData("L2 Red", "%.3f", l2R);
-            telemetry.addData("L2 Green", "%.3f", l2G);
-            telemetry.addData("L2 Blue", "%.3f", l2B);
+            telemetry.addData("sensor2 Red", "%.3f", sensor2R);
+            telemetry.addData("sensor2 Green", "%.3f", sensor2G);
+            telemetry.addData("sensor2 Blue", "%.3f", sensor2B);
 
-            switch (l2Color) {
-                case G: telemetry.addLine("l2 is green"); break;
-                case P: telemetry.addLine("l2 is purple"); break;
-                case N: telemetry.addLine("l2 no ball"); break;
+            switch (sensor1Color) {
+                case G: telemetry.addLine("sensor1 is green"); break;
+                case P: telemetry.addLine("sensor1 is purple"); break;
+                case N: telemetry.addLine("sensor1 no ball"); break;
+            }
+
+            switch (sensor2Color) {
+                case G: telemetry.addLine("sensor2 is green"); break;
+                case P: telemetry.addLine("sensor2 is purple"); break;
+                case N: telemetry.addLine("sensor2 no ball"); break;
             }
 
 //            telemetry.addData("Kicker Up",kickers.kickerUp());
@@ -109,5 +136,12 @@ public class kickersUnitTest extends LinearOpMode {
     }
     boolean inCRange(double r,double g,double b, double tr, double tg, double tb) {
         return (Math.abs(tr-r) < colorError && Math.abs(tg-g) < colorError && Math.abs(tb-b) < colorError);
+    }
+    void cycleSensor() {
+        switch (selectedSensor) {
+            case "L": selectedSensor = "M";break;
+            case "M": selectedSensor = "R";break;
+            case "R": selectedSensor = "L";break;
+        }
     }
 }
