@@ -8,17 +8,23 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.subsystems.Kickers;
+import org.firstinspires.ftc.teamcode.util.BallColor;
 
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 
 
 @TeleOp (group="UnitTest")
 public class kickersUnitTest extends LinearOpMode {
+
     boolean lPressed=false,mPressed=false,rPressed=false;
 
     RevColorSensorV3 m1,m2, l1,l2,r1,r2;
     boolean left, mid, right = false;
 
+    double colorError= 0.005;
+    double l2R, l2G, l2B;
+
+    BallColor l2Color = BallColor.N;
 
     @Override
     public void runOpMode() {
@@ -61,6 +67,17 @@ public class kickersUnitTest extends LinearOpMode {
                 mid=true;
             else mid = false;
 
+            l2R = l2.getNormalizedColors().red;
+            l2G = l2.getNormalizedColors().green;
+            l2B = l2.getNormalizedColors().blue;
+
+            if (inCRange(l2R,l2G,l2B,0.006,0.0025,0.018))
+                l2Color = BallColor.G;
+            else if (inCRange(l2R,l2G,l2B,0.015,0.018,0.028))
+                l2Color = BallColor.P;
+            else
+                l2Color = BallColor.N;
+
             kickers.periodic();
 
             telemetry.addData("Left?", left);
@@ -73,9 +90,15 @@ public class kickersUnitTest extends LinearOpMode {
             telemetry.addData("L1 Green", "%.3f", l1.getNormalizedColors().green);
             telemetry.addData("L1 Blue", "%.3f", l1.getNormalizedColors().blue);
 
-            telemetry.addData("L2 Red", "%.3f", l2.getNormalizedColors().red);
-            telemetry.addData("L2 Green", "%.3f", l2.getNormalizedColors().green);
-            telemetry.addData("L2 Blue", "%.3f", l2.getNormalizedColors().blue);
+            telemetry.addData("L2 Red", "%.3f", l2R);
+            telemetry.addData("L2 Green", "%.3f", l2G);
+            telemetry.addData("L2 Blue", "%.3f", l2B);
+
+            switch (l2Color) {
+                case G: telemetry.addLine("l2 is green"); break;
+                case P: telemetry.addLine("l2 is purple"); break;
+                case N: telemetry.addLine("l2 no ball"); break;
+            }
 
 //            telemetry.addData("Kicker Up",kickers.kickerUp());
 //            telemetry.addData("Kicker Down",kickers.kickerDown());
@@ -83,5 +106,8 @@ public class kickersUnitTest extends LinearOpMode {
 //            telemetry.addData("Get Queued", kickers.getQueued());
             telemetry.update();
         }
+    }
+    boolean inCRange(double r,double g,double b, double tr, double tg, double tb) {
+        return (Math.abs(tr-r) < colorError && Math.abs(tg-g) < colorError && Math.abs(tb-b) < colorError)
     }
 }
