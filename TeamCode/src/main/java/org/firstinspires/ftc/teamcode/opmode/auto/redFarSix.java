@@ -31,7 +31,7 @@ import java.util.List;
 public class redFarSix extends OpMode {
     Shooter shooter;
     Turret turret;
-//    Kickers kickers;
+    //    Kickers kickers;
     cursedKicker kickers;
     DcMotor intake;
     Follower drive;
@@ -115,6 +115,8 @@ public class redFarSix extends OpMode {
 
     @Override
     public void start() {
+
+        intake.setPower(1);
 //        turret.face(FieldPoses.redHoop,drive.getPose());
         turret.setYaw(Math.toRadians(autoTurret));
 //        Shoot();
@@ -133,10 +135,10 @@ public class redFarSix extends OpMode {
 
         drive.followPath(toBall1Start); // Put drive to human player path in here
         while(drive.isBusy()) { update(); }
-        intake.setPower(1);
+//        intake.setPower(1);
         drive.followPath(toBall1End);
         while(drive.isBusy()) { update(); }
-        intake.setPower(0.4);
+//        intake.setPower(0.4);
 
         drive.followPath(toLaunch1);
         while(drive.isBusy()) { update(); }
@@ -144,10 +146,10 @@ public class redFarSix extends OpMode {
         cursedShoot();
         drive.followPath(toBall2Start); // Put drive to human player path in here
         while(drive.isBusy()) { update(); }
-        intake.setPower(1);
+//        intake.setPower(1);
         drive.followPath(toBall2End);
         while(drive.isBusy()) { update(); }
-        intake.setPower(0.4);
+//        intake.setPower(0.4);
         drive.followPath(toLaunch2);
         while(drive.isBusy()) { update(); }
         turret.setYaw(Math.toRadians(autoTurret3));
@@ -180,7 +182,47 @@ public class redFarSix extends OpMode {
 //
 //    }
 
-    public void cursedShoot() {
+    public void cursedShoot(){
+        if(p == Pattern.GPP21){
+            shoot21GPP();
+            return;
+        }
+        if(p == Pattern.PGP22){
+            shoot22PGP();
+            return;
+        }
+        if(p == Pattern.PPG23){
+            shoot23PPG();
+            return;
+        }
+        return;
+    }
+
+    public void shoot21GPP() {
+        shooter.far();
+        while(!shooter.atTarget()) { update(); }
+        mKick();
+        while(!shooter.atTarget()) { update(); }
+        lKick();
+        while(!shooter.atTarget()) { update(); }
+        rKick();
+        while(!shooter.atTarget()) { update(); }
+        mKick();
+        while(!shooter.atTarget()) { update(); }
+    }
+
+    public void shoot22PGP() {
+        shooter.far();
+        while(!shooter.atTarget()) { update(); }
+        lKick();
+        while(!shooter.atTarget()) { update(); }
+        mKick();
+        while(!shooter.atTarget()) { update(); }
+        rKick();
+        while(!shooter.atTarget()) { update(); }
+    }
+
+    public void shoot23PPG() {
         shooter.far();
         while(!shooter.atTarget()) { update(); }
         lKick();

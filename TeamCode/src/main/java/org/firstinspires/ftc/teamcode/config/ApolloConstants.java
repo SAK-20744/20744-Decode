@@ -8,7 +8,7 @@ public class ApolloConstants {
 
     public static double autoTurret = 115;
     public static double autoTurret2 = 111;
-    public static double autoTurret3 = 107;
+    public static double autoTurret3 = 108;
 
     public static double
         INTAKE_IN = 1,
@@ -20,7 +20,7 @@ public class ApolloConstants {
         LKICKER_UP = 0.27,
         MKICKER_UP = 0.31,
         RKICKER_UP = 0.39,
-        HOOD_CLOSE = 0.2,
+        HOOD_CLOSE = 0.6,
         HOOD_FAR = 0.9,
         SHOOTER_CLOSE = 0.65,
         SHOOTER_FAR = 0.8,
