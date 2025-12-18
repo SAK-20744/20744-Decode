@@ -6,9 +6,12 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.config.ApolloConstants;
 import org.firstinspires.ftc.teamcode.util.BallColor;
+import org.firstinspires.ftc.teamcode.util.Motif;
+
+import java.util.ArrayList;
 
 public class BallSense {
-
+    Motif motif;
     RevColorSensorV3 m1,m2, l1,l2,r1,r2;
     BallColor lColor = BallColor.N, mColor = BallColor.N, rColor = BallColor.N;
     boolean left, mid, right = false;
@@ -88,4 +91,27 @@ public class BallSense {
     boolean inCRange(double r,double g,double b, double tr, double tg, double tb) {
         return (Math.abs(tr-r) < colorError && Math.abs(tg-g) < colorError && Math.abs(tb-b) < colorError);
     }
+//    String[] shootSequence() {
+//        ArrayList<String> sequence = new ArrayList<String>();
+//        BallColor expected = BallColor.N;
+//        if (motif == Motif.GPP) expected = BallColor.G;
+//        else if (motif == Motif.PGP || motif == Motif.PPG) expected = BallColor.P;
+//        if (lColor == expected && !sequence.contains("l")) sequence.add("l");
+//        if (mColor == expected && !sequence.contains("m")) sequence.add("m");
+//        if (rColor == expected && !sequence.contains("r")) sequence.add("r");
+//
+//        if (motif == Motif.PGP) expected = BallColor.G;
+//        else if (motif == Motif.GPP || motif == Motif.PPG) expected = BallColor.P;
+//        if (lColor == expected && !sequence.contains("l")) sequence.add("l");
+//        if (mColor == expected && !sequence.contains("m")) sequence.add("m");
+//        if (rColor == expected && !sequence.contains("r")) sequence.add("r");
+//
+//        if (motif == Motif.PPG) expected = BallColor.G;
+//        else if (motif == Motif.PGP || motif == Motif.GPP) expected = BallColor.P;
+//        if (lColor == expected && !sequence.contains("l")) sequence.add("l");
+//        if (mColor == expected && !sequence.contains("m")) sequence.add("m");
+//        if (rColor == expected && !sequence.contains("r")) sequence.add("r");
+//
+//        return sequence.toArray<String>();
+//    }
 }
