@@ -16,6 +16,7 @@ public class FieldPoses {
     public static Pose redBall2Start = new Pose(TS*0.75, -TS*1.6, -Math.PI);
     public static Pose redBall2End = new Pose(TS*3-BOT_LENGTH/2, redBall2Start.getY(), -Math.PI);
     public static Pose redHoop = new Pose(-TS*2.75,TS*2.75);
+    public static Pose park = new Pose(BOT_LENGTH/2, redBall2Start.getY(), 0);
 
 
 }

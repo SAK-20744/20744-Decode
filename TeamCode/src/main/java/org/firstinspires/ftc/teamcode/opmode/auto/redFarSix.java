@@ -48,7 +48,7 @@ public class redFarSix extends OpMode {
 
     private Pattern p = Pattern.NONE;
 
-    PathChain toBall1Start, toBall1End, toLaunch1, toBall2Start, toBall2End, toLaunch2;
+    PathChain toBall1Start, toBall1End, toLaunch1, toBall2Start, toBall2End, toLaunch2, toPark;
 
     @Override
     public void init() {
@@ -89,6 +89,10 @@ public class redFarSix extends OpMode {
                 .build();
         toLaunch2 = drive.pathBuilder()
                 .addPath(new BezierCurve(FieldPoses.redBall2End, FieldPoses.redBall2Start, FieldPoses.shooting))
+                .setConstantHeadingInterpolation(FieldPoses.redFarStart.getHeading())
+                .build();
+        toPark = drive.pathBuilder()
+                .addPath(new BezierLine(FieldPoses.shooting, FieldPoses.park))
                 .setConstantHeadingInterpolation(FieldPoses.redFarStart.getHeading())
                 .build();
 //        turret.off();
@@ -155,6 +159,8 @@ public class redFarSix extends OpMode {
         turret.setYaw(Math.toRadians(autoTurret3));
         cursedShoot();
         while(shooter.isActivated()) { update(); }
+        drive.followPath(toPark);
+        while(drive.isBusy()) { update(); }
         while(shooter.isActivated()) { update(); }
 
 //        drive.followPath(toLaunch); // Drive back to redFarStart to be back in far launch zone
