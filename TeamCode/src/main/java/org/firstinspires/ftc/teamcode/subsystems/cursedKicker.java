@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static org.firstinspires.ftc.teamcode.config.ApolloConstants.KICKER_DOWNTIME;
-import static org.firstinspires.ftc.teamcode.config.ApolloConstants.KICKER_UPTIME;
+//import static org.firstinspires.ftc.teamcode.config.ApolloConstants.KICKER_DOWNTIME;
+//import static org.firstinspires.ftc.teamcode.config.ApolloConstants.KICKER_UPTIME;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.LKICKER_DOWN;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.LKICKER_UP;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.MKICKER_DOWN;
@@ -21,9 +21,9 @@ public class cursedKicker {
     }
 
     Servo lKicker, mKicker, rKicker;
-    double kickerUpTime = KICKER_UPTIME, kickerDownTime = KICKER_DOWNTIME; //Time kicker waits till going back down and time before next kicker can go up
+//    double kickerUpTime = KICKER_UPTIME, kickerDownTime = KICKER_DOWNTIME; //Time kicker waits till going back down and time before next kicker can go up
     ElapsedTime kickerTimer = new ElapsedTime();
-    Kickers.Kicker currentUp = null, queuedUp = null;
+//    Kickers.Kicker currentUp = null, queuedUp = null;
     public cursedKicker(HardwareMap hardwareMap) {
         lKicker = hardwareMap.servo.get(ApolloHardwareNames.lKicker);
         mKicker = hardwareMap.servo.get(ApolloHardwareNames.mKicker);

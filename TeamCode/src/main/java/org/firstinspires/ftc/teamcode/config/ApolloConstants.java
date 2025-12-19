@@ -8,7 +8,8 @@ public class ApolloConstants {
 
     public static double autoTurret = 115;
     public static double autoTurret2 = 111;
-    public static double autoTurret3 = 108;
+    public static double autoTurret3 = 107.5;
+    public static double intakeMovementSpeed = 0.35;
 
     public static double
         INTAKE_IN = 1,
@@ -21,7 +22,7 @@ public class ApolloConstants {
         MKICKER_UP = 0.31,
         RKICKER_UP = 0.39,
         HOOD_CLOSE = 0.6,
-        HOOD_FAR = 0.9,
+        HOOD_FAR = 1,
         SHOOTER_CLOSE = 0.65,
         SHOOTER_FAR = 0.8,
         SHOOTER_OFF = 0,
@@ -34,13 +35,16 @@ public class ApolloConstants {
         tis = 0.042,
         tds = 0.001,
         TURRET_THRESHOLD = 25;
+
+
+    // OWENS CODE. ONLY FOR FULL SHOOTER TEST
     public static double
         KICKER_UPTIME = 0.5,
         KICKER_DOWNTIME = 0.3;
 
     public static double
-        KUP = 1000,
-        KDOWN = 400;
+        KUP = 830,
+        KDOWN = 270;
     public static int
         TURRET_LEFT = -50,
         TURRET_MIDDLE = 0,

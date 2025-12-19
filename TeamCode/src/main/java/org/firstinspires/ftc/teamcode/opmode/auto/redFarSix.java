@@ -17,7 +17,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.config.ApolloConstants;
 import org.firstinspires.ftc.teamcode.config.FieldPoses;
-import org.firstinspires.ftc.teamcode.subsystems.Kickers;
+//import org.firstinspires.ftc.teamcode.subsystems.Kickers;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
 import org.firstinspires.ftc.teamcode.subsystems.cursedKicker;
@@ -73,6 +73,7 @@ public class redFarSix extends OpMode {
                 .build();
         toBall1End = drive.pathBuilder()
                 .addPath(new BezierLine(FieldPoses.redBall1Start, FieldPoses.redBall1End))
+                .setVelocityConstraint(intakeMovementSpeed)
                 .setConstantHeadingInterpolation(FieldPoses.redFarStart.getHeading())
                 .build();
         toLaunch1 = drive.pathBuilder()
@@ -85,6 +86,7 @@ public class redFarSix extends OpMode {
                 .build();
         toBall2End = drive.pathBuilder()
                 .addPath(new BezierLine(FieldPoses.redBall2Start, FieldPoses.redBall2End))
+                .setVelocityConstraint(intakeMovementSpeed)
                 .setConstantHeadingInterpolation(FieldPoses.redFarStart.getHeading())
                 .build();
         toLaunch2 = drive.pathBuilder()
@@ -93,7 +95,7 @@ public class redFarSix extends OpMode {
                 .build();
         toPark = drive.pathBuilder()
                 .addPath(new BezierLine(FieldPoses.shooting, FieldPoses.park))
-                .setConstantHeadingInterpolation(FieldPoses.redFarStart.getHeading())
+                .setLinearHeadingInterpolation(FieldPoses.redFarStart.getHeading(), FieldPoses.park.getHeading())
                 .build();
 //        turret.off();
     }
@@ -121,11 +123,12 @@ public class redFarSix extends OpMode {
     public void start() {
 
         intake.setPower(1);
+        shooter.far();
 //        turret.face(FieldPoses.redHoop,drive.getPose());
         turret.setYaw(Math.toRadians(autoTurret));
 //        Shoot();
 //        while(shooter.isActivated()) { update(); }
-
+        kTimer.reset();
         cursedShoot();
 
 //        shooter.far();
@@ -158,9 +161,11 @@ public class redFarSix extends OpMode {
         while(drive.isBusy()) { update(); }
         turret.setYaw(Math.toRadians(autoTurret3));
         cursedShoot();
-        while(shooter.isActivated()) { update(); }
         drive.followPath(toPark);
+        turret.setYaw(Math.toRadians(0));
         while(drive.isBusy()) { update(); }
+        intake.setPower(0);
+        shooter.off();
         while(shooter.isActivated()) { update(); }
 
 //        drive.followPath(toLaunch); // Drive back to redFarStart to be back in far launch zone
@@ -189,6 +194,7 @@ public class redFarSix extends OpMode {
 //    }
 
     public void cursedShoot(){
+
         if(p == Pattern.GPP21){
             shoot21GPP();
             return;
@@ -241,6 +247,7 @@ public class redFarSix extends OpMode {
 
 
     public void lKick (){
+        kTimer.reset();
         kickers.lKickerUp(); kTimer.reset();
         while(kTimer.milliseconds()<KUP) {update();}
         kickers.lKickerDown();  kTimer.reset();
@@ -248,6 +255,7 @@ public class redFarSix extends OpMode {
     }
 
     public void mKick (){
+        kTimer.reset();
         kickers.mKickerUp(); kTimer.reset();
         while(kTimer.milliseconds()<KUP) {update();}
         kickers.mKickerDown(); kTimer.reset();
@@ -255,6 +263,7 @@ public class redFarSix extends OpMode {
     }
 
     public void rKick (){
+        kTimer.reset();
         kickers.rKickerUp(); kTimer.reset();
         while(kTimer.milliseconds()<KUP) {update();}
         kickers.rKickerDown(); kTimer.reset();
