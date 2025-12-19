@@ -10,19 +10,21 @@ import org.firstinspires.ftc.teamcode.util.Motif;
 
 import java.util.ArrayList;
 
-public class BallSense {
+public class ballSensors {
     Motif motif;
     RevColorSensorV3 m1,m2, l1,l2,r1,r2;
     BallColor lColor = BallColor.N, mColor = BallColor.N, rColor = BallColor.N;
     boolean left, mid, right = false;
-    double colorError= 0.005;
-    public BallSense (HardwareMap h) {
+
+    public ballSensors(HardwareMap h) {
         m1 = h.get(RevColorSensorV3.class, "m1");
         l1 = h.get(RevColorSensorV3.class, "l1");
         l2 = h.get(RevColorSensorV3.class, "l2");
         r1 = h.get(RevColorSensorV3.class, "r1");
         r2 = h.get(RevColorSensorV3.class, "r2");
     }
+
+    public void motif(Motif motif) {this.motif = motif;}
     
     public void periodic() {
         if(l1.getDistance(DistanceUnit.MM) < 30 || l2.getDistance(DistanceUnit.MM) < 25)
@@ -89,29 +91,29 @@ public class BallSense {
     }
 
     boolean inCRange(double r,double g,double b, double tr, double tg, double tb) {
-        return (Math.abs(tr-r) < colorError && Math.abs(tg-g) < colorError && Math.abs(tb-b) < colorError);
+        return (Math.abs(tr-r) < ApolloConstants.CS.error && Math.abs(tg-g) < ApolloConstants.CS.error && Math.abs(tb-b) < ApolloConstants.CS.error);
     }
-//    String[] shootSequence() {
-//        ArrayList<String> sequence = new ArrayList<String>();
-//        BallColor expected = BallColor.N;
-//        if (motif == Motif.GPP) expected = BallColor.G;
-//        else if (motif == Motif.PGP || motif == Motif.PPG) expected = BallColor.P;
-//        if (lColor == expected && !sequence.contains("l")) sequence.add("l");
-//        if (mColor == expected && !sequence.contains("m")) sequence.add("m");
-//        if (rColor == expected && !sequence.contains("r")) sequence.add("r");
-//
-//        if (motif == Motif.PGP) expected = BallColor.G;
-//        else if (motif == Motif.GPP || motif == Motif.PPG) expected = BallColor.P;
-//        if (lColor == expected && !sequence.contains("l")) sequence.add("l");
-//        if (mColor == expected && !sequence.contains("m")) sequence.add("m");
-//        if (rColor == expected && !sequence.contains("r")) sequence.add("r");
-//
-//        if (motif == Motif.PPG) expected = BallColor.G;
-//        else if (motif == Motif.PGP || motif == Motif.GPP) expected = BallColor.P;
-//        if (lColor == expected && !sequence.contains("l")) sequence.add("l");
-//        if (mColor == expected && !sequence.contains("m")) sequence.add("m");
-//        if (rColor == expected && !sequence.contains("r")) sequence.add("r");
-//
-//        return sequence.toArray<String>();
-//    }
+    public String[] shootSequence() {
+        ArrayList<String> sequence = new ArrayList<String>();
+        BallColor expected = BallColor.N;
+        if (motif == Motif.GPP) expected = BallColor.G;
+        else if (motif == Motif.PGP || motif == Motif.PPG) expected = BallColor.P;
+        if (lColor == expected && !sequence.contains("l")) sequence.add("l");
+        if (mColor == expected && !sequence.contains("m")) sequence.add("m");
+        if (rColor == expected && !sequence.contains("r")) sequence.add("r");
+
+        if (motif == Motif.PGP) expected = BallColor.G;
+        else if (motif == Motif.GPP || motif == Motif.PPG) expected = BallColor.P;
+        if (lColor == expected && !sequence.contains("l")) sequence.add("l");
+        if (mColor == expected && !sequence.contains("m")) sequence.add("m");
+        if (rColor == expected && !sequence.contains("r")) sequence.add("r");
+
+        if (motif == Motif.PPG) expected = BallColor.G;
+        else if (motif == Motif.PGP || motif == Motif.GPP) expected = BallColor.P;
+        if (lColor == expected && !sequence.contains("l")) sequence.add("l");
+        if (mColor == expected && !sequence.contains("m")) sequence.add("m");
+        if (rColor == expected && !sequence.contains("r")) sequence.add("r");
+
+        return sequence.toArray(new String[0]);
+    }
 }

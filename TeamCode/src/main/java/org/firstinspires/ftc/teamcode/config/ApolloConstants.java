@@ -63,7 +63,7 @@ public class ApolloConstants {
                 br = "br";
     }
     public static class CS {
-        public static double error = 0.005;
+        public static double error = 0.007;
         public static class G {
             public static double l1R = 0.005, l1G = 0.019, l1B = 0.014;
             public static double l2R = 0.006, l2G = 0.025, l2B = 0.018;

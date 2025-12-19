@@ -155,7 +155,7 @@ public class redFarSix extends OpMode {
         turret.setYaw(Math.toRadians(autoTurret3));
         cursedShoot();
         while(shooter.isActivated()) { update(); }
-        while(shooter.isActivated()) { update(); }
+//        while(shooter.isActivated()) { update(); }
 
 //        drive.followPath(toLaunch); // Drive back to redFarStart to be back in far launch zone
 //        while (drive.isBusy()) {
