@@ -21,7 +21,7 @@ public class kickersUnitTest extends LinearOpMode {
     RevColorSensorV3 m1,m2, l1,l2,r1,r2;
     boolean left, mid, right = false;
 
-    double colorError= 0.005;
+//    double colorError= 0.005;
     double sensor1R, sensor1G, sensor1B;
     double sensor2R, sensor2G, sensor2B;
 
@@ -135,7 +135,7 @@ public class kickersUnitTest extends LinearOpMode {
         }
     }
     boolean inCRange(double r,double g,double b, double tr, double tg, double tb) {
-        return (Math.abs(tr-r) < colorError && Math.abs(tg-g) < colorError && Math.abs(tb-b) < colorError);
+        return (Math.abs(tr-r) < ApolloConstants.CS.error && Math.abs(tg-g) < ApolloConstants.CS.error && Math.abs(tb-b) < ApolloConstants.CS.error);
     }
     void cycleSensor() {
         switch (selectedSensor) {

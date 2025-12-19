@@ -17,9 +17,9 @@ import org.firstinspires.ftc.teamcode.config.ApolloConstants;
 public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants()
             .mass(23)
-            .forwardZeroPowerAcceleration(-31.873)
+            .forwardZeroPowerAcceleration(-31.3789)
             .lateralZeroPowerAcceleration(-52.664)
-            .translationalPIDFCoefficients(new PIDFCoefficients(0.25,0,0.02,0))
+            .translationalPIDFCoefficients(new PIDFCoefficients(0.25,0,0.0225,0))
             .headingPIDFCoefficients(new PIDFCoefficients(2, 0,0.03,0));
     public static MecanumConstants mecanumConstants = new MecanumConstants()
             .rightFrontMotorName(ApolloConstants.dt.fr)
