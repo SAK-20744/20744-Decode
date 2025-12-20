@@ -26,8 +26,8 @@ public class ApolloConstants {
         SHOOTER_CLOSE = 0.65,
         SHOOTER_FAR = 0.8,
         SHOOTER_OFF = 0,
-        VELOCITY_FAR = 400,
-        VELOCITY_CLOSE = 275,
+        VELOCITY_FAR = 450,
+        VELOCITY_CLOSE = 330,
         tpl = 0.032,
         til = 0.021,
         tdl = 0.003,
@@ -43,12 +43,12 @@ public class ApolloConstants {
         KICKER_DOWNTIME = 0.3;
 
     public static double
-        KUP = 830,
-        KDOWN = 270;
+        KUP = 900,
+        KDOWN = 300;
     public static int
-        TURRET_LEFT = -50,
+        TURRET_BLUE_FAR = -285,
         TURRET_MIDDLE = 0,
-        TURRET_RIGHT = 50;
+        TURRET_RED_FAR = 285;
     public static DcMotorSimple.Direction
         frDir = DcMotorSimple.Direction.FORWARD,
         brDir = DcMotorSimple.Direction.FORWARD,

@@ -20,7 +20,7 @@ public class Shooter extends SubsystemBase {
     private DcMotorEx l, r;
 
     private double t = 0;
-    public static double kS = 0.12, kV = 0.0005, kP = 0.02;
+    public static double kS = 0.135, kV = 0.0005, kP = 0.02;
 
     private boolean activated = true;
 

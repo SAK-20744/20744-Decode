@@ -137,8 +137,8 @@ public class PIDTele extends OpMode {
     @Override
     public void loop() {
 
-        double y = -gamepad1.left_stick_y;
-        double x = gamepad1.left_stick_x * 1.1;
+        double y = gamepad1.left_stick_y;
+        double x = -gamepad1.left_stick_x * 1.1;
         double rx = gamepad1.right_stick_x;
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
         double frontLeftPower = (y + x + rx) / denominator;
@@ -166,18 +166,28 @@ public class PIDTele extends OpMode {
 //            shooterPower = SHOOTER_FAR;
             targetVelocity = VELOCITY_FAR;
             hoodTarget = HOOD_FAR;
+
+            if(a==RED)
+                turretTarget = TURRET_RED_FAR;
+            else if(a==BLUE)
+                turretTarget = TURRET_BLUE_FAR;
+
         } else {
 //            shooterPower = SHOOTER_CLOSE;
             targetVelocity = VELOCITY_CLOSE;
             hoodTarget = HOOD_CLOSE;
+
+
+            if(a==RED)
+                turretTarget = angleFromRed() * 110/45;
+            else if(a==BLUE)
+                turretTarget = angleFromBlue() * 110/45;
+            else
+                turretTarget = TURRET_MIDDLE;
+
+
         }
 
-        if(a==RED)
-            turretTarget = angleFromRed() * 110/45;
-        else if(a==BLUE)
-            turretTarget = angleFromBlue() * 110/45;
-        else
-            turretTarget = TURRET_MIDDLE;
 
 
 
@@ -223,6 +233,8 @@ public class PIDTele extends OpMode {
         telemetry.addData("Left Shooter Vel", lShooter.getVelocity(AngleUnit.DEGREES));
         telemetry.addData("Right Shooter Vel", rShooter.getVelocity(AngleUnit.DEGREES));
         telemetry.addData("Shooter Vel Reported", targetVelocity);
+
+
 
         double loop = System.nanoTime();
         telemetry.addData("hz ", 1000000000 / (loop - looptime));
