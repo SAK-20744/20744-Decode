@@ -10,6 +10,7 @@ public class FieldPoses {
     private static double BOT_LENGTH = 17.5, BOT_WIDTH = 15;
 
     public static Pose redFarStart = new Pose(BOT_LENGTH/2, TS*-3+BOT_WIDTH/2, -Math.PI);
+    public static Pose blueFarStart = new Pose(-redFarStart.getX(), redFarStart.getY(), 0);
     public static Pose shooting = new Pose(BOT_LENGTH/2, TS*-3+BOT_WIDTH*0.65, -Math.PI);
     public static Pose redBall1Start = new Pose(TS*0.75, -13, -Math.PI);
     public static Pose redBall1End = new Pose(TS*3-BOT_LENGTH/2, redBall1Start.getY(), -Math.PI);

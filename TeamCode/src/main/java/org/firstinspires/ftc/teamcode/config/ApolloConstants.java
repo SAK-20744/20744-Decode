@@ -8,7 +8,7 @@ public class ApolloConstants {
 
     public static double autoTurret = 115;
     public static double autoTurret2 = 111;
-    public static double autoTurret3 = 107.5;
+    public static double autoTurret3 = 108;
     public static double intakeMovementSpeed = 0.35;
 
     public static double
