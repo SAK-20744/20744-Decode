@@ -6,7 +6,6 @@ import static org.firstinspires.ftc.teamcode.util.Alliance.RED;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
-import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
@@ -20,6 +19,7 @@ import org.firstinspires.ftc.teamcode.config.FieldPoses;
 //import org.firstinspires.ftc.teamcode.subsystems.Kickers;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
+import org.firstinspires.ftc.teamcode.subsystems.BallSensors;
 import org.firstinspires.ftc.teamcode.subsystems.cursedKicker;
 import org.firstinspires.ftc.teamcode.subsystems.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.util.Alliance;
@@ -37,6 +37,7 @@ public class redFarSix extends OpMode {
     Follower drive;
     Limelight3A l;
 
+    BallSensors ballSensors;
     private Alliance a = RED;
     private static final int shoot = 0, zone = 1;
     private int pipeline = shoot;
@@ -59,6 +60,8 @@ public class redFarSix extends OpMode {
         kickers = new cursedKicker(hardwareMap);
         intake = hardwareMap.get(DcMotor.class, "intake");
         intake.setDirection(ApolloConstants.intakeDir);
+
+        ballSensors = new BallSensors(hardwareMap);
 
 
         l = hardwareMap.get(Limelight3A.class, "limelight");
@@ -110,6 +113,7 @@ public class redFarSix extends OpMode {
             p = Pattern.PGP22;
         else if(detectedID() == 23)
             p = Pattern.PPG23;
+        ballSensors.motif(p);
 
         telemetry.addData("Detected ID: ", p);
         telemetry.addData("Turret Angle:", turret.getTurret());
@@ -121,7 +125,7 @@ public class redFarSix extends OpMode {
 
     @Override
     public void start() {
-
+        shooter.up();
         intake.setPower(1);
         shooter.far();
 //        turret.face(FieldPoses.redHoop,drive.getPose());
@@ -150,7 +154,7 @@ public class redFarSix extends OpMode {
         drive.followPath(toLaunch1);
         while(drive.isBusy()) { update(); }
         turret.setYaw(Math.toRadians(autoTurret2));
-        cursedShoot();
+        cursedShootSensor();
         drive.followPath(toBall2Start); // Put drive to human player path in here
         while(drive.isBusy()) { update(); }
 //        intake.setPower(1);
@@ -160,7 +164,7 @@ public class redFarSix extends OpMode {
         drive.followPath(toLaunch2);
         while(drive.isBusy()) { update(); }
         turret.setYaw(Math.toRadians(autoTurret3));
-        cursedShoot();
+        cursedShootSensor();
         drive.followPath(toPark);
         turret.setYaw(Math.toRadians(0));
         while(drive.isBusy()) { update(); }
@@ -209,7 +213,27 @@ public class redFarSix extends OpMode {
         }
         return;
     }
+    public void cursedShootSensor(){
+        ballSensors.periodic();
+        String[] sequence = ballSensors.shootSequence();
 
+        shooter.far();
+        while(!shooter.atTarget()) { update(); }
+        shootStr(sequence[0]);
+        while(!shooter.atTarget()) { update(); }
+        shootStr(sequence[1]);
+        while(!shooter.atTarget()) { update(); }
+        shootStr(sequence[2]);
+        while(!shooter.atTarget()) { update(); }
+        if (sequence[0] == "m") mKick();
+    }
+    public void shootStr(String a) {
+        switch (a.toLowerCase()) {
+            case "l": lKick();break;
+            case "m": mKick();break;
+            case "r": rKick();break;
+        }
+    }
     public void shoot21GPP() {
         shooter.far();
         while(!shooter.atTarget()) { update(); }
@@ -280,6 +304,7 @@ public class redFarSix extends OpMode {
         shooter.periodic();
         turret.periodic();
         kickers.periodic();
+//        ballSensors.periodic();
 
         telem();
     }

@@ -5,7 +5,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.subsystems.ballSensors;
+import org.firstinspires.ftc.teamcode.subsystems.BallSensors;
 import org.firstinspires.ftc.teamcode.util.Motif;
 
 import java.util.Arrays;
@@ -13,12 +13,12 @@ import java.util.Arrays;
 @TeleOp (group="UnitTest")
 public class BallSensorTest extends LinearOpMode {
     Motif motif = Motif.PPG;
-    ballSensors balls;
+    BallSensors balls;
 
     boolean cyclePressed = false;
     @Override
     public void runOpMode() {
-        balls = new ballSensors(hardwareMap);
+        balls = new BallSensors(hardwareMap);
         balls.motif(motif);
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
