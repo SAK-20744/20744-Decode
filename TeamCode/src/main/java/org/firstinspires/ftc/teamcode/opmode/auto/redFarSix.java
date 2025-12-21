@@ -148,6 +148,7 @@ public class redFarSix extends OpMode {
         while(drive.isBusy()) { update(); }
 //        intake.setPower(1);
         drive.followPath(toBall1End);
+//        turret.off();
         while(drive.isBusy()) { update(); }
 //        intake.setPower(0.4);
 
@@ -266,6 +267,8 @@ public class redFarSix extends OpMode {
         rKick();
         while(!shooter.atTarget()) { update(); }
         mKick();
+        while(!shooter.atTarget()) { update(); }
+        lKick();
         while(!shooter.atTarget()) { update(); }
     }
 

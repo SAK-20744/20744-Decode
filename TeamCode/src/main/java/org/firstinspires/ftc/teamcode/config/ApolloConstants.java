@@ -22,7 +22,7 @@ public class ApolloConstants {
         INTAKE_OFF = 0,
         LKICKER_DOWN = 0,
         MKICKER_DOWN = 0,
-        RKICKER_DOWN = 0.1,
+        RKICKER_DOWN = 0.0,
         LKICKER_UP = 0.27,
         MKICKER_UP = 0.31,
         RKICKER_UP = 0.39,
@@ -49,7 +49,7 @@ public class ApolloConstants {
 
     public static double
         KUP = 900,
-        KDOWN = 300;
+        KDOWN = 150;
     public static int
         TURRET_BLUE_FAR = -285,
         TURRET_MIDDLE = 0,

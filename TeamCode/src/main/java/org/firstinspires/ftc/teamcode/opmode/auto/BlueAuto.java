@@ -156,12 +156,15 @@ public class BlueAuto extends OpMode {
         while(drive.isBusy()) { update(); }
 //        intake.setPower(1);
         drive.followPath(toBall1End);
+
+//        turret.off();
+
         while(drive.isBusy()) { update(); }
 //        intake.setPower(0.4);
 
         drive.followPath(toLaunch1);
         while(drive.isBusy()) { update(); }
-        turret.setYaw(Math.toRadians(blueautoTurret2));
+//        turret.setYaw(Math.toRadians(blueautoTurret2));
         cursedShootSensor();
         drive.followPath(toBall2Start); // Put drive to human player path in here
         while(drive.isBusy()) { update(); }
@@ -171,7 +174,7 @@ public class BlueAuto extends OpMode {
 //        intake.setPower(0.4);
         drive.followPath(toLaunch2);
         while(drive.isBusy()) { update(); }
-        turret.setYaw(Math.toRadians(blueautoTurret3));
+//        turret.setYaw(Math.toRadians(blueautoTurret3));
         cursedShootSensor();
         drive.followPath(toPark);
         turret.setYaw(Math.toRadians(0));
@@ -269,11 +272,13 @@ public class BlueAuto extends OpMode {
     public void shoot23PPG() {
         shooter.far();
         while(!shooter.atTarget()) { update(); }
-        lKick();
-        while(!shooter.atTarget()) { update(); }
         rKick();
         while(!shooter.atTarget()) { update(); }
+        lKick();
+        while(!shooter.atTarget()) { update(); }
         mKick();
+        while(!shooter.atTarget()) { update(); }
+        lKick();
         while(!shooter.atTarget()) { update(); }
     }
 

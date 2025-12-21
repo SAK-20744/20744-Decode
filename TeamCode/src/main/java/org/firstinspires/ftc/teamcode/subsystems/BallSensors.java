@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.util.Motif;
 import org.firstinspires.ftc.teamcode.util.Pattern;
 
 public class BallSensors {
-    Motif motif;
+    Motif motif = Motif.GPP;
     RevColorSensorV3 m1,m2, l1,l2,r1,r2;
     BallColor lColor = BallColor.N, mColor = BallColor.N, rColor = BallColor.N;
     boolean left, mid, right = false;

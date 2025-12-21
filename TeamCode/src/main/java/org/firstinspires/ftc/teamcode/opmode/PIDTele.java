@@ -137,9 +137,22 @@ public class PIDTele extends OpMode {
     @Override
     public void loop() {
 
+        boolean reverse = false;
+        if(gamepad1.dpad_left)
+            reverse = true;
+        if(gamepad1.dpad_right)
+            reverse = false;
+
         double y = gamepad1.left_stick_y;
         double x = -gamepad1.left_stick_x * 1.1;
         double rx = gamepad1.right_stick_x;
+
+
+        if(reverse){
+            y*=-1;
+            x*=-1;
+        }
+
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
         double frontLeftPower = (y + x + rx) / denominator;
         double backLeftPower = (y - x + rx) / denominator;
@@ -150,6 +163,7 @@ public class PIDTele extends OpMode {
         bl.setPower(backLeftPower);
         fr.setPower(frontRightPower);
         br.setPower(backRightPower);
+
 
         if (gamepad1.right_bumper) intakePower = INTAKE_IN;
         else if (gamepad1.left_bumper) intakePower = INTAKE_OUT;
