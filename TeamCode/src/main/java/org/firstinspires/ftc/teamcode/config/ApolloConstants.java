@@ -33,13 +33,14 @@ public class ApolloConstants {
         SHOOTER_OFF = 0,
         VELOCITY_FAR = 480,
         VELOCITY_CLOSE = 330,
-        tpl = 0.032,
-        til = 0.021,
-        tdl = 0.003,
-        tps = 0.023,
-        tis = 0.042,
-        tds = 0.001,
-        TURRET_THRESHOLD = 25;
+        tpl = 0.001,
+        til = 0,
+        tdl = 0.00013,
+        tps = 0.0007,
+        tis = 0,
+        tds = 0.000000075,
+        TURRET_THRESHOLD = 100,
+        OFFSET = 650;
 
 
     // OWENS CODE. ONLY FOR FULL SHOOTER TEST

@@ -182,9 +182,9 @@ public class PIDTele extends OpMode {
             hoodTarget = HOOD_FAR;
 
             if(a==RED)
-                turretTarget = angleFromRed() * 12000/90;
+                turretTarget = angleFromRed() * 24746.6674795/180 - OFFSET;
             else if(a==BLUE)
-                turretTarget = angleFromBlue() * 12000/90;
+                turretTarget = angleFromBlue() * 24746.6674795/180 - OFFSET;
             else
                 turretTarget = TURRET_MIDDLE;
 
@@ -196,9 +196,9 @@ public class PIDTele extends OpMode {
 
 
             if(a==RED)
-                turretTarget = angleFromRed() * 110/45;
+                turretTarget = angleFromRed() * 24746.6674795/180 - OFFSET;
             else if(a==BLUE)
-                turretTarget = angleFromBlue() * 110/45;
+                turretTarget = angleFromBlue() * 24746.6674795/180 - OFFSET;
             else
                 turretTarget = TURRET_MIDDLE;
 

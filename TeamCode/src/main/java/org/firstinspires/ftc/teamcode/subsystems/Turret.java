@@ -18,13 +18,13 @@ import com.seattlesolvers.solverslib.command.SubsystemBase;
 public class Turret {
     public static double error = 0, power = 0, manualPower = 0;
 
-    private static double TICKS_PER_REV = 145.1, GEAR_RATIO = 145/24;
+    private static double TICKS_PER_REV = 8192, GEAR_RATIO = 145/24; // Motor TPR=145.1 // REV Encoder TPR=8192
     public static double rpt = /*0.0029919*/ Math.PI / ( (TICKS_PER_REV*GEAR_RATIO)/2 );
 
     public final DcMotorEx m;
     private PIDFController p, s; // pidf controller for turret
     public static double t = 0; // target for turret
-    public static double kp = 0.05, kf = 0.0, kd = 0.000, sp = .032, sf = 0, sd = 0.0007;
+    public static double kp = 0.05, kf = 0.0, kd = 0.000, sp = .003, sf = 0, sd = 0.00006;
 
     public static boolean on = true, manual = false;
 
