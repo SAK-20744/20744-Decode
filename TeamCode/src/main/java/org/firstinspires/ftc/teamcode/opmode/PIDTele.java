@@ -22,6 +22,7 @@ import com.seattlesolvers.solverslib.controller.PIDController;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.config.ApolloConstants;
 import org.firstinspires.ftc.teamcode.config.ApolloHardwareNames;
+import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.util.Alliance;
 
 import java.util.List;
@@ -31,7 +32,8 @@ public class PIDTele extends OpMode {
 
     private double looptime = 0, targetVelocity = 0;
     private boolean far = false;
-    private double hoodTarget = HOOD_CLOSE;
+    Shooter shooter;
+//    private double hoodTarget = HOOD_CLOSE;
     private double lKickerTarget = LKICKER_DOWN;
     private double mKickerTarget = MKICKER_DOWN;
     private double rKickerTarget = RKICKER_DOWN;
@@ -46,8 +48,8 @@ public class PIDTele extends OpMode {
     private int pipeline = shoot;
 
     DcMotor fl, bl, fr, br, intake;
-    DcMotorEx lShooter, rShooter, turret;
-    Servo lKicker, mKicker, rKicker, hood;
+    DcMotorEx turret;
+    Servo lKicker, mKicker, rKicker/*, hood*/;
 
     private PIDController turretPIDLarge, turretPIDSmall;
 
@@ -58,8 +60,7 @@ public class PIDTele extends OpMode {
         fr = hardwareMap.dcMotor.get(ApolloConstants.dt.fr);
         br = hardwareMap.dcMotor.get(ApolloConstants.dt.br);
         intake = hardwareMap.dcMotor.get("intake");
-        lShooter = hardwareMap.get(DcMotorEx.class, "lShooter");
-        rShooter = hardwareMap.get(DcMotorEx.class, "rShooter");
+
         turret = hardwareMap.get(DcMotorEx.class, "turret");
 
         l = hardwareMap.get(Limelight3A.class, "limelight");
@@ -67,7 +68,7 @@ public class PIDTele extends OpMode {
         lKicker = hardwareMap.servo.get(ApolloHardwareNames.lKicker);
         mKicker = hardwareMap.servo.get(ApolloHardwareNames.mKicker);
         rKicker = hardwareMap.servo.get(ApolloHardwareNames.rKicker);
-        hood = hardwareMap.servo.get("hood");
+//        hood = hardwareMap.servo.get("hood");
 
         fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -76,9 +77,6 @@ public class PIDTele extends OpMode {
         turret.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
 //        turret.setTargetPosition(TURRET_MIDDLE);
-
-        rShooter.setMode(RUN_USING_ENCODER);
-        lShooter.setMode(RUN_WITHOUT_ENCODER);
 //        turret.setMode(RUN_TO_POSITION);
 
         fl.setDirection(flDir);
@@ -87,8 +85,7 @@ public class PIDTele extends OpMode {
         br.setDirection(brDir);
         turret.setDirection(turretDir);
         intake.setDirection(intakeDir);
-        lShooter.setDirection(lShooterDir);
-        rShooter.setDirection(rShooterDir);
+
 
         turretPIDLarge = new PIDController(tpl, til, tdl);
         turretPIDSmall = new PIDController(tps, tis, tds);
@@ -101,21 +98,18 @@ public class PIDTele extends OpMode {
         lKicker.setPosition(lKickerTarget);
         mKicker.setPosition(mKickerTarget);
         rKicker.setPosition(rKickerTarget);
-        hood.setPosition(hoodTarget);
+//        hood.setPosition(hoodTarget);
         intake.setPower(intakePower);
 //        lShooter.setPower(shooterPower);
 //        rShooter.setPower(shooterPower);
 
-        rShooter.setVelocity(targetVelocity, AngleUnit.DEGREES);
-        lShooter.setPower(rShooter.getPower());
+
 
     }
 
     public void init_loop(){
 
         intake.setPower(0);
-        lShooter.setPower(0);
-        rShooter.setPower(0);
         telemetry.update();
 
         if (gamepad1.x)
@@ -173,13 +167,18 @@ public class PIDTele extends OpMode {
         if (gamepad1.y) mKickerTarget = MKICKER_UP; else mKickerTarget = MKICKER_DOWN;
         if (gamepad1.b) rKickerTarget = RKICKER_UP; else rKickerTarget = RKICKER_DOWN;
 
+//        if (gamepad1.dpad_up) far = false;
+//        if (gamepad1.dpad_down) far = true;
+
         if (gamepad1.dpad_up) far = false;
         if (gamepad1.dpad_down) far = true;
 
         if(far){
+            shooter.up();
+            shooter.far();
 //            shooterPower = SHOOTER_FAR;
             targetVelocity = VELOCITY_FAR;
-            hoodTarget = HOOD_FAR;
+//            hoodTarget = HOOD_FAR;
 
             if(a==RED)
                 turretTarget = angleFromRed() * 24746.6674795/180 - OFFSET;
@@ -190,9 +189,11 @@ public class PIDTele extends OpMode {
 
 
         } else {
+            shooter.down();
+            shooter.close();
 //            shooterPower = SHOOTER_CLOSE;
             targetVelocity = VELOCITY_CLOSE;
-            hoodTarget = HOOD_CLOSE;
+//            hoodTarget = HOOD_CLOSE;
 
 
             if(a==RED)
@@ -211,11 +212,12 @@ public class PIDTele extends OpMode {
         lKicker.setPosition(lKickerTarget);
         mKicker.setPosition(mKickerTarget);
         rKicker.setPosition(rKickerTarget);
-        hood.setPosition(hoodTarget);
+//        hood.setPosition(hoodTarget);
         intake.setPower(intakePower);
 
 //        turret.setPower(1);
 //        turret.setTargetPosition((int) turretTarget);
+        shooter.periodic();
 //        lShooter.setPower(shooterPower);
 //        rShooter.setPower(shooterPower);
 
@@ -234,9 +236,7 @@ public class PIDTele extends OpMode {
 
 //        rShooter.setVelocity(targetVelocity, AngleUnit.DEGREES);
 // replaced default velocity with PID variant. lets try this in tele later.
-        rShooter.setPower((shooterkV * targetVelocity) + (shooterkP * (targetVelocity - rShooter.getVelocity())) + shooterkS);
 
-        lShooter.setPower(rShooter.getPower());
 
 //        telemetry.addData("Left Kicker ", lKicker.getPosition());
 //        telemetry.addData("Middle Kicker", mKicker.getPosition());
@@ -248,10 +248,10 @@ public class PIDTele extends OpMode {
         telemetry.addData("TurretRealPos", turret.getCurrentPosition());
         telemetry.addData("Turrettarget", turretTarget);
 
-        telemetry.addData("Left Shooter", lShooter.getPower());
-        telemetry.addData("Right Shooter", rShooter.getPower());
-        telemetry.addData("Left Shooter Vel", lShooter.getVelocity(AngleUnit.DEGREES));
-        telemetry.addData("Right Shooter Vel", rShooter.getVelocity(AngleUnit.DEGREES));
+//        telemetry.addData("Shooter Power", shooter.getPower());
+        telemetry.addData("Shooter Vel", shooter.getVelocity());
+        telemetry.addData("Shooter Target Vel", shooter.getTarget());
+
         telemetry.addData("Shooter Vel Reported", targetVelocity);
 
 
