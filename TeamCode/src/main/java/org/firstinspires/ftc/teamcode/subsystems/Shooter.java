@@ -24,8 +24,8 @@ public class Shooter extends SubsystemBase {
 
     private boolean activated = true;
 
-    public static double close = 1250;
-    public static double far = 1840;
+    public static double close = 1450;
+    public static double far = 1800;
     public static double flipUp = ApolloConstants.HOOD_FAR;
     public static double flipDown = ApolloConstants.HOOD_CLOSE;
 

@@ -14,7 +14,7 @@ public class Kickers {
     }
 
     Servo lKicker, mKicker, rKicker;
-    double kickerUpTime = KICKER_UPTIME, kickerDownTime = KICKER_DOWNTIME; //Time kicker waits till going back down and time before next kicker can go up
+    double kickerUpTime = KUP, kickerDownTime = KDOWN; //Time kicker waits till going back down and time before next kicker can go up
     ElapsedTime kickerTimer = new ElapsedTime();
     Kicker currentUp = null, queuedUp = null;
     public Kickers(HardwareMap hardwareMap) {
@@ -39,7 +39,7 @@ public class Kickers {
     }
     public Kicker getUp() {return currentUp;}
     public Kicker getQueued() {return currentUp;}
-    public double kickerTime() {return kickerTimer.seconds();}
+    public double kickerTime() {return kickerTimer.milliseconds();}
     public boolean kickerUp() {return kickerTime() < kickerUpTime;}
     public boolean kickerDown() {return kickerTime() < kickerDownTime+kickerUpTime;}
     private void updateKicker(Servo servo, double upPos, double downPos) {

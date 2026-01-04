@@ -14,6 +14,8 @@ import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.config.Robot;
+import org.firstinspires.ftc.teamcode.subsystems.Kickers;
+import org.firstinspires.ftc.teamcode.subsystems.cursedKicker;
 import org.firstinspires.ftc.teamcode.util.Alliance;
 
 @TeleOp
@@ -23,15 +25,18 @@ public class Tele extends OpMode {
     MultipleTelemetry multipleTelemetry;
 
     Robot r;
+    Kickers kickers;
 
     public boolean shoot = false, manual = false, field = true, hold = false, autoFlipping = false, manualFlip = false;
     public double intakeOn = 0, dist;
     public static double shootTarget = 1200;
+    private double looptime = 0;
     private final Timer upTimer = new Timer(), autoFlipTimer = new Timer();
 
     @Override
     public void init() {
         r = new Robot(hardwareMap, Alliance.BLUE);
+        kickers = new Kickers(hardwareMap);
 
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
         multipleTelemetry = new MultipleTelemetry(FtcDashboard.getInstance().getTelemetry());
@@ -86,6 +91,15 @@ public class Tele extends OpMode {
         if (upTimer.getElapsedTimeSeconds() > 1 && r.s.atUp() && manualFlip)
             gamepad1.rumbleBlips(1);
 
+        if (gamepad1.xWasPressed())
+            kickers.kick(Kickers.Kicker.L);
+
+        if (gamepad1.yWasPressed())
+            kickers.kick(Kickers.Kicker.M);
+
+        if (gamepad1.aWasPressed())
+            kickers.kick(Kickers.Kicker.R);
+
         if (gamepad1.rightBumperWasPressed())
             if (intakeOn == 1)
                 intakeOn = 0;
@@ -123,15 +137,15 @@ public class Tele extends OpMode {
             r.t.off();
         }
 
-        if (gamepad1.aWasPressed())
-            if (manualFlip) {
-                upTimer.resetTimer();
-                r.s.flip();
-                autoFlipping = false;
-            } else {
-                autoFlipping = true;
-                autoFlipTimer.resetTimer();
-            }
+//        if (gamepad1.aWasPressed())
+//            if (manualFlip) {
+//                upTimer.resetTimer();
+//                r.s.flip();
+//                autoFlipping = false;
+//            } else {
+//                autoFlipping = true;
+//                autoFlipTimer.resetTimer();
+//            }
 
         if (!manualFlip && autoFlipping) {
             if (autoFlipTimer.getElapsedTimeSeconds() > 1.75) {
@@ -186,6 +200,8 @@ public class Tele extends OpMode {
         if (gamepad1.rightStickButtonWasPressed())
             r.t.resetTurret();
 
+        double loop = System.nanoTime();
+
         TelemetryPacket packet = new TelemetryPacket();
         packet.addLine("Follower Pose: " + r.f.getPose().toString());
         packet.addLine("Shooter Velocity: " + r.s.getVelocity());
@@ -200,6 +216,7 @@ public class Tele extends OpMode {
         packet.addLine("Manual Shooter + Turret: " + manual);
         packet.addLine("Field Centric: " + field);
         packet.addLine("Hold Position: " + hold);
+        packet.addLine("hz: " + 1000000000 / (loop - looptime));
         FtcDashboard.getInstance().sendTelemetryPacket(packet);
 
         telemetryM.addData("Follower Pose", r.f.getPose().toString());
@@ -215,6 +232,7 @@ public class Tele extends OpMode {
         telemetryM.addData("Manual Shooter + Turret", manual);
         telemetryM.addData("Field Centric", field);
         telemetryM.addData("Hold Position", hold);
+        telemetryM.addData("hz ", 1000000000 / (loop - looptime));
 
         telemetryM.debug("Pos");
         telemetryM.update(telemetry);

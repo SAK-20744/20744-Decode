@@ -46,6 +46,12 @@ public class TurretTest extends LinearOpMode {
 
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        while (opModeInInit()) {
+            if (gamepad1.x) turret.resetTurret();
+            telemetry.addData("Turret Angle",turret.getYaw());
+            telemetry.addData("Get Turret", turret.getTurret());
+            telemetry.update();
+        }
         waitForStart();
         while (opModeIsActive()) {
 
@@ -68,6 +74,7 @@ public class TurretTest extends LinearOpMode {
 
             turret.periodic();
             drive.updatePose();
+            telemetry.addData("Robot Pose", drive.getPose());
             telemetry.addData("Turret Angle",turret.getYaw());
             telemetry.addData("Get Turret", turret.getTurret());
             telemetry.addData("Turret Target", turret.getTurretTarget());

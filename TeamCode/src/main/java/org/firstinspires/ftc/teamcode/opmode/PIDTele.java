@@ -54,7 +54,7 @@ public class PIDTele extends OpMode {
     private PIDController turretPIDLarge, turretPIDSmall;
 
     public void init() {
-
+        shooter = new Shooter(hardwareMap);
         fl = hardwareMap.dcMotor.get(ApolloConstants.dt.fl);
         bl = hardwareMap.dcMotor.get(ApolloConstants.dt.bl);
         fr = hardwareMap.dcMotor.get(ApolloConstants.dt.fr);
@@ -265,6 +265,8 @@ public class PIDTele extends OpMode {
     @Override
     public void start() {
         super.start();
+        shooter.close();
+        shooter.down();
     }
 
     @Override

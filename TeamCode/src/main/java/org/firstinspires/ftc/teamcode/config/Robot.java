@@ -22,7 +22,8 @@ public class Robot {
     private final Timer loop = new Timer();
 
     public static Pose endPose;
-    public static Pose defaultPose = new Pose(8+24,6.25+24,0);
+//    public static Pose defaultPose = new Pose(8+24,6.25+24,0);
+    public static Pose defaultPose = new Pose(0,0,0);
     public static Pose shootTarget = new Pose(6, 144-6, 0);
 
     public Robot(HardwareMap h, Alliance a) {
@@ -59,10 +60,12 @@ public class Robot {
 
 
     public void setShootTarget() {
-        if (a == Alliance.BLUE && shootTarget.getX() != 6)
-            shootTarget = new Pose(6, 144 - 6, 0);
-        else if (a == Alliance.RED && shootTarget.getX() != (144 - 6))
-            shootTarget = shootTarget.mirror();
+        if (a == Alliance.BLUE/* && shootTarget.getX() != 6*/)
+//            shootTarget = new Pose(6, 144 - 6, 0);
+            shootTarget = FieldPoses.blueHoop;
+        else if (a == Alliance.RED/* && shootTarget.getX() != (144 - 6)*/)
+//            shootTarget = shootTarget.mirror();
+            shootTarget = FieldPoses.redHoop;
     }
 
     public Pose getShootTarget() {
