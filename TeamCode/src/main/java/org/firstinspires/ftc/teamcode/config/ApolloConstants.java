@@ -42,6 +42,8 @@ public class ApolloConstants {
         TURRET_THRESHOLD = 100,
         OFFSET = 650;
 
+    public static double shooterkS = 0.135, shooterkV = 0.000525, shooterkP = 0.02;
+
 
     // OWENS CODE. ONLY FOR FULL SHOOTER TEST
     public static double

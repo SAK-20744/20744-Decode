@@ -232,7 +232,10 @@ public class PIDTele extends OpMode {
 
 
 
-        rShooter.setVelocity(targetVelocity, AngleUnit.DEGREES);
+//        rShooter.setVelocity(targetVelocity, AngleUnit.DEGREES);
+// replaced default velocity with PID variant. lets try this in tele later.
+        rShooter.setPower((shooterkV * targetVelocity) + (shooterkP * (targetVelocity - rShooter.getVelocity())) + shooterkS);
+
         lShooter.setPower(rShooter.getPower());
 
 //        telemetry.addData("Left Kicker ", lKicker.getPosition());
