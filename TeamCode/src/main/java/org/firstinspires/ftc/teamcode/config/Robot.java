@@ -10,6 +10,8 @@ import org.firstinspires.ftc.teamcode.subsystems.*;
 import org.firstinspires.ftc.teamcode.util.Alliance;
 import org.firstinspires.ftc.teamcode.config.*;
 
+import java.lang.reflect.Field;
+
 public class Robot {
     public final Intake i;
     public final Limelight l;
@@ -62,10 +64,12 @@ public class Robot {
     public void setShootTarget() {
         if (a == Alliance.BLUE/* && shootTarget.getX() != 6*/)
 //            shootTarget = new Pose(6, 144 - 6, 0);
-            shootTarget = FieldPoses.blueHoop;
+//            shootTarget = FieldPoses.blueHoop;
+            shootTarget = FieldPoses.teleBlueHoop;
         else if (a == Alliance.RED/* && shootTarget.getX() != (144 - 6)*/)
 //            shootTarget = shootTarget.mirror();
-            shootTarget = FieldPoses.redHoop;
+//            shootTarget = FieldPoses.redHoop;
+            shootTarget = FieldPoses.teleRedHoop;
     }
 
     public Pose getShootTarget() {

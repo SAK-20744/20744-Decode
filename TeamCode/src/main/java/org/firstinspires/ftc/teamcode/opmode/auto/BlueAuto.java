@@ -25,6 +25,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.config.ApolloConstants;
 import org.firstinspires.ftc.teamcode.config.FieldPoses;
+import org.firstinspires.ftc.teamcode.config.Robot;
 import org.firstinspires.ftc.teamcode.subsystems.BallSensors;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
@@ -181,6 +182,9 @@ public class BlueAuto extends OpMode {
         while(drive.isBusy()) { update(); }
         intake.setPower(0);
         shooter.off();
+
+        drive.updatePose();
+        Robot.endPose = drive.getPose();
         while(shooter.isActivated()) { update(); }
 
 //        drive.followPath(toLaunch); // Drive back to redFarStart to be back in far launch zone

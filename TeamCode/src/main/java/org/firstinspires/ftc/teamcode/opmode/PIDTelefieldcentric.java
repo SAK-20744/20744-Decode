@@ -11,6 +11,7 @@ import static org.firstinspires.ftc.teamcode.config.ApolloConstants.LKICKER_DOWN
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.LKICKER_UP;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.MKICKER_DOWN;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.MKICKER_UP;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.OFFSET;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.RKICKER_DOWN;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.RKICKER_UP;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.TURRET_MIDDLE;
@@ -32,11 +33,13 @@ import static org.firstinspires.ftc.teamcode.config.ApolloConstants.tis;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.tpl;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.tps;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.turretDir;
+import static org.firstinspires.ftc.teamcode.subsystems.pedroPathing.Tuning.follower;
 import static org.firstinspires.ftc.teamcode.util.Alliance.BLUE;
 import static org.firstinspires.ftc.teamcode.util.Alliance.RED;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.pedropathing.follower.Follower;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -50,6 +53,8 @@ import com.seattlesolvers.solverslib.controller.PIDController;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.config.ApolloHardwareNames;
+import org.firstinspires.ftc.teamcode.config.Robot;
+import org.firstinspires.ftc.teamcode.subsystems.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.util.Alliance;
 
 import java.util.List;
@@ -68,8 +73,11 @@ public class PIDTelefieldcentric extends OpMode {
     private double turretTarget = TURRET_MIDDLE;
 //    private double shooterPower = SHOOTER_OFF;
 
+    private Robot r;
+
     private Limelight3A l;
     private Alliance a = RED;
+    private Follower follower;
     private static final int shoot = 0, zone = 1;
     private int pipeline = shoot;
 
@@ -90,6 +98,8 @@ public class PIDTelefieldcentric extends OpMode {
 
     public void init() {
 
+        r = new Robot(hardwareMap, Alliance.BLUE);
+
         fl = hardwareMap.dcMotor.get(dt.fl);
         bl = hardwareMap.dcMotor.get(dt.bl);
         fr = hardwareMap.dcMotor.get(dt.fr);
@@ -100,14 +110,15 @@ public class PIDTelefieldcentric extends OpMode {
         turret = hardwareMap.get(DcMotorEx.class, "turret");
 
         l = hardwareMap.get(Limelight3A.class, "limelight");
+        follower = Constants.createFollower(hardwareMap);
 
-        imu = hardwareMap.get(IMU.class, "imu");
-        // Adjust the orientation parameters to match your robot
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
-        // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
-        imu.initialize(parameters);
+//        imu = hardwareMap.get(IMU.class, "imu");
+//        // Adjust the orientation parameters to match your robot
+//        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+//                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+//                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
+//        // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
+//        imu.initialize(parameters);
 
         lKicker = hardwareMap.servo.get(ApolloHardwareNames.lKicker);
         mKicker = hardwareMap.servo.get(ApolloHardwareNames.mKicker);
@@ -167,10 +178,16 @@ public class PIDTelefieldcentric extends OpMode {
             resetTurret();
 
 
-        if(gamepad1.dpad_left)
-            a=BLUE;
-        if(gamepad1.dpad_right)
-            a=RED;
+        if(gamepad1.dpad_left) {
+            a = BLUE;
+            r.a = Alliance.BLUE;
+        }
+        if(gamepad1.dpad_right) {
+            a = RED;
+            r.a = RED;
+        }
+
+        follower.setStartingPose(Robot.endPose);
 
         telemetry.addData("TurretTargetPos", turret.getTargetPosition());
         telemetry.addData("TurretRealPos", turret.getCurrentPosition());
@@ -183,9 +200,9 @@ public class PIDTelefieldcentric extends OpMode {
     @Override
     public void loop() {
 
-        if (gamepad1.options) {
-            imu.resetYaw();
-        }
+//        if (gamepad1.options) {
+//            imu.resetYaw();
+//        }
 
         if(gamepad1.dpad_left)
             field = true;
@@ -198,7 +215,8 @@ public class PIDTelefieldcentric extends OpMode {
 
 
         if(field){
-            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+//            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            double botHeading = follower.getPose().getHeading();
 
             // Rotate the movement direction counter to the bot's rotation
             double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
@@ -251,13 +269,12 @@ public class PIDTelefieldcentric extends OpMode {
             hoodTarget = HOOD_CLOSE;
         }
 
-        if(a==RED)
-            turretTarget = angleFromRed() * 110/45;
-        else if(a==BLUE)
-            turretTarget = angleFromBlue() * 110/45;
-        else
+        if(a==RED) {
+            turretTarget = angleFromRed() * 24746.6674795 / 180 - OFFSET;
+        }else if(a==BLUE) {
+            turretTarget = angleFromBlue() * 24746.6674795 / 180 - OFFSET;
+        }else
             turretTarget = TURRET_MIDDLE;
-
 
 
         lKicker.setPosition(lKickerTarget);
@@ -279,7 +296,7 @@ public class PIDTelefieldcentric extends OpMode {
             tpower = turretPIDLarge.calculate(tpos, turretTarget);
         else
             tpower = turretPIDSmall.calculate(tpos, turretTarget);
-        telemetry.addData("tPower", tpower);
+//        telemetry.addData("tPower", tpower);
         turret.setPower(tpower);
 
 
@@ -293,15 +310,19 @@ public class PIDTelefieldcentric extends OpMode {
 //        telemetry.addData("Hood", hood.getPosition());
 //        telemetry.addData("Intake", intake.getPower());
 
+        telemetry.addData("X", follower.getPose().getX());
+        telemetry.addData("Y", follower.getPose().getY());
+        telemetry.addData("Heading", follower.getPose().getHeading());
+
 //        telemetry.addData("TurretTargetPos", turret.getTargetPosition());
         telemetry.addData("TurretRealPos", turret.getCurrentPosition());
-        telemetry.addData("Turrettarget", turretTarget);
+        telemetry.addData("TurretTarget", turretTarget);
 
-        telemetry.addData("Left Shooter", lShooter.getPower());
-        telemetry.addData("Right Shooter", rShooter.getPower());
-        telemetry.addData("Left Shooter Vel", lShooter.getVelocity(AngleUnit.DEGREES));
+//        telemetry.addData("Left Shooter", lShooter.getPower());
+//        telemetry.addData("Right Shooter", rShooter.getPower());
+//        telemetry.addData("Left Shooter Vel", lShooter.getVelocity(AngleUnit.DEGREES));
         telemetry.addData("Right Shooter Vel", rShooter.getVelocity(AngleUnit.DEGREES));
-        telemetry.addData("Shooter Vel Reported", targetVelocity);
+        telemetry.addData("Target Vel", targetVelocity);
 
         double loop = System.nanoTime();
         telemetry.addData("hz ", 1000000000 / (loop - looptime));

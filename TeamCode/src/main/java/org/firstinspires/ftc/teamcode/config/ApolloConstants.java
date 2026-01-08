@@ -7,12 +7,12 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 public class ApolloConstants {
 
     public static double autoTurret = 115;
-    public static double autoTurret2 = 111;
-    public static double autoTurret3 = 108;
+    public static double autoTurret2 = 115;
+    public static double autoTurret3 = 115;
 
     public static double blueautoTurret = -115;
-    public static double blueautoTurret2 = -118;
-    public static double blueautoTurret3 = -121;
+    public static double blueautoTurret2 = -115;
+    public static double blueautoTurret3 = -115;
 
     public static double intakeMovementSpeed = 0.35;
 
