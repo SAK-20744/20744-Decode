@@ -125,7 +125,8 @@ public class Tele extends OpMode {
         r.setShootTarget();
 
         if (Robot.endPose == null) {
-            r.f.setStartingPose(r.a.equals(Alliance.BLUE) ? Robot.defaultPose.mirror() : Robot.defaultPose);
+//            r.f.setStartingPose(r.a.equals(Alliance.BLUE) ? Robot.defaultPose.mirror() : Robot.defaultPose);
+            r.f.setStartingPose(Robot.defaultPose);
         } else {
             r.f.setStartingPose(Robot.endPose);
         }
@@ -357,6 +358,7 @@ public class Tele extends OpMode {
         telemetry.addData("Follower Pose", r.f.getPose().toString());
         telemetry.addData("Shooter Velocity", r.s.getVelocity());
         telemetry.addData("Shooter Target", r.s.getTarget());
+        telemetry.addData("Shooter Pos Target", r.getShootTarget().toString());
 //        telemetry.addData("Shooter Distance", dist);
         telemetry.addData("Turret Yaw", r.t.getYaw());
         telemetry.addData("Turret Target", r.t.getTurretTarget());
