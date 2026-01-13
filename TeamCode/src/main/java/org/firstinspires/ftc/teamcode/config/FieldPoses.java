@@ -27,8 +27,8 @@ public class FieldPoses {
     public static Pose blueHoop = new Pose(TS*2.75,TS*2.75);
     public static Pose bluePark = new Pose(-BOT_LENGTH*0.75, redBall2Start.getY(), 0);
 
-    public static Pose teleRedHoop = new Pose(60, 60, 0);
-    public static Pose teleBlueHoop = new Pose(-60, 60, 0);
+    public static Pose teleRedHoop = new Pose(-60, 60, 0);
+    public static Pose teleBlueHoop = new Pose(60, 60, 0);
 
 
 }

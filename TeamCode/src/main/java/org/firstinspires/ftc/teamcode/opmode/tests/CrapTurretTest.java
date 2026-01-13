@@ -11,13 +11,14 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.config.FieldPoses;
+import org.firstinspires.ftc.teamcode.subsystems.CrapTurret;
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
 import org.firstinspires.ftc.teamcode.subsystems.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.util.Drawing;
 
 @TeleOp (group="UnitTest")
-public class TurretTest extends LinearOpMode {
-    Turret turret;
+public class CrapTurretTest extends LinearOpMode {
+    CrapTurret turret;
     Follower drive;
 
     boolean tOnPressed = false, tOffPressed = false;
@@ -35,7 +36,7 @@ public class TurretTest extends LinearOpMode {
     @Override
     public void runOpMode() {
         drive = Constants.createFollower(hardwareMap);
-        turret = new Turret(hardwareMap);
+        turret = new CrapTurret(hardwareMap);
         turret.off();
 
 

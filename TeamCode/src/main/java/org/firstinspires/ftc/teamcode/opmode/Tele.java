@@ -57,10 +57,7 @@ public class Tele extends OpMode {
     private double mKickerTarget = MKICKER_DOWN;
     private double rKickerTarget = RKICKER_DOWN;
 
-    private double frontLeftPower;
-    private double backLeftPower;
-    private double frontRightPower;
-    private double backRightPower;
+    private double frontLeftPower, backLeftPower, frontRightPower, backRightPower;
 
     Servo lKicker, mKicker, rKicker;
 
@@ -131,8 +128,7 @@ public class Tele extends OpMode {
             r.f.setStartingPose(Robot.endPose);
         }
 
-        r.periodic();
-        r.t.reset();
+//        r.periodic();
         r.f.startTeleopDrive();
 
         lKicker.setPosition(lKickerTarget);
@@ -369,9 +365,9 @@ public class Tele extends OpMode {
         telemetry.addData("Manual Shooter + Turret", manual);
         telemetry.addData("Field Centric", field);
         telemetry.addData("Hold Position", hold);
-        double loop = System.nanoTime();
-        telemetry.addData("hz ", 1000000000 / (loop - looptime));
-        looptime = loop;
+    double loop = System.nanoTime();
+    telemetry.addData("hz ", 1000000000 / (loop - looptime));
+    looptime = loop;
 //        telemetry.addData("Kicker Up", kickers.getUp());
 //        telemetry.addData("Kicker Queued", kickers.getQueued());
 //        telemetry.addData("Kicker Up", kickers.);
