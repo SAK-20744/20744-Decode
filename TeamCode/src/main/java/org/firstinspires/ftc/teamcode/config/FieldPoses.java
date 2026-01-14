@@ -15,6 +15,8 @@ public class FieldPoses {
     public static Pose redBall1End = new Pose(TS*3-BOT_LENGTH/2, redBall1Start.getY(), -Math.PI);
     public static Pose redBall2Start = new Pose(TS*0.75, -TS*1.6, -Math.PI);
     public static Pose redBall2End = new Pose(TS*3-BOT_LENGTH/2, redBall2Start.getY(), -Math.PI);
+    public static Pose redHPPickup = new Pose(TS*3-BOT_LENGTH/2,TS*-2.5, -Math.PI);
+    public static Pose redHPPickupStart = new Pose(redHPPickup.getX()-15, redHPPickup.getY(), redHPPickup.getHeading());
     public static Pose redHoop = new Pose(-TS*2.75,TS*2.75);
     public static Pose redPark = new Pose(BOT_LENGTH*0.75, redBall2Start.getY(), -Math.PI);
 
@@ -24,6 +26,9 @@ public class FieldPoses {
     public static Pose blueBall1End = new Pose(-TS*3+BOT_LENGTH/2, redBall1Start.getY(), 0);
     public static Pose blueBall2Start = new Pose(-TS*0.75, -TS*1.6, 0);
     public static Pose blueBall2End = new Pose(-TS*3+BOT_LENGTH/2, redBall2Start.getY(), 0);
+
+    public static Pose blueHPPickup = new Pose(-TS*3+BOT_LENGTH/2,TS*-2.5, -Math.PI);
+    public static Pose blueHPPickupStart = new Pose(blueHPPickup.getX()-15, blueHPPickup.getY(), blueHPPickup.getHeading());
     public static Pose blueHoop = new Pose(TS*2.75,TS*2.75);
     public static Pose bluePark = new Pose(-BOT_LENGTH*0.75, redBall2Start.getY(), 0);
 
