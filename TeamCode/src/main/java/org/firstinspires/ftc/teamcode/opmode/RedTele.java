@@ -17,6 +17,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.geometry.BezierPoint;
+import com.pedropathing.geometry.Pose;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -95,13 +96,12 @@ public class RedTele extends OpMode {
         if (gamepad1.xWasPressed())
             r.t.resetTurret();
 
-        if (gamepad1.dpad_up) {
-            Robot.endPose = null;
-        }
-
         telemetryM.addData("Turret", r.t.getTurret());
-        if (Robot.endPose != null) telemetryM.addData("endPose", Robot.endPose.toString());
-        else telemetryM.addLine("endPose is null");
+
+        if (Robot.endPose == null)
+            Robot.endPose = new Pose(0,0,0);
+
+        telemetryM.addData("endPose", Robot.endPose.toString());
         telemetryM.addData("Alliance", r.a);
         telemetryM.update(telemetry);
     }
@@ -118,6 +118,7 @@ public class RedTele extends OpMode {
 
         r.periodic();
         r.t.reset();
+        r.t.on();
         r.f.startTeleopDrive();
 
         lKicker.setPosition(lKickerTarget);

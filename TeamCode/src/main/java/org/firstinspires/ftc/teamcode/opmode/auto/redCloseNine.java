@@ -6,11 +6,13 @@ import static org.firstinspires.ftc.teamcode.config.ApolloConstants.autoTurret;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.autoTurret2;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.autoTurret3;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.intakeMovementSpeed;
+import static org.firstinspires.ftc.teamcode.config.FarFieldPoses.*;
 import static org.firstinspires.ftc.teamcode.util.Alliance.RED;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
+import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
@@ -76,57 +78,59 @@ public class redCloseNine extends OpMode {
 
 
         drive = Constants.createFollower(hardwareMap);
-        drive.setPose(FieldPoses.redCloseStart);
+        drive.setPose(redCloseStart);
 
         toLaunch0 = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.redCloseStart, FieldPoses.redCloseShooting))
-                .setConstantHeadingInterpolation(FieldPoses.redCloseStart.getHeading())
+                .addPath(new BezierLine(redCloseStart, redCloseShooting))
+                .setLinearHeadingInterpolation(redCloseStart.getHeading(), redBall2End.getHeading())
                 .build();
-        toBall1Start = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.redCloseShooting, FieldPoses.redBall0Start))
-                .setLinearHeadingInterpolation(FieldPoses.redCloseShooting.getHeading(), FieldPoses.redBall0Start.getHeading())
-                .build();
+//        toBall1Start = drive.pathBuilder()
+//                .addPath(new BezierLine(redCloseShooting, redBall0Start))
+//                .setLinearHeadingInterpolation(redCloseShooting.getHeading(), redBall0Start.getHeading())
+//                .build();
         toBall1End = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.redBall0Start, FieldPoses.redBall0End))
+                .addPath(new BezierLine(redCloseShooting, redBall0End))
                 .setVelocityConstraint(intakeMovementSpeed)
-                .setConstantHeadingInterpolation(FieldPoses.redFarStart.getHeading())
+                .setConstantHeadingInterpolation(redBall2Start.getHeading())
                 .build();
         toLaunch1 = drive.pathBuilder()
-                .addPath(new BezierCurve(FieldPoses.redBall0End, FieldPoses.redBall0Start, FieldPoses.redCloseShooting))
-                .setLinearHeadingInterpolation(FieldPoses.redBall0End.getHeading(), FieldPoses.redCloseShooting.getHeading())
+                .addPath(new BezierCurve(redBall0End, redCloseShooting))
+                .setLinearHeadingInterpolation(redBall0End.getHeading(), redCloseShooting.getHeading())
                 .build();
         toBall2Start = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.redCloseShooting, FieldPoses.redBall1Start))
-                .setLinearHeadingInterpolation(FieldPoses.redCloseShooting.getHeading(), FieldPoses.redBall1Start.getHeading())
+                .addPath(new BezierLine(redCloseShooting, redBall1Start))
+                .setLinearHeadingInterpolation(redCloseShooting.getHeading(), redBall1Start.getHeading())
                 .build();
         toBall2End = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.redBall1Start, FieldPoses.redBall1End))
+                .addPath(new BezierLine(redBall1Start, redBall1End))
                 .setVelocityConstraint(intakeMovementSpeed)
-                .setConstantHeadingInterpolation(FieldPoses.redFarStart.getHeading())
+                .setConstantHeadingInterpolation(redBall2Start.getHeading())
                 .build();
         toLaunch2 = drive.pathBuilder()
-                .addPath(new BezierCurve(FieldPoses.redBall1End, FieldPoses.redBall1Start, FieldPoses.redCloseShooting))
-                .setLinearHeadingInterpolation(FieldPoses.redBall1End.getHeading(), FieldPoses.redCloseShooting.getHeading())
+                .addPath(new BezierCurve(redBall1End, redBall1Start, redCloseShooting))
+                .setLinearHeadingInterpolation(redBall1End.getHeading(), redCloseShooting.getHeading())
                 .build();
         toBall3Start = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.redCloseShooting, FieldPoses.redBall2Start))
-                .setLinearHeadingInterpolation(FieldPoses.redCloseShooting.getHeading(), FieldPoses.redBall2Start.getHeading())
+                .addPath(new BezierLine(redCloseShooting, redBall2Start))
+                .setLinearHeadingInterpolation(redCloseShooting.getHeading(), redBall2Start.getHeading())
                 .build();
         toBall3End = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.redBall2Start, FieldPoses.redBall2End))
+                .addPath(new BezierLine(redBall2Start, redBall2End))
                 .setVelocityConstraint(intakeMovementSpeed)
-                .setConstantHeadingInterpolation(FieldPoses.redBall2Start.getHeading())
+                .setConstantHeadingInterpolation(redBall2Start.getHeading())
                 .build();
         toLaunch3 = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.redBall2End, FieldPoses.redCloseShooting))
-                .setLinearHeadingInterpolation(FieldPoses.redBall2End.getHeading(), FieldPoses.redCloseShooting.getHeading())
+                .addPath(new BezierLine(redBall2End, redCloseShooting))
+                .setLinearHeadingInterpolation(redBall2End.getHeading(), redCloseShooting.getHeading())
                 .build();
         toPark = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.redCloseShooting, FieldPoses.redPark))
-                .setLinearHeadingInterpolation(FieldPoses.redFarStart.getHeading(), FieldPoses.redPark.getHeading())
+                .addPath(new BezierLine(redCloseShooting, redPark))
+                .setLinearHeadingInterpolation(redBall2Start.getHeading(), redPark.getHeading())
                 .build();
 //        turret.off();
     }
+
+
     @Override
     public void init_loop() {
         if (gamepad1.x)
@@ -147,18 +151,24 @@ public class redCloseNine extends OpMode {
 
     @Override
     public void start() {
-        shooter.up();
+        shooter.down();
         intake.setPower(1);
-        shooter.far();
-//        turret.face(FieldPoses.redHoop,drive.getPose());
+        shooter.close();
+
+        turret.face(redHoop,redBall2End);
 //        turret.setYaw(Math.toRadians(autoTurret));
 //        Shoot();
 //        while(shooter.isActivated()) { update(); }
+
+        drive.followPath(toLaunch0); // Put drive to human player path in here
+        while(drive.isBusy()) { update(); }
+
+        turret.face(redHoop,drive.getPose());
         kTimer.reset();
         cursedShoot();
 
-        drive.followPath(toBall1Start); // Put drive to human player path in here
-        while(drive.isBusy()) { update(); }
+//        drive.followPath(toBall1Start); // Put drive to human player path in here
+//        while(drive.isBusy()) { update(); }
 //        intake.setPower(1);
         drive.followPath(toBall1End);
 //        turret.off();
