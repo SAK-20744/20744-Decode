@@ -55,7 +55,10 @@ public class redFarNine extends OpMode {
 
     private Pattern p = Pattern.NONE;
 
-    PathChain toBall1Start, toBall1End, toLaunch1, toBall2Start, toBall2End, toBall3Start, toBall3End, toLaunch2, toLaunch3, toPark;
+    PathChain toBall1Start, toBall1End, toLaunch1,
+            toBall2Start, toBall2End, toBall3Start,
+            toBall3End, toLaunch2, toLaunch3,
+            toPark;
 
     @Override
     public void init() {
@@ -112,7 +115,7 @@ public class redFarNine extends OpMode {
                 .setConstantHeadingInterpolation(FieldPoses.redHPPickup.getHeading())
                 .build();
         toLaunch3 = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.redHPPickup, FieldPoses.redShooting))
+                .addPath(new BezierLine(FieldPoses.redHPPickup, FieldPoses.redPark))
                 .setConstantHeadingInterpolation(FieldPoses.redHPPickup.getHeading())
                 .build();
         toPark = drive.pathBuilder()
@@ -227,17 +230,22 @@ public class redFarNine extends OpMode {
 
     public void cursedShoot(){
 
-        if(p == Pattern.GPP21){
-            shoot21GPP();
-            return;
-        }
-        if(p == Pattern.PGP22){
-            shoot22PGP();
-            return;
-        }
-        if(p == Pattern.PPG23){
-            shoot23PPG();
-            return;
+//        if(p == Pattern.GPP21){
+//            shoot21GPP();
+//            return;
+//        }
+//        if(p == Pattern.PGP22){
+//            shoot22PGP();
+//            return;
+//        }
+//        if(p == Pattern.PPG23){
+//            shoot23PPG();
+//            return;
+//        }
+        switch (p) {
+            case GPP21: shoot21GPP(); break;
+            case PGP22: shoot22PGP(); break;
+            case PPG23: shoot23PPG(); break;
         }
         return;
     }

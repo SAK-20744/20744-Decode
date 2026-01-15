@@ -16,6 +16,8 @@ public class ApolloConstants {
 
     public static double intakeMovementSpeed = 0.35;
 
+    public static double shooterVelError = 30;
+
     public static double
         INTAKE_IN = 1,
         INTAKE_OUT = -1,
@@ -51,7 +53,7 @@ public class ApolloConstants {
         KICKER_DOWNTIME = 0.3;
 
     public static double
-        KUP = 900,
+        KUP = 350,
         KDOWN = 150;
     public static int
         TURRET_BLUE_FAR = -285,

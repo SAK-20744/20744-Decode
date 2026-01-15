@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.bylazar.configurables.annotations.Configurable;
-import com.pedropathing.control.PIDFCoefficients;
-import com.pedropathing.control.PIDFController;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -23,7 +21,7 @@ public class Shooter extends SubsystemBase {
     public static double kS = 0.135, kV = 0.000525, kP = 0.02;
     private boolean activated = true;
     public static double close = 1450;
-    public static double far = 1800;
+    public static double far = 1950;
     public static double flipUp = ApolloConstants.HOOD_FAR;
     public static double flipDown = ApolloConstants.HOOD_CLOSE;
 
@@ -96,7 +94,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean atTarget() {
-        return Math.abs((getTarget()- getVelocity())) < 50;
+        return Math.abs((getTarget()- getVelocity())) < ApolloConstants.shooterVelError;
     }
 
     public void forDistance(double distance) {
