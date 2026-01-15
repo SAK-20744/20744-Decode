@@ -45,7 +45,7 @@ public class Robot {
     }
 
     public void periodic() {
-        setShootTarget();
+//        setShootTarget();
 
         if (loop.getElapsedTime() % 5 == 0) {
             hub.clearBulkCache();
