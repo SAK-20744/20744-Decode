@@ -5,6 +5,9 @@ import static org.firstinspires.ftc.teamcode.config.ApolloConstants.KUP;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.autoTurret;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.autoTurret2;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.autoTurret3;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.blueautoTurret;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.blueautoTurret2;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.blueautoTurret3;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.intakeMovementSpeed;
 import static org.firstinspires.ftc.teamcode.util.Alliance.BLUE;
 
@@ -151,7 +154,7 @@ public class farBlue extends OpMode {
         intake.setPower(1);
         shooter.far();
 //        turret.face(FieldPoses.blueHoop,drive.getPose());
-        turret.setYaw(Math.toRadians(autoTurret));
+        turret.setYaw(Math.toRadians(blueautoTurret));
 //        Shoot();
 //        while(shooter.isActivated()) { update(); }
         kTimer.reset();
@@ -176,7 +179,7 @@ public class farBlue extends OpMode {
 
         drive.followPath(toLaunch1);
         while(drive.isBusy()) { update(); }
-        turret.setYaw(Math.toRadians(autoTurret2));
+        turret.setYaw(Math.toRadians(blueautoTurret2));
         cursedShootSensor();
         drive.followPath(toBall2Start); // Put drive to human player path in here
         while(drive.isBusy()) { update(); }
@@ -186,7 +189,7 @@ public class farBlue extends OpMode {
 //        intake.setPower(0.4);
         drive.followPath(toLaunch2);
         while(drive.isBusy()) { update(); }
-        turret.setYaw(Math.toRadians(autoTurret3));
+        turret.setYaw(Math.toRadians(blueautoTurret3));
         cursedShootSensor();
 
         drive.followPath(toBall3Start); // Put drive to human player path in here
@@ -197,7 +200,7 @@ public class farBlue extends OpMode {
 //        intake.setPower(0.4);
         drive.followPath(toLaunch3);
         while(drive.isBusy()) { update(); }
-        turret.setYaw(Math.toRadians(autoTurret3));
+        turret.setYaw(Math.toRadians(blueautoTurret3));
         cursedShootSensor();
 
         drive.followPath(toPark);

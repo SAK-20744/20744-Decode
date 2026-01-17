@@ -22,6 +22,7 @@ public class FieldPoses {
     public static Pose redHPPickupStart = new Pose(TS*0.75, TS*-2.5, -Math.PI);
     public static Pose redHPPickup = new Pose(TS*3-BOT_LENGTH/2,TS*-2.5, -Math.PI);
     public static Pose redHoop = new Pose(TS*2.75,TS*2.75);
+    public static Pose redTele = new Pose(TS*2.75,-TS*2.75);
     public static Pose redPark = new Pose(BOT_LENGTH*0.75, redBall2Start.getY(), -Math.PI);
 
     public static Pose blueFarStart = new Pose(-BOT_LENGTH/2, TS*-3+BOT_WIDTH/2, 0);
@@ -33,9 +34,10 @@ public class FieldPoses {
 
     public static Pose blueHPPickup = new Pose(-TS*3+BOT_LENGTH/2,TS*-2.5, -Math.PI);
     public static Pose blueHPPickupStart = new Pose(blueHPPickup.getX()-15, blueHPPickup.getY(), blueHPPickup.getHeading());
-    public static Pose blueHoop = new Pose(-TS*2.75,TS*2.75);
+    public static Pose blueHoop = new Pose(TS*2.75,TS*2.75);
+    public static Pose blueTele = new Pose(TS*2.75, -TS*2.75);
     public static Pose bluePark = new Pose(-BOT_LENGTH*0.75, redBall2Start.getY(), 0);
-
+//
     public static Pose teleRedHoop = new Pose(60, 60, 0);
     public static Pose teleBlueHoop = new Pose(-60, 60, 0);
 

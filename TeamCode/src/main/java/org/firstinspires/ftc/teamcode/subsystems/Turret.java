@@ -114,7 +114,7 @@ public class Turret {
     }
 
     public void face(Pose targetPose, Pose robotPose) {
-        double angleToTargetFromCenter = Math.atan2(Math.abs(targetPose.getY() + robotPose.getY()), Math.abs(targetPose.getX() - robotPose.getX()));
+        double angleToTargetFromCenter = Math.atan2((targetPose.getY() + robotPose.getY()), (targetPose.getX() - robotPose.getX()));
         double robotAngleDiff = normalizeAngle(angleToTargetFromCenter + robotPose.getHeading());
         setYaw(robotAngleDiff);
     }

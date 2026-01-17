@@ -173,7 +173,7 @@ public class blueVW extends LinearOpMode {
 
             intake.setPower(intakePower);
 
-            turret.face(FieldPoses.blueHoop, drive.getPose());
+            turret.face(FieldPoses.blueTele, drive.getPose());
 
             if(gamepad1.dpad_down){
                 shooter.up();
