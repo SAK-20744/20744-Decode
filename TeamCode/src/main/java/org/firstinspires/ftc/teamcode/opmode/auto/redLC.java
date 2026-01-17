@@ -1,16 +1,12 @@
 package org.firstinspires.ftc.teamcode.opmode.auto;
 
-import static org.firstinspires.ftc.teamcode.config.ApolloConstants.KDOWN;
-import static org.firstinspires.ftc.teamcode.config.ApolloConstants.KUP;
-import static org.firstinspires.ftc.teamcode.config.ApolloConstants.autoTurret;
-import static org.firstinspires.ftc.teamcode.config.ApolloConstants.autoTurret2;
-import static org.firstinspires.ftc.teamcode.config.ApolloConstants.autoTurret3;
-import static org.firstinspires.ftc.teamcode.config.ApolloConstants.intakeMovementSpeed;
-import static org.firstinspires.ftc.teamcode.util.Alliance.BLUE;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.*;
+import static org.firstinspires.ftc.teamcode.util.Alliance.RED;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
+import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
@@ -21,10 +17,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.config.ApolloConstants;
 import org.firstinspires.ftc.teamcode.config.FieldPoses;
+//import org.firstinspires.ftc.teamcode.subsystems.Kickers;
 import org.firstinspires.ftc.teamcode.config.Robot;
-import org.firstinspires.ftc.teamcode.subsystems.BallSensors;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
+import org.firstinspires.ftc.teamcode.subsystems.BallSensors;
 import org.firstinspires.ftc.teamcode.subsystems.cursedKicker;
 import org.firstinspires.ftc.teamcode.subsystems.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.util.Alliance;
@@ -33,7 +30,7 @@ import org.firstinspires.ftc.teamcode.util.Pattern;
 import java.util.List;
 
 @Autonomous
-public class blueFarNine extends OpMode {
+public class redLC extends OpMode {
     Shooter shooter;
     Turret turret;
     //    Kickers kickers;
@@ -43,7 +40,7 @@ public class blueFarNine extends OpMode {
     Limelight3A l;
 
     BallSensors ballSensors;
-    private Alliance a = BLUE;
+    private Alliance a = RED;
     private static final int shoot = 0, zone = 1;
     private int pipeline = shoot;
 
@@ -54,10 +51,7 @@ public class blueFarNine extends OpMode {
 
     private Pattern p = Pattern.NONE;
 
-    PathChain toBall1Start, toBall1End, toLaunch1,
-            toBall2Start, toBall2End, toBall3Start,
-            toBall3End, toLaunch2, toLaunch3,
-            toPark;
+    PathChain toBall1Start, toBall1End, toLaunch1, toBall2Start, toBall2End, toLaunch2, toPark;
 
     @Override
     public void init() {
@@ -76,50 +70,37 @@ public class blueFarNine extends OpMode {
 
 
         drive = Constants.createFollower(hardwareMap);
-        drive.setPose(FieldPoses.blueFarStart);
+        drive.setPose(FieldPoses.redFarStart);
 
         toBall1Start = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.blueFarStart, FieldPoses.blueBall1Start))
-                .setConstantHeadingInterpolation(FieldPoses.blueFarStart.getHeading())
+                .addPath(new BezierLine(FieldPoses.redFarStart, FieldPoses.redBall1Start))
+                .setConstantHeadingInterpolation(FieldPoses.redFarStart.getHeading())
                 .build();
         toBall1End = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.blueBall1Start, FieldPoses.blueBall1End))
+                .addPath(new BezierLine(FieldPoses.redBall1Start, FieldPoses.redBall1End))
                 .setVelocityConstraint(intakeMovementSpeed)
-                .setConstantHeadingInterpolation(FieldPoses.blueFarStart.getHeading())
+                .setConstantHeadingInterpolation(FieldPoses.redFarStart.getHeading())
                 .build();
         toLaunch1 = drive.pathBuilder()
-                .addPath(new BezierCurve(FieldPoses.blueBall1End, FieldPoses.blueBall1Start, FieldPoses.blueShooting))
-                .setConstantHeadingInterpolation(FieldPoses.blueFarStart.getHeading())
+                .addPath(new BezierCurve(FieldPoses.redBall1End, FieldPoses.redBall1Start, FieldPoses.redShooting))
+                .setConstantHeadingInterpolation(FieldPoses.redFarStart.getHeading())
                 .build();
         toBall2Start = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.blueShooting, FieldPoses.blueBall2Start))
-                .setConstantHeadingInterpolation(FieldPoses.blueFarStart.getHeading())
+                .addPath(new BezierLine(FieldPoses.redShooting, FieldPoses.redBall2Start))
+                .setConstantHeadingInterpolation(FieldPoses.redFarStart.getHeading())
                 .build();
         toBall2End = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.blueBall2Start, FieldPoses.blueBall2End))
+                .addPath(new BezierLine(FieldPoses.redBall2Start, FieldPoses.redBall2End))
                 .setVelocityConstraint(intakeMovementSpeed)
-                .setConstantHeadingInterpolation(FieldPoses.blueFarStart.getHeading())
+                .setConstantHeadingInterpolation(FieldPoses.redFarStart.getHeading())
                 .build();
         toLaunch2 = drive.pathBuilder()
-                .addPath(new BezierCurve(FieldPoses.blueBall2End, FieldPoses.blueBall2Start, FieldPoses.blueShooting))
-                .setConstantHeadingInterpolation(FieldPoses.blueFarStart.getHeading())
-                .build();
-        toBall3Start = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.blueShooting, FieldPoses.blueHPPickupStart))
-                .setConstantHeadingInterpolation(FieldPoses.blueHPPickupStart.getHeading())
-                .build();
-        toBall3End = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.blueHPPickupStart, FieldPoses.blueHPPickup))
-                .setVelocityConstraint(intakeMovementSpeed)
-                .setConstantHeadingInterpolation(FieldPoses.blueHPPickup.getHeading())
-                .build();
-        toLaunch3 = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.blueHPPickup, FieldPoses.bluePark))
-                .setConstantHeadingInterpolation(FieldPoses.blueHPPickup.getHeading())
+                .addPath(new BezierCurve(FieldPoses.redBall2End, FieldPoses.redBall2Start, FieldPoses.redShooting))
+                .setConstantHeadingInterpolation(FieldPoses.redFarStart.getHeading())
                 .build();
         toPark = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.blueShooting, FieldPoses.bluePark))
-                .setLinearHeadingInterpolation(FieldPoses.blueFarStart.getHeading(), FieldPoses.bluePark.getHeading())
+                .addPath(new BezierLine(FieldPoses.redShooting, FieldPoses.redPark))
+                .setLinearHeadingInterpolation(FieldPoses.redFarStart.getHeading(), FieldPoses.redPark.getHeading())
                 .build();
 //        turret.off();
     }
@@ -149,7 +130,7 @@ public class blueFarNine extends OpMode {
         shooter.up();
         intake.setPower(1);
         shooter.far();
-//        turret.face(FieldPoses.blueHoop,drive.getPose());
+//        turret.face(FieldPoses.redHoop,drive.getPose());
         turret.setYaw(Math.toRadians(autoTurret));
 //        Shoot();
 //        while(shooter.isActivated()) { update(); }
@@ -187,18 +168,6 @@ public class blueFarNine extends OpMode {
         while(drive.isBusy()) { update(); }
         turret.setYaw(Math.toRadians(autoTurret3));
         cursedShootSensor();
-
-        drive.followPath(toBall3Start); // Put drive to human player path in here
-        while(drive.isBusy()) { update(); }
-//        intake.setPower(1);
-        drive.followPath(toBall3End);
-        while(drive.isBusy()) { update(); }
-//        intake.setPower(0.4);
-        drive.followPath(toLaunch3);
-        while(drive.isBusy()) { update(); }
-        turret.setYaw(Math.toRadians(autoTurret3));
-        cursedShootSensor();
-
         drive.followPath(toPark);
         turret.setYaw(Math.toRadians(0));
         while(drive.isBusy()) { update(); }
@@ -206,7 +175,20 @@ public class blueFarNine extends OpMode {
         shooter.off();
         drive.updatePose();
         Robot.endPose = drive.getPose();
+        while(shooter.isActivated()) { update(); }
 
+//        drive.followPath(toLaunch); // Drive back to redFarStart to be back in far launch zone
+//        while (drive.isBusy()) {
+//            update();
+//        }
+//        Shoot();
+    }
+
+    @Override
+    public void stop() {
+        drive.updatePose();
+        Pose pos = drive.getPose();
+        Robot.endPose = new Pose(pos.getY(), pos.getX(), pos.getHeading()-Math.PI/2);
     }
     @Override
     public void loop() {

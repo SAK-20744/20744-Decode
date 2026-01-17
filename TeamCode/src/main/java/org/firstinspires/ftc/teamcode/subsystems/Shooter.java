@@ -18,12 +18,15 @@ public class Shooter extends SubsystemBase {
     private DcMotorEx l, r;
 
     private double t = 0;
-    public static double kS = 0.135, kV = 0.000525, kP = 0.02;
+    public static double kS = 0.3, kV = 0.0003, kP = 0.0004;
     private boolean activated = true;
     public static double close = 1450;
     public static double far = 1950;
     public static double flipUp = ApolloConstants.HOOD_FAR;
     public static double flipDown = ApolloConstants.HOOD_CLOSE;
+    public static double hoodCorrection = 1;
+    private boolean hoodCorrect = true;
+    private boolean up = false;
 
     public Shooter(HardwareMap hardwareMap) {
         l = hardwareMap.get(DcMotorEx.class, "lShooter");
@@ -58,6 +61,10 @@ public class Shooter extends SubsystemBase {
         return activated;
     }
 
+    public void hoodCorrect() {
+
+    }
+
     public void far() {
         setTarget(far);
         on();
@@ -76,13 +83,25 @@ public class Shooter extends SubsystemBase {
     public void periodic() {
         if (activated)
             setPower((kV * getTarget()) + (kP * (getTarget() - getVelocity())) + kS);
+
+        double hoodCorrectFactor = (getTarget()-getVelocity()) * clamp((flipUp-flipDown)/(far-close), -0.5, 0.5);
+        double hoodPos = flipUp;
+        if (up)
+            hoodPos = flipUp;
+        else
+            hoodPos = flipDown;
+        if (hoodCorrect)
+            hoodPos -= hoodCorrectFactor * hoodCorrection;
+        f.setPosition(clamp(hoodPos, 0.2, 0.9));
     }
 
     public void up() {
+        up = true;
         f.setPosition(flipUp);
     }
 
     public void down() {
+        up = false;
         f.setPosition(flipDown);
     }
 
@@ -99,12 +118,18 @@ public class Shooter extends SubsystemBase {
 
     public void forDistance(double distance) {
         //setTarget((6.13992 * distance) + 858.51272);
-        setTarget((0.00180088*Math.pow(distance, 2))+(4.14265*distance)+948.97358);
+
+//        setTarget((0.00180088*Math.pow(distance, 2))+(4.14265*distance)+948.97358);
     }
 
     public boolean atUp() {
         return f.getPosition() == flipUp;
     }
 
+    public double clamp(double val, double min, double max) {
+        if (val < min) return min;
+        if (val > max) return max;
+        return val;
+    }
 }
 

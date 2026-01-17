@@ -16,6 +16,7 @@ import com.seattlesolvers.solverslib.command.SubsystemBase;
 
 @Config
 public class Turret {
+    public static double pid_switch = 200, zero_switch = 100;
     public static double error = 0, power = 0, manualPower = 0;
 
     private static double TICKS_PER_REV = 8192, GEAR_RATIO = 145/24; // Motor TPR=145.1 // REV Encoder TPR=8192
@@ -24,7 +25,7 @@ public class Turret {
     public final DcMotorEx m;
     private PIDFController p, s; // pidf controller for turret
     public static double t = 0; // target for turret
-    public static double kp = 0.05, kf = 0.0, kd = 0.000, sp = .003, sf = 0, sd = 0.00006;
+    public static double kp = 0.0007, kf = 0.0, kd = 0.000, sp = 0.00005, sf = 0, sd = 0.00000;
 
     public static boolean on = true, manual = false;
 
@@ -65,12 +66,14 @@ public class Turret {
             p.setCoefficients(new PIDFCoefficients(kp, 0, kd, kf));
             s.setCoefficients(new PIDFCoefficients(sp, 0, sd, sf));
             error = getTurretTarget() - getTurret();
-            if (error > 100) {
+            if (Math.abs(error) > pid_switch) {
                 p.updateError(error);
                 power = p.run();
-            } else {
+            } else if (Math.abs(error) > zero_switch) {
                 s.updateError(error);
                 power = s.run();
+            } else {
+                power = 0;
             }
 
             m.setPower(power);
@@ -111,7 +114,7 @@ public class Turret {
     }
 
     public void face(Pose targetPose, Pose robotPose) {
-        double angleToTargetFromCenter = Math.atan2(Math.abs(targetPose.getY() - robotPose.getY()), Math.abs(targetPose.getX() + robotPose.getX()));
+        double angleToTargetFromCenter = Math.atan2(Math.abs(targetPose.getY() + robotPose.getY()), Math.abs(targetPose.getX() - robotPose.getX()));
         double robotAngleDiff = normalizeAngle(angleToTargetFromCenter + robotPose.getHeading());
         setYaw(robotAngleDiff);
     }
