@@ -10,13 +10,13 @@ public class ApolloConstants {
     public static double autoTurret2 = 115;
     public static double autoTurret3 = 115;
 
-    public static double blueautoTurret = -115;
-    public static double blueautoTurret2 = -115;
-    public static double blueautoTurret3 = -115;
+    public static double blueautoTurret = -116;
+    public static double blueautoTurret2 = -116;
+    public static double blueautoTurret3 = -116;
 
     public static double intakeMovementSpeed = 0.35;
 
-    public static double shooterVelError = 30;
+    public static double shooterVelError = 40;
 
     public static double
         INTAKE_IN = 1,

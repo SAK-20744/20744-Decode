@@ -123,7 +123,7 @@ public class farBlue extends OpMode {
                 .build();
         toPark = drive.pathBuilder()
                 .addPath(new BezierLine(FieldPoses.blueShooting, FieldPoses.bluePark))
-                .setLinearHeadingInterpolation(FieldPoses.blueFarStart.getHeading(), FieldPoses.bluePark.getHeading())
+                .setLinearHeadingInterpolation(FieldPoses.blueShooting.getHeading(), FieldPoses.bluePark.getHeading())
                 .build();
 //        turret.off();
     }
