@@ -38,8 +38,8 @@ public class FieldPoses {
     public static Pose blueTele = new Pose(TS*2.75, -TS*2.75);
     public static Pose bluePark = new Pose(-TS*3+BOT_LENGTH/2, TS*-3+BOT_WIDTH, 0);
 //
-    public static Pose teleRedHoop = new Pose(60, 60, 0);
-    public static Pose teleBlueHoop = new Pose(-60, 60, 0);
+    public static Pose teleRedHoop = new Pose(60, -60, 0);
+    public static Pose teleBlueHoop = new Pose(60, 60, 0);
 
 
 }

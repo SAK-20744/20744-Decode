@@ -36,6 +36,8 @@ import org.firstinspires.ftc.teamcode.subsystems.Turret;
 import org.firstinspires.ftc.teamcode.subsystems.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.util.Drawing;
 
+import java.lang.reflect.Field;
+
 @TeleOp ()
 public class redVW extends LinearOpMode {
     Turret turret;
@@ -203,6 +205,8 @@ public class redVW extends LinearOpMode {
 
             telemetry.addData("Shooter Current", shooter.getVelocity());
             telemetry.addData("Shooter  Target", shooter.getTarget());
+
+            telemetry.addData("Hoop Distance", drive.getPose().distanceFrom(FieldPoses.redHoop));
 
             double loop = System.nanoTime();
             telemetry.addData("hz ", 1000000000 / (loop - looptime));

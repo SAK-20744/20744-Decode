@@ -16,7 +16,7 @@ import com.seattlesolvers.solverslib.command.SubsystemBase;
 
 @Config
 public class Turret {
-    public static double pid_switch = 200, zero_switch = 100;
+    public static double pid_switch = 200, zero_switch = 50;
     public static double error = 0, power = 0, manualPower = 0;
 
     private static double TICKS_PER_REV = 8192, GEAR_RATIO = 145/24; // Motor TPR=145.1 // REV Encoder TPR=8192
@@ -25,7 +25,7 @@ public class Turret {
     public final DcMotorEx m;
     private PIDFController p, s; // pidf controller for turret
     public static double t = 0; // target for turret
-    public static double kp = 0.0007, kf = 0.0, kd = 0.000, sp = 0.00005, sf = 0, sd = 0.00000;
+    public static double kp = 0.001, kf = 0.0, kd = 0.00002, sp = 0.002, sf = 0, sd = 0.00000;
 
     public static boolean on = true, manual = false;
 
