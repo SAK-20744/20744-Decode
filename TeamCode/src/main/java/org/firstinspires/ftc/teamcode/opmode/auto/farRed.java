@@ -110,13 +110,13 @@ public class farRed extends OpMode {
                 .setConstantHeadingInterpolation(FieldPoses.redHPPickupStart.getHeading())
                 .build();
         toBall3End = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.redHPPickupStart, FieldPoses.redHPPickup))
+                .addPath(new BezierLine(FieldPoses.redHPPickupStart, FieldPoses.redHPPickupEnd))
                 .setVelocityConstraint(intakeMovementSpeed)
-                .setConstantHeadingInterpolation(FieldPoses.redHPPickup.getHeading())
+                .setConstantHeadingInterpolation(FieldPoses.redHPPickupEnd.getHeading())
                 .build();
         toLaunch3 = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.redHPPickup, FieldPoses.redPark))
-                .setConstantHeadingInterpolation(FieldPoses.redHPPickup.getHeading())
+                .addPath(new BezierLine(FieldPoses.redHPPickupEnd, FieldPoses.redPark))
+                .setConstantHeadingInterpolation(FieldPoses.redHPPickupEnd.getHeading())
                 .build();
         toPark = drive.pathBuilder()
                 .addPath(new BezierLine(FieldPoses.redShooting, FieldPoses.redPark))
@@ -213,8 +213,9 @@ public class farRed extends OpMode {
     @Override
     public void stop() {
         drive.updatePose();
-        Pose pos = drive.getPose();
-        Robot.endPose = new Pose(pos.getY(), pos.getX(), pos.getHeading()-Math.PI/2);
+        Robot.endPose = drive.getPose();
+//        Pose pos = drive.getPose();
+//        Robot.endPose = new Pose(pos.getY(), pos.getX(), pos.getHeading()-Math.PI/2);
     }
     @Override
     public void loop() {

@@ -187,8 +187,9 @@ public class redLC extends OpMode {
     @Override
     public void stop() {
         drive.updatePose();
-        Pose pos = drive.getPose();
-        Robot.endPose = new Pose(pos.getY(), pos.getX(), pos.getHeading()-Math.PI/2);
+        Robot.endPose = drive.getPose();
+//        Pose pos = drive.getPose();
+//        Robot.endPose = new Pose(pos.getY(), pos.getX(), pos.getHeading()-Math.PI/2);
     }
     @Override
     public void loop() {

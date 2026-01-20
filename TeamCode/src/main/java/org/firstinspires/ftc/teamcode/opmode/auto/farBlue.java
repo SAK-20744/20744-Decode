@@ -2,9 +2,6 @@ package org.firstinspires.ftc.teamcode.opmode.auto;
 
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.KDOWN;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.KUP;
-import static org.firstinspires.ftc.teamcode.config.ApolloConstants.autoTurret;
-import static org.firstinspires.ftc.teamcode.config.ApolloConstants.autoTurret2;
-import static org.firstinspires.ftc.teamcode.config.ApolloConstants.autoTurret3;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.blueautoTurret;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.blueautoTurret2;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.blueautoTurret3;
@@ -113,13 +110,13 @@ public class farBlue extends OpMode {
                 .setConstantHeadingInterpolation(FieldPoses.blueHPPickupStart.getHeading())
                 .build();
         toBall3End = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.blueHPPickupStart, FieldPoses.blueHPPickup))
+                .addPath(new BezierLine(FieldPoses.blueHPPickupStart, FieldPoses.blueHPPickupEnd))
                 .setVelocityConstraint(intakeMovementSpeed)
-                .setConstantHeadingInterpolation(FieldPoses.blueHPPickup.getHeading())
+                .setConstantHeadingInterpolation(FieldPoses.blueHPPickupEnd.getHeading())
                 .build();
         toLaunch3 = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.blueHPPickup, FieldPoses.bluePark))
-                .setConstantHeadingInterpolation(FieldPoses.blueHPPickup.getHeading())
+                .addPath(new BezierLine(FieldPoses.blueHPPickupEnd, FieldPoses.bluePark))
+                .setConstantHeadingInterpolation(FieldPoses.blueHPPickupEnd.getHeading())
                 .build();
         toPark = drive.pathBuilder()
                 .addPath(new BezierLine(FieldPoses.blueShooting, FieldPoses.bluePark))
@@ -216,8 +213,9 @@ public class farBlue extends OpMode {
     @Override
     public void stop() {
         drive.updatePose();
-        Pose pos = drive.getPose();
-        Robot.endPose = new Pose(pos.getY(), pos.getX(), pos.getHeading()-Math.PI/2);
+        Robot.endPose = drive.getPose();
+//        Pose pos = drive.getPose();
+//        Robot.endPose = new Pose(pos.getY(), pos.getX(), pos.getHeading()-Math.PI/2);
     }
     @Override
     public void loop() {
