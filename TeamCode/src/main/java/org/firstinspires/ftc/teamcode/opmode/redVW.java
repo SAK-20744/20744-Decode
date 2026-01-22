@@ -31,6 +31,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.config.ApolloConstants;
 import org.firstinspires.ftc.teamcode.config.ApolloHardwareNames;
 import org.firstinspires.ftc.teamcode.config.FieldPoses;
+import org.firstinspires.ftc.teamcode.config.Robot;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
 import org.firstinspires.ftc.teamcode.subsystems.pedroPathing.Constants;
@@ -107,6 +108,11 @@ public class redVW extends LinearOpMode {
         }
 
         waitForStart();
+
+        if (Robot.endPose != null) {
+            drive.setStartingPose(Robot.endPose);
+        }
+        
         boolean fieldToggle = false;
 
         shooter.close();

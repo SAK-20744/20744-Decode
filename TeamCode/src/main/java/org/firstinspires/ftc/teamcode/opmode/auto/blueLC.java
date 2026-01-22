@@ -122,9 +122,6 @@ public class blueLC extends OpMode {
         telemetry.addData("Detected ID: ", p);
         telemetry.addData("Turret Angle:", turret.getTurret());
         telemetry.update();
-
-
-
     }
 
     @Override

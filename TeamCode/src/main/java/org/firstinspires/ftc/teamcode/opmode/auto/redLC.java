@@ -309,11 +309,6 @@ public class redLC extends OpMode {
         while(kTimer.milliseconds()<KDOWN) {update();}
     }
 
-
-
-
-    public void a() {telemetry.addLine("Getting Up to Speed\n");update();}
-    public void b() {telemetry.addLine("Kicking\n");update();}
     public void update() {
         drive.update();
         shooter.periodic();
