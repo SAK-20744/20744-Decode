@@ -124,7 +124,7 @@ public class redVW extends LinearOpMode {
             }
 
             if(gamepad1.dpad_left)
-                drive.setPose(new Pose(0,0,drive.getHeading()));
+                drive.setPose(new Pose(FieldPoses.redHPPickupEnd.getX(),FieldPoses.redHPPickupEnd.getY(),drive.getHeading()));
 
             if(gamepad1.options)
                 drive.setPose(new Pose(drive.getPose().getX(), drive.getPose().getY() , 0));
@@ -181,7 +181,7 @@ public class redVW extends LinearOpMode {
 
             intake.setPower(intakePower);
 
-            turret.face(FieldPoses.redHoop, drive.getPose());
+            turret.face(FieldPoses.blueHoop, drive.getPose());
 
             if(gamepad1.dpad_down){
                 shooter.up();

@@ -198,15 +198,15 @@ public class farRed extends OpMode {
         drive.followPath(toLaunch3);
         while(drive.isBusy()) { update(); }
         turret.setYaw(Math.toRadians(autoTurret3));
-        cursedShootSensor();
+//        cursedShootSensor();
 
         drive.followPath(toPark);
         turret.setYaw(Math.toRadians(0));
         while(drive.isBusy()) { update(); }
         intake.setPower(0);
         shooter.off();
-        drive.updatePose();
-        Robot.endPose = drive.getPose();
+//        drive.updatePose();
+//        Robot.endPose = drive.getPose();
 
     }
 
@@ -340,11 +340,6 @@ public class farRed extends OpMode {
         while(kTimer.milliseconds()<KDOWN) {update();}
     }
 
-
-
-
-    public void a() {telemetry.addLine("Getting Up to Speed\n");update();}
-    public void b() {telemetry.addLine("Kicking\n");update();}
     public void update() {
         drive.update();
         shooter.periodic();
@@ -365,6 +360,7 @@ public class farRed extends OpMode {
         telemetry.addData("Turret Angle", turret.getYaw());
         telemetry.addData("Bot Pose",drive.getPose());
         telemetry.addData("Path Completion",drive.getPathCompletion());
+        telemetry.addData("\n K Timer", kTimer.milliseconds());
         telemetry.update();
     }
 

@@ -17,9 +17,9 @@ public class FieldPoses {
     public static Pose redBall0Start = new Pose(TS*0.5, -TS*0.75, Math.PI/2);
     public static Pose redBall0End = new Pose(TS*0.5, -TS*0.75, Math.PI/2);
     public static Pose redBall1Start = new Pose(-13, -TS*0.75, Math.PI/2);
-    public static Pose redBall1End = new Pose(redBall1Start.getY(), -TS*3+BOT_LENGTH/2, Math.PI/2);
+    public static Pose redBall1End = new Pose(redBall1Start.getX(), -TS*3+BOT_LENGTH/2, Math.PI/2);
     public static Pose redBall2Start = new Pose(-TS*1.6, -TS*0.75, Math.PI/2);
-    public static Pose redBall2End = new Pose(redBall2Start.getY(), -TS*3+BOT_LENGTH/2, Math.PI/2);
+    public static Pose redBall2End = new Pose(redBall2Start.getX(), -TS*3+BOT_LENGTH/2, Math.PI/2);
     public static Pose redHPPickupStart = new Pose(TS*-2.5, -TS*0.75, Math.PI/2);
     public static Pose redHPPickupEnd = new Pose(TS*-2.5, -TS*3+BOT_LENGTH/2, Math.PI/2);
     public static Pose redHoop = new Pose(TS*2.75,-TS*2.75);
