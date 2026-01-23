@@ -1,14 +1,14 @@
 package org.firstinspires.ftc.teamcode.config;
 
-import static org.firstinspires.ftc.teamcode.config.ApolloConstants.KDOWN;
-import static org.firstinspires.ftc.teamcode.config.ApolloConstants.KUP;
+//import static org.firstinspires.ftc.teamcode.config.ApolloConstants.KDOWN;
+//import static org.firstinspires.ftc.teamcode.config.ApolloConstants.KUP;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.util.Timer;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.ElapsedTime;
+//import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.subsystems.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.*;
@@ -81,33 +81,33 @@ public class Robot {
         return shootTarget;
     }
 
-    public static class auto {
-        Robot r;
-        ElapsedTime kTimer = new ElapsedTime();
-        cursedKicker kickers;
-        public void init(Robot robot) {
-            r = robot;
-        }
-        public void lKick (){
-            kTimer.reset();
-            kickers.lKickerUp(); kTimer.reset();
-            while(kTimer.milliseconds()<KUP) {r.periodic();}
-            kickers.lKickerDown();  kTimer.reset();
-            while(kTimer.milliseconds()<KDOWN) {r.periodic();}
-        }
-        public void mKick (){
-            kTimer.reset();
-            kickers.mKickerUp(); kTimer.reset();
-            while(kTimer.milliseconds()<KUP) {r.periodic();}
-            kickers.mKickerDown(); kTimer.reset();
-            while(kTimer.milliseconds()<KDOWN) {r.periodic();}
-        }
-        public void rKick (){
-            kTimer.reset();
-            kickers.rKickerUp(); kTimer.reset();
-            while(kTimer.milliseconds()<KUP) {r.periodic();}
-            kickers.rKickerDown(); kTimer.reset();
-            while(kTimer.milliseconds()<KDOWN) {r.periodic();}
-        }
-    }
+//    public static class auto {
+//        Robot r;
+//        ElapsedTime kTimer = new ElapsedTime();
+//        cursedKicker kickers;
+//        public void init(Robot robot) {
+//            r = robot;
+//        }
+//        public void lKick (){
+//            kTimer.reset();
+//            kickers.lKickerUp(); kTimer.reset();
+//            while(kTimer.milliseconds()<KUP) {r.periodic();}
+//            kickers.lKickerDown();  kTimer.reset();
+//            while(kTimer.milliseconds()<KDOWN) {r.periodic();}
+//        }
+//        public void mKick (){
+//            kTimer.reset();
+//            kickers.mKickerUp(); kTimer.reset();
+//            while(kTimer.milliseconds()<KUP) {r.periodic();}
+//            kickers.mKickerDown(); kTimer.reset();
+//            while(kTimer.milliseconds()<KDOWN) {r.periodic();}
+//        }
+//        public void rKick (){
+//            kTimer.reset();
+//            kickers.rKickerUp(); kTimer.reset();
+//            while(kTimer.milliseconds()<KUP) {r.periodic();}
+//            kickers.rKickerDown(); kTimer.reset();
+//            while(kTimer.milliseconds()<KDOWN) {r.periodic();}
+//        }
+//    }
 }

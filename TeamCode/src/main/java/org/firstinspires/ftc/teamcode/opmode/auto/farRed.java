@@ -140,9 +140,6 @@ public class farRed extends OpMode {
         telemetry.addData("Detected ID: ", p);
         telemetry.addData("Turret Angle:", turret.getTurret());
         telemetry.update();
-
-
-
     }
 
     @Override
@@ -154,7 +151,7 @@ public class farRed extends OpMode {
         turret.setYaw(Math.toRadians(autoTurret));
 //        Shoot();
 //        while(shooter.isActivated()) { update(); }
-        kTimer.reset();
+//        kTimer.reset();
         cursedShoot();
 
 //        shooter.far();
@@ -207,7 +204,6 @@ public class farRed extends OpMode {
         shooter.off();
 //        drive.updatePose();
 //        Robot.endPose = drive.getPose();
-
     }
 
     @Override
@@ -315,7 +311,6 @@ public class farRed extends OpMode {
         while(!shooter.atTarget()) { update(); }
     }
 
-
     public void lKick (){
         kTimer.reset();
         kickers.lKickerUp(); kTimer.reset();
@@ -364,8 +359,6 @@ public class farRed extends OpMode {
         telemetry.update();
     }
 
-
-
     public void switchToShoot() {
         if (pipeline != shoot)
             l.pipelineSwitch(shoot);
@@ -391,8 +384,4 @@ public class farRed extends OpMode {
 
         return 0;
     }
-
-
-
-    private void sleep(int ms) {ElapsedTime timer = new ElapsedTime(); while (timer.milliseconds() < ms);}
 }
