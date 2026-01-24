@@ -351,7 +351,7 @@ public class farBlue extends OpMode {
         turret.periodic();
         kickers.periodic();
 //        ballSensors.periodic();
-
+        Robot.endPose = drive.getPose();
         telem();
     }
     public void telem() {

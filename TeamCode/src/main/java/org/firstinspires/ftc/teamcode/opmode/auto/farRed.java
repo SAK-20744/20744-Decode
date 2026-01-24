@@ -345,6 +345,8 @@ public class farRed extends OpMode {
         shooter.periodic();
         turret.periodic();
         kickers.periodic();
+
+        Robot.endPose = drive.getPose();
 //        ballSensors.periodic();
 
         telem();
