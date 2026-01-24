@@ -278,16 +278,18 @@ public class farBlue extends OpMode {
         while(!shooter.atTarget()) { update(); }
         mKick();
         while(!shooter.atTarget()) { update(); }
+        mKick();
+        while(!shooter.atTarget()) { update(); }
         lKick();
         while(!shooter.atTarget()) { update(); }
         rKick();
-        while(!shooter.atTarget()) { update(); }
-        mKick();
         while(!shooter.atTarget()) { update(); }
     }
 
     public void shoot22PGP() {
         shooter.far();
+        while(!shooter.atTarget()) { update(); }
+        lKick();
         while(!shooter.atTarget()) { update(); }
         lKick();
         while(!shooter.atTarget()) { update(); }
@@ -302,17 +304,18 @@ public class farBlue extends OpMode {
         while(!shooter.atTarget()) { update(); }
         lKick();
         while(!shooter.atTarget()) { update(); }
+        lKick();
+        while(!shooter.atTarget()) { update(); }
         rKick();
         while(!shooter.atTarget()) { update(); }
         mKick();
-        while(!shooter.atTarget()) { update(); }
-        lKick();
         while(!shooter.atTarget()) { update(); }
     }
 
 
     public void lKick (){
         kTimer.reset();
+        kickers.lKickerDown();
         kickers.lKickerUp(); kTimer.reset();
         while(kTimer.milliseconds()<KUP) {update();}
         kickers.lKickerDown();  kTimer.reset();
@@ -321,6 +324,7 @@ public class farBlue extends OpMode {
 
     public void mKick (){
         kTimer.reset();
+        kickers.lKickerDown();
         kickers.mKickerUp(); kTimer.reset();
         while(kTimer.milliseconds()<KUP) {update();}
         kickers.mKickerDown(); kTimer.reset();
@@ -329,6 +333,7 @@ public class farBlue extends OpMode {
 
     public void rKick (){
         kTimer.reset();
+        kickers.lKickerDown();
         kickers.rKickerUp(); kTimer.reset();
         while(kTimer.milliseconds()<KUP) {update();}
         kickers.rKickerDown(); kTimer.reset();
