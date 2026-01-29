@@ -124,7 +124,7 @@ public class redVW extends LinearOpMode {
             }
 
             if(gamepad1.dpad_left)
-                drive.setPose(new Pose(FieldPoses.redHPPickupEnd.getX(),FieldPoses.redHPPickupEnd.getY(),drive.getHeading()));
+                drive.setPose(new Pose(FieldPoses.blueHPPickupEnd.getX(),FieldPoses.blueHPPickupEnd.getY(),drive.getHeading()));
 
             if(gamepad1.options)
                 drive.setPose(new Pose(drive.getPose().getX(), drive.getPose().getY() , 0));
