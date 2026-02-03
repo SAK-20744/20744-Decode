@@ -15,19 +15,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.config.ApolloHardwareNames;
 
-import java.util.ArrayList;
-
+import java.util.Queue;
+import java.util.ArrayDeque;
 public class KickersV2 {
-
-    public enum Kicker {
-        L,M,R
-    }
-
+    public enum Kicker { L,M,R }
     Servo lKicker, mKicker, rKicker;
     double kickerUpTime = KUP, kickerDownTime = KDOWN; //Time kicker waits till going back down and time before next kicker can go up
     ElapsedTime kickerTimer = new ElapsedTime();
-    Kicker currentUp = null, queuedUp = null;
-    ArrayList<Kicker> queue = new ArrayList<Kicker>();
+    Kicker currentUp = null;
+    Queue<Kicker> queue = new ArrayDeque<Kicker>();
     public KickersV2(HardwareMap hardwareMap) {
         lKicker = hardwareMap.servo.get(ApolloHardwareNames.lKicker);
         mKicker = hardwareMap.servo.get(ApolloHardwareNames.mKicker);
@@ -41,15 +37,11 @@ public class KickersV2 {
     public void kick(Kicker kicker) {
         if (queue.size() >= 2) return;
         queue.add(kicker);
-        queuedUp = kicker;
     }
     public void periodic() {
         if (currentUp == null && !queue.isEmpty()) {
             kickerTimer.reset();
-//            currentUp = queuedUp;
-//            queuedUp = null;
-            currentUp = queue.get(0);
-            queue.remove(0);
+            currentUp = queue.poll();
         }
         if (currentUp != null)
             switch (currentUp) {
@@ -59,13 +51,13 @@ public class KickersV2 {
         }
     }
     public Kicker getUp() {return currentUp;}
-    public Kicker getQueued() {return queuedUp;}
-    public double kickerTime() {return kickerTimer.milliseconds();}
-    public boolean kickerUp() {return kickerTime() < kickerUpTime;}
-    public boolean kickerDown() {return kickerTime() < kickerDownTime+kickerUpTime;}
+    public Kicker getQueued() {return queue.peek();}
+    public double kickerTimer() {return kickerTimer.milliseconds();}
+    public boolean kickerGoingUp() {return kickerTimer() < kickerUpTime;}
+    public boolean kickerGoingDown() {return kickerTimer() < kickerDownTime+kickerUpTime;}
     private void updateKicker(Servo servo, double upPos, double downPos) {
-        if (kickerUp())           servo.setPosition(upPos);
-        else if (kickerDown())    servo.setPosition(downPos);
-        else                      currentUp = null;
+        if (kickerGoingUp())           servo.setPosition(upPos);
+        else if (kickerGoingDown())    servo.setPosition(downPos);
+        else                           currentUp = null;
     }
 }
