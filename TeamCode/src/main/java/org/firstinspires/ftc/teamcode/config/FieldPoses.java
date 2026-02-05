@@ -11,7 +11,7 @@ public class FieldPoses {
     private static double R = Math.PI/2;
 
     public static Pose redFarStart = new Pose(TS*-3+BOT_WIDTH/2, -BOT_LENGTH/2, R);
-//    public static Pose redCloseStart = new Pose(TS*2.1, TS*2.1, -Math.PI*3/4);
+    public static Pose redCloseStart = new Pose(TS*2.1, TS*2.1, -Math.PI*3/4);
     public static Pose redShooting = new Pose(TS*-3+BOT_WIDTH*0.65,-BOT_LENGTH/2, Math.PI/2);
 //    public static Pose redCloseShooting = new Pose(TS*0.5,TS*0.5, -Math.PI*3/4);
     public static Pose redBall0Start = new Pose(TS*0.5, -TS*0.75, Math.PI/2);
