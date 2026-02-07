@@ -140,7 +140,7 @@ public class redVW extends LinearOpMode {
 
             if(field){
 //            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-                double botHeading = drive.getPose().getHeading() - Math.PI/2;
+                double botHeading = drive.getPose().getHeading();
 
                 // Rotate the movement direction counter to the bot's rotation
                 double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);

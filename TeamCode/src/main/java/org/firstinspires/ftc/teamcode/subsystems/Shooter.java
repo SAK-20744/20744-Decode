@@ -20,11 +20,11 @@ public class Shooter extends SubsystemBase {
     private double t = 0;
     public static double kS = 0.5, kV = 0.00022, kP = 0.003;
     private boolean activated = true;
-    public static double close = 1450;
-    public static double far = 1950;
+    public static double close = 700;
+    public static double far = 1150;
     public static double flipUp = ApolloConstants.HOOD_FAR;
     public static double flipDown = ApolloConstants.HOOD_CLOSE;
-    public static double hoodCorrection = 1;
+    public static double hoodCorrection = 0;
     private boolean hoodCorrect = true;
     private boolean up = false;
 
@@ -32,7 +32,7 @@ public class Shooter extends SubsystemBase {
         l = hardwareMap.get(DcMotorEx.class, "lShooter");
         r = hardwareMap.get(DcMotorEx.class, "rShooter");
         f = hardwareMap.get(Servo.class, "hood");
-        l.setDirection(DcMotorSimple.Direction.REVERSE);
+        r.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public double getTarget() {
@@ -40,7 +40,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public double getVelocity() {
-        return r.getVelocity();
+        return -l.getVelocity();
     }
 
     public void setPower(double p) {

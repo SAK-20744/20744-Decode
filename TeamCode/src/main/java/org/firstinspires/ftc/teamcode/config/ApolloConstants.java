@@ -67,7 +67,7 @@ public class ApolloConstants {
         flDir = DcMotorSimple.Direction.REVERSE,
         blDir = DcMotorSimple.Direction.REVERSE,
         turretDir = DcMotorSimple.Direction.FORWARD,
-        intakeDir = DcMotorSimple.Direction.REVERSE,
+    intakeDir = DcMotorSimple.Direction.FORWARD,
         lShooterDir = DcMotorSimple.Direction.REVERSE,
         rShooterDir = DcMotorSimple.Direction.FORWARD;
     public static class dt {
