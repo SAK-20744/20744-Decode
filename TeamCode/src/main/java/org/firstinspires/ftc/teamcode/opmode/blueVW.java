@@ -33,6 +33,7 @@ import org.firstinspires.ftc.teamcode.config.ApolloHardwareNames;
 import org.firstinspires.ftc.teamcode.config.FieldPoses;
 import org.firstinspires.ftc.teamcode.config.Robot;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
+import org.firstinspires.ftc.teamcode.subsystems.Tilt;
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
 import org.firstinspires.ftc.teamcode.subsystems.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.util.Alliance;
@@ -42,6 +43,7 @@ import org.firstinspires.ftc.teamcode.util.Drawing;
 public class blueVW extends LinearOpMode {
     Turret turret;
     Follower drive;
+    Tilt tilt;
     Servo lKicker, mKicker, rKicker;
     Shooter shooter;
     DcMotor fl, bl, fr, br, intake;
@@ -68,6 +70,8 @@ public class blueVW extends LinearOpMode {
         turret = new Turret(hardwareMap);
         turret.off();
         shooter = new Shooter(hardwareMap);
+        tilt = new Tilt(hardwareMap);
+        tilt.retract();
 
         intake = hardwareMap.dcMotor.get("intake");
         lKicker = hardwareMap.servo.get(ApolloHardwareNames.lKicker);
@@ -125,6 +129,22 @@ public class blueVW extends LinearOpMode {
             if(gamepad1.dpad_left)
                 drive.setPose(new Pose(FieldPoses.redHPPickupEnd.getX(), FieldPoses.redHPPickupEnd.getY(),drive.getHeading()));
 
+            if(gamepad1.dpad_down){
+                shooter.up();
+                shooter.far();
+            }
+            if (gamepad1.dpad_up) {
+                shooter.down();
+                shooter.close();
+            }
+
+            if (gamepad1.x) lKickerTarget = LKICKER_UP; else lKickerTarget = LKICKER_DOWN;
+            if (gamepad1.y) mKickerTarget = MKICKER_UP; else mKickerTarget = MKICKER_DOWN;
+            if (gamepad1.b) rKickerTarget = RKICKER_UP; else rKickerTarget = RKICKER_DOWN;
+
+            if (gamepad2.y) {tilt.extend();}
+            if (gamepad2.a) {tilt.retract();}
+
             if(gamepad1.options)
                 drive.setPose(new Pose(drive.getPose().getX(), drive.getPose().getY() , 0));
 
@@ -180,20 +200,7 @@ public class blueVW extends LinearOpMode {
 
             intake.setPower(intakePower);
 
-            turret.face(FieldPoses.redHoop, drive.getPose());
-
-            if(gamepad1.dpad_down){
-                shooter.up();
-                shooter.far();
-            }
-            if (gamepad1.dpad_up) {
-                shooter.down();
-                shooter.close();
-            }
-
-            if (gamepad1.x) lKickerTarget = LKICKER_UP; else lKickerTarget = LKICKER_DOWN;
-            if (gamepad1.y) mKickerTarget = MKICKER_UP; else mKickerTarget = MKICKER_DOWN;
-            if (gamepad1.b) rKickerTarget = RKICKER_UP; else rKickerTarget = RKICKER_DOWN;
+            turret.face(FieldPoses.blueHoop, drive.getPose());
 
             lKicker.setPosition(lKickerTarget);
             mKicker.setPosition(mKickerTarget);

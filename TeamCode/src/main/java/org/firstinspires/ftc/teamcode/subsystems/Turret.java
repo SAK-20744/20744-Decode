@@ -75,7 +75,6 @@ public class Turret {
             } else {
                 power = 0;
             }
-
             m.setPower(power);
         } else {
             m.setPower(0);

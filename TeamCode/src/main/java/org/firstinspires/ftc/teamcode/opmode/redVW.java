@@ -33,6 +33,7 @@ import org.firstinspires.ftc.teamcode.config.ApolloHardwareNames;
 import org.firstinspires.ftc.teamcode.config.FieldPoses;
 import org.firstinspires.ftc.teamcode.config.Robot;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
+import org.firstinspires.ftc.teamcode.subsystems.Tilt;
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
 import org.firstinspires.ftc.teamcode.subsystems.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.util.Drawing;
@@ -45,6 +46,7 @@ public class redVW extends LinearOpMode {
     Follower drive;
     Servo lKicker, mKicker, rKicker;
     Shooter shooter;
+    Tilt tilt;
     DcMotor fl, bl, fr, br, intake;
 
     private double lKickerTarget = LKICKER_DOWN;
@@ -69,6 +71,8 @@ public class redVW extends LinearOpMode {
         turret = new Turret(hardwareMap);
         turret.off();
         shooter = new Shooter(hardwareMap);
+        tilt = new Tilt(hardwareMap);
+        tilt.retract();
 
         intake = hardwareMap.dcMotor.get("intake");
         lKicker = hardwareMap.servo.get(ApolloHardwareNames.lKicker);
@@ -125,6 +129,23 @@ public class redVW extends LinearOpMode {
 
             if(gamepad1.dpad_left)
                 drive.setPose(new Pose(FieldPoses.blueHPPickupEnd.getX(),FieldPoses.blueHPPickupEnd.getY(),drive.getHeading()));
+            if(gamepad1.dpad_down){
+                shooter.up();
+                shooter.far();
+            }
+            if (gamepad1.dpad_up) {
+                shooter.down();
+                shooter.close();
+            }
+            if (gamepad1.right_bumper) intakePower = INTAKE_IN;
+            else if (gamepad1.left_bumper) intakePower = INTAKE_OUT;
+            else intakePower = INTAKE_OFF;
+            if (gamepad1.x) lKickerTarget = LKICKER_UP; else lKickerTarget = LKICKER_DOWN;
+            if (gamepad1.y) mKickerTarget = MKICKER_UP; else mKickerTarget = MKICKER_DOWN;
+            if (gamepad1.b) rKickerTarget = RKICKER_UP; else rKickerTarget = RKICKER_DOWN;
+
+            if (gamepad2.y) {tilt.extend();}
+            if (gamepad2.a) {tilt.retract();}
 
             if(gamepad1.options)
                 drive.setPose(new Pose(drive.getPose().getX(), drive.getPose().getY() , 0));
@@ -140,7 +161,7 @@ public class redVW extends LinearOpMode {
 
             if(field){
 //            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-                double botHeading = drive.getPose().getHeading();
+                double botHeading = drive.getPose().getHeading() - Math.PI/2;
 
                 // Rotate the movement direction counter to the bot's rotation
                 double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
@@ -175,26 +196,9 @@ public class redVW extends LinearOpMode {
                 br.setPower(backRightPower);
             }
 
-            if (gamepad1.right_bumper) intakePower = INTAKE_IN;
-            else if (gamepad1.left_bumper) intakePower = INTAKE_OUT;
-            else intakePower = INTAKE_OFF;
-
             intake.setPower(intakePower);
 
-            turret.face(FieldPoses.blueHoop, drive.getPose());
-
-            if(gamepad1.dpad_down){
-                shooter.up();
-                shooter.far();
-            }
-            if (gamepad1.dpad_up) {
-                shooter.down();
-                shooter.close();
-            }
-
-            if (gamepad1.x) lKickerTarget = LKICKER_UP; else lKickerTarget = LKICKER_DOWN;
-            if (gamepad1.y) mKickerTarget = MKICKER_UP; else mKickerTarget = MKICKER_DOWN;
-            if (gamepad1.b) rKickerTarget = RKICKER_UP; else rKickerTarget = RKICKER_DOWN;
+            turret.face(FieldPoses.redHoop, drive.getPose());
 
             lKicker.setPosition(lKickerTarget);
             mKicker.setPosition(mKickerTarget);
