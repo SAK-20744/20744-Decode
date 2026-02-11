@@ -19,7 +19,7 @@ public class Turret {
     public static double pid_switch = 200, zero_switch = 50;
     public static double error = 0, power = 0, manualPower = 0;
 
-    private static double TICKS_PER_REV = 8192, GEAR_RATIO = 145/24; // Motor TPR=145.1 // REV Encoder TPR=8192
+    private static double TICKS_PER_REV = 8192, GEAR_RATIO = 144/24; // Motor TPR=145.1 // REV Encoder TPR=8192
     public static double rpt = /*0.0029919*/ Math.PI / ( (TICKS_PER_REV*GEAR_RATIO)/2 );
 
     public final DcMotorEx m;
@@ -137,11 +137,23 @@ public class Turret {
         return new InstantCommand(() -> setYaw(getYaw() + radians));
     }
 
+//    public static double normalizeAngle(double angleRadians) {
+//        double angle = angleRadians % (Math.PI * 2D);
+//        if (angle <= -Math.PI) angle += Math.PI * 2D;
+//        if (angle > Math.PI) angle -= Math.PI * 2D;
+//        return angle;
+//    }
+
     public static double normalizeAngle(double angleRadians) {
-        double angle = angleRadians % (Math.PI * 2D);
-        if (angle <= -Math.PI) angle += Math.PI * 2D;
-        if (angle > Math.PI) angle -= Math.PI * 2D;
-        return angle;
+        final double TWO_PI = Math.PI * 2D;
+        final double CENTER = Math.PI / 4D; // +45 degrees
+
+        double a = (angleRadians - CENTER) % TWO_PI;
+
+        if (a <= -Math.PI) a += TWO_PI;
+        if (a >  Math.PI) a -= TWO_PI;
+
+        return a + CENTER;
     }
 
 }

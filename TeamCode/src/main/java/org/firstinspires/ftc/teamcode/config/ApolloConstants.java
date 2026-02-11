@@ -51,6 +51,14 @@ public class ApolloConstants {
     public static double shooterkS = 0.135, shooterkV = 0.000525, shooterkP = 0.02;
 
 
+    public static final double CAM_FWD_IN  = 5.0;   // camera offset forward from turret center
+    public static final double CAM_LEFT_IN = 0.5;   // camera offset left from turret center
+
+    public static final double VISION_MAX_JUMP_IN = 3.0; // inches
+    public static final double VISION_ALPHA = 0.2;       // blend factor
+
+
+
     // OWENS CODE. ONLY FOR FULL SHOOTER TEST
     public static double
         KICKER_UPTIME = 0.5,
