@@ -65,8 +65,8 @@ public class ApolloConstants {
         KICKER_DOWNTIME = 0.3;
 
     public static double
-        KUP = 350,
-        KDOWN = 150;
+        KUP = 150,
+        KDOWN = 78;
     public static int
         TURRET_BLUE_FAR = -285,
         TURRET_MIDDLE = 0,

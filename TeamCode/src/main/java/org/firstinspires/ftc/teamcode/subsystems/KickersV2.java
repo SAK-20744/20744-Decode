@@ -20,7 +20,6 @@ import java.util.ArrayDeque;
 public class KickersV2 {
     public enum Kicker { L,M,R }
     Servo lKicker, mKicker, rKicker;
-    double kickerUpTime = KUP, kickerDownTime = KDOWN; //Time kicker waits till going back down and time before next kicker can go up
     ElapsedTime kickerTimer = new ElapsedTime();
     Kicker currentUp = null;
     Queue<Kicker> queue = new ArrayDeque<Kicker>();
@@ -53,8 +52,8 @@ public class KickersV2 {
     public Kicker getUp() {return currentUp;}
     public Kicker getQueued() {return queue.peek();}
     public double kickerTimer() {return kickerTimer.milliseconds();}
-    public boolean kickerGoingUp() {return kickerTimer() < kickerUpTime;}
-    public boolean kickerGoingDown() {return kickerTimer() < kickerDownTime+kickerUpTime;}
+    public boolean kickerGoingUp() {return kickerTimer() < KUP;}
+    public boolean kickerGoingDown() {return kickerTimer() < KDOWN+KUP;}
     private void updateKicker(Servo servo, double upPos, double downPos) {
         if (kickerGoingUp())           servo.setPosition(upPos);
         else if (kickerGoingDown())    servo.setPosition(downPos);
