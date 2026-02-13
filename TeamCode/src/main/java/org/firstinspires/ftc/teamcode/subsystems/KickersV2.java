@@ -35,7 +35,7 @@ public class KickersV2 {
         rKicker.setPosition(RKICKER_DOWN);
     }
     public void kick(Kicker kicker) {
-        if (queue.size() >= 2) return;
+        if (queue.size() >= 3) return;
         queue.add(kicker);
     }
     public void periodic() {
