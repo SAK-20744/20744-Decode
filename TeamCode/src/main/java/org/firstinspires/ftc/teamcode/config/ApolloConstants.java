@@ -45,8 +45,8 @@ public class ApolloConstants {
         tds = 0.000000075,
         TURRET_THRESHOLD = 100,
         OFFSET = 650,
-        TILT_RETRACT = 0.6,
-        TILT_EXTEND = 0.36;
+        TILT_RETRACT = 0.56,
+        TILT_EXTEND = 0.35;
 
     public static double shooterkS = 0.135, shooterkV = 0.000525, shooterkP = 0.02;
 

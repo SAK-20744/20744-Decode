@@ -65,6 +65,10 @@ public class Robot {
         endPose = f.getPose();
     }
 
+    public void saveEnd() {
+        endPose = f.getPose();
+    }
+
 
     public void setShootTarget() {
         if (a == Alliance.BLUE/* && shootTarget.getX() != 6*/)
@@ -81,33 +85,4 @@ public class Robot {
         return shootTarget;
     }
 
-//    public static class auto {
-//        Robot r;
-//        ElapsedTime kTimer = new ElapsedTime();
-//        cursedKicker kickers;
-//        public void init(Robot robot) {
-//            r = robot;
-//        }
-//        public void lKick (){
-//            kTimer.reset();
-//            kickers.lKickerUp(); kTimer.reset();
-//            while(kTimer.milliseconds()<KUP) {r.periodic();}
-//            kickers.lKickerDown();  kTimer.reset();
-//            while(kTimer.milliseconds()<KDOWN) {r.periodic();}
-//        }
-//        public void mKick (){
-//            kTimer.reset();
-//            kickers.mKickerUp(); kTimer.reset();
-//            while(kTimer.milliseconds()<KUP) {r.periodic();}
-//            kickers.mKickerDown(); kTimer.reset();
-//            while(kTimer.milliseconds()<KDOWN) {r.periodic();}
-//        }
-//        public void rKick (){
-//            kTimer.reset();
-//            kickers.rKickerUp(); kTimer.reset();
-//            while(kTimer.milliseconds()<KUP) {r.periodic();}
-//            kickers.rKickerDown(); kTimer.reset();
-//            while(kTimer.milliseconds()<KDOWN) {r.periodic();}
-//        }
-//    }
 }
