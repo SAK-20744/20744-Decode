@@ -25,7 +25,7 @@ public class Robot {
     public final Follower f;
     public Alliance a;
 
-    private final LynxModule hub;
+//    private final LynxModule hub;
     private final Timer loop = new Timer();
 
     public static Pose endPose;
@@ -41,8 +41,8 @@ public class Robot {
         t = new Turret(h);
         f = Constants.createFollower(h);
 
-        hub = h.getAll(LynxModule.class).get(0);
-        hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
+//        hub = h.getAll(LynxModule.class).get(0);
+//        hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
 
         loop.resetTimer();
         setShootTarget();
@@ -52,9 +52,9 @@ public class Robot {
     public void periodic() {
 //        setShootTarget();
 
-        if (loop.getElapsedTime() % 5 == 0) {
-            hub.clearBulkCache();
-        }
+//        if (loop.getElapsedTime() % 5 == 0) {
+//            hub.clearBulkCache();
+//        }
 
         f.update();
         t.periodic();
@@ -73,12 +73,12 @@ public class Robot {
     public void setShootTarget() {
         if (a == Alliance.BLUE/* && shootTarget.getX() != 6*/)
 //            shootTarget = new Pose(6, 144 - 6, 0);
-//            shootTarget = FieldPoses.blueHoop;
-            shootTarget = FieldPoses.teleBlueHoop;
+            shootTarget = FieldPoses.blueHoop;
+//            shootTarget = FieldPoses.teleBlueHoop;
         else if (a == Alliance.RED/* && shootTarget.getX() != (144 - 6)*/)
 //            shootTarget = shootTarget.mirror();
-//            shootTarget = FieldPoses.redHoop;
-            shootTarget = FieldPoses.teleRedHoop;
+            shootTarget = FieldPoses.redHoop;
+//            shootTarget = FieldPoses.teleRedHoop;
     }
 
     public Pose getShootTarget() {

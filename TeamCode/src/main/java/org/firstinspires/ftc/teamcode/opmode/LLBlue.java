@@ -15,8 +15,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.config.*;
+import org.firstinspires.ftc.teamcode.subsystems.KickersV2;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.Tilt;
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
@@ -28,17 +31,20 @@ public class LLBlue extends LinearOpMode {
     Turret turret;
     Follower drive;
     Tilt tilt;
-    Servo lKicker, mKicker, rKicker;
+//    Servo lKicker, mKicker, rKicker;
     Shooter shooter;
     DcMotor fl, bl, fr, br, intake;
+
+    Servo light;
+    ElapsedTime lightTimer = new ElapsedTime();
 
     private static final int shoot = 0, zone = 1;
     private int pipeline = shoot;
     private Limelight3A l;
 
-    private double lKickerTarget = LKICKER_DOWN;
-    private double mKickerTarget = MKICKER_DOWN;
-    private double rKickerTarget = RKICKER_DOWN;
+//    private double lKickerTarget = LKICKER_DOWN;
+//    private double mKickerTarget = MKICKER_DOWN;
+//    private double rKickerTarget = RKICKER_DOWN;
     private double intakePower = INTAKE_OFF;
 
     boolean targetPressed = false;
@@ -63,10 +69,14 @@ public class LLBlue extends LinearOpMode {
 
         intake = hardwareMap.dcMotor.get("intake");
         l = hardwareMap.get(Limelight3A.class, "limelight");
+        light = hardwareMap.get(Servo.class, "light");
 
-        lKicker = hardwareMap.servo.get(ApolloHardwareNames.lKicker);
-        mKicker = hardwareMap.servo.get(ApolloHardwareNames.mKicker);
-        rKicker = hardwareMap.servo.get(ApolloHardwareNames.rKicker);
+
+//        lKicker = hardwareMap.servo.get(ApolloHardwareNames.lKicker);
+//        mKicker = hardwareMap.servo.get(ApolloHardwareNames.mKicker);
+//        rKicker = hardwareMap.servo.get(ApolloHardwareNames.rKicker);
+        KickersV2 kickers = new KickersV2(hardwareMap);
+        kickers.init();
         intake.setDirection(intakeDir);
 
         fl = hardwareMap.dcMotor.get(ApolloConstants.dt.fl);
@@ -100,6 +110,7 @@ public class LLBlue extends LinearOpMode {
         }
         switchToShoot();
         waitForStart();
+        lightTimer.reset();
 
         if (Robot.endPose != null) {
             drive.setStartingPose(Robot.endPose);
@@ -127,9 +138,18 @@ public class LLBlue extends LinearOpMode {
                 shooter.close();
             }
 
-            if (gamepad1.x) lKickerTarget = LKICKER_UP; else lKickerTarget = LKICKER_DOWN;
-            if (gamepad1.y) mKickerTarget = MKICKER_UP; else mKickerTarget = MKICKER_DOWN;
-            if (gamepad1.b) rKickerTarget = RKICKER_UP; else rKickerTarget = RKICKER_DOWN;
+//            if (gamepad1.x) lKickerTarget = LKICKER_UP; else lKickerTarget = LKICKER_DOWN;
+//            if (gamepad1.y) mKickerTarget = MKICKER_UP; else mKickerTarget = MKICKER_DOWN;
+//            if (gamepad1.b) rKickerTarget = RKICKER_UP; else rKickerTarget = RKICKER_DOWN;
+            if (gamepad1.xWasPressed()) kickers.kick(KickersV2.Kicker.L);
+            if (gamepad1.yWasPressed()) kickers.kick(KickersV2.Kicker.M);
+            if (gamepad1.bWasPressed()) kickers.kick(KickersV2.Kicker.R);
+            if (gamepad1.aWasPressed()) {
+                kickers.kick(KickersV2.Kicker.L);
+                kickers.kick(KickersV2.Kicker.M);
+                kickers.kick(KickersV2.Kicker.R);
+            }
+            kickers.periodic();
 
             if (gamepad2.y) {tilt.extend();}
             if (gamepad2.a) {tilt.retract();}
@@ -137,9 +157,9 @@ public class LLBlue extends LinearOpMode {
             if(gamepad1.options)
                 drive.setPose(new Pose(drive.getPose().getX(), drive.getPose().getY() , 0));
 
-            if (gamepad1.a && !fieldToggle)
+            if (gamepad2.x && !fieldToggle)
                 toggleField();
-            fieldToggle = gamepad1.a;
+            fieldToggle = gamepad2.x;
 
             double y = gamepad1.left_stick_y;
             double x = -gamepad1.left_stick_x * 1.1;
@@ -191,9 +211,16 @@ public class LLBlue extends LinearOpMode {
 
             turret.face(FieldPoses.blueHoop, drive.getPose());
 
-            lKicker.setPosition(lKickerTarget);
-            mKicker.setPosition(mKickerTarget);
-            rKicker.setPosition(rKickerTarget);
+//            lKicker.setPosition(lKickerTarget);
+//            mKicker.setPosition(mKickerTarget);
+//            rKicker.setPosition(rKickerTarget);
+
+            double t = lightTimer.seconds();
+            double phase = (t % (2.0 * UP_TIME)) / UP_TIME;
+            double tri = (phase <= 1.0) ? phase : (2.0 - phase);
+            double pos = REDLIGHT + tri * (PURPLELIGHT - REDLIGHT);
+
+            light.setPosition(pos);
 
             turret.periodic();
             shooter.periodic();
@@ -208,6 +235,7 @@ public class LLBlue extends LinearOpMode {
 
             telemetry.addData("Shooter Current", shooter.getVelocity());
             telemetry.addData("Shooter  Target", shooter.getTarget());
+            telemetry.addData("Distance to Goal", drive.getPose().distanceFrom(FieldPoses.blueHoop));
 
             double loop = System.nanoTime();
             telemetry.addData("hz ", 1000000000 / (loop - looptime));

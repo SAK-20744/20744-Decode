@@ -23,6 +23,7 @@ import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.util.PoseHistory;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -40,6 +41,7 @@ import org.firstinspires.ftc.teamcode.util.Drawing;
 
 import java.lang.reflect.Field;
 
+@Disabled
 @TeleOp ()
 public class redVW extends LinearOpMode {
     Turret turret;

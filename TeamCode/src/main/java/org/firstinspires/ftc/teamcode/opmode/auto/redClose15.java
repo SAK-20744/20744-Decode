@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmode.auto;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -7,7 +8,7 @@ import org.firstinspires.ftc.teamcode.config.Robot;
 import org.firstinspires.ftc.teamcode.config.paths.Fast15;
 import org.firstinspires.ftc.teamcode.util.Alliance;
 
-@TeleOp
+@Autonomous
 public class redClose15 extends OpMode {
     Robot r;
     Fast15 p;
@@ -15,6 +16,7 @@ public class redClose15 extends OpMode {
     public void init() {
         r = new Robot(hardwareMap, Alliance.RED);
         p = new Fast15(r);
+        r.f.setStartingPose(p.start);
     }
 
     @Override
@@ -29,6 +31,7 @@ public class redClose15 extends OpMode {
 
     @Override
     public void loop() {
+        if (p.hasNext()) stop();
         if (r.f.isBusy()) {
 
         } else {

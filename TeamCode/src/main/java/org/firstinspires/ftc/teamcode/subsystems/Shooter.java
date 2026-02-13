@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.HOOD_MAX;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.HOOD_MIN;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -92,7 +95,7 @@ public class Shooter extends SubsystemBase {
             hoodPos = flipDown;
         if (hoodCorrect)
             hoodPos -= hoodCorrectFactor * hoodCorrection;
-        f.setPosition(clamp(hoodPos, 0.2, 0.9));
+        f.setPosition(clamp(hoodPos, HOOD_MIN, HOOD_MAX));
     }
 
     public void up() {

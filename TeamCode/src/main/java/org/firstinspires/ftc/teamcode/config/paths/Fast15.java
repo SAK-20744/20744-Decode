@@ -87,17 +87,9 @@ public class Fast15 {
                 .build();
     }
 
-    public PathChain score2() {
+    public PathChain scoreG() {
         return f.pathBuilder()
                 .addPath(new BezierLine(gate, score))
-                .setNoDeceleration()
-                .setLinearHeadingInterpolation(gate.getHeading(), score.getHeading())
-                .build();
-    }
-
-    public PathChain score3() {
-        return f.pathBuilder()
-                .addPath(new BezierCurve(gate, score))
                 .setNoDeceleration()
                 .setLinearHeadingInterpolation(gate.getHeading(), score.getHeading())
                 .build();
@@ -138,9 +130,9 @@ public class Fast15 {
             case 1: return intake1();
             case 2: return score1();
             case 3: return gateIntake();
-            case 4: return score2();
+            case 4: return scoreG();
             case 5: return gateIntake();
-            case 6: return score3();
+            case 6: return scoreG();
             case 7: return intake2();
             case 8: return score4();
             case 9: return park();
