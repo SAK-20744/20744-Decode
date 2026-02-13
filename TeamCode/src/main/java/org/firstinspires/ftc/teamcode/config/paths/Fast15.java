@@ -7,27 +7,21 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 
 import org.firstinspires.ftc.teamcode.config.FieldPoses;
+import static org.firstinspires.ftc.teamcode.config.FieldPoses.mirror;
 import org.firstinspires.ftc.teamcode.config.Robot;
-import org.firstinspires.ftc.teamcode  .util.Alliance;
+import org.firstinspires.ftc.teamcode.util.Alliance;
 
 public class Fast15 {
     private final Follower f;
 
     public Pose start = FieldPoses.redCloseStart;
-    public Pose scorePControl = new Pose(55.593, 94.779);
-    public Pose score = new Pose(48, 96.0, Math.toRadians(135)); // score
-    public Pose intake1 = new Pose(17,83.5, Math.toRadians(180)); // intake\
-    public Pose intake1Control = new Pose(50.000, 87.5);
-    public Pose intake2 = new Pose(10, 60.050, Math.toRadians(-170)); // intake
-    public Pose intake2Control = new Pose(65.400, 65);
-    public Pose gate = new Pose(16.25, 72.500, Math.toRadians(180)); //new Pose(144-132.781509, 61, Math.toRadians(28+90)); // gate
-    public Pose gateControl = new Pose(30, 73); //62);
-    public Pose intake3 = new Pose(10, 39.750-3.5, Math.toRadians(180));
-    public Pose intake3Control = new Pose(75, intake3.getY()-5);
-    public Pose intakeCorner = new Pose(6.5,10 , Math.toRadians(270));
-    public Pose intakeCornerControl = intakeCorner.withY(50);
-    public Pose scoreToCorner = score.withHeading(Math.toRadians(-135));
-    public Pose scoreCorner = score; //new Pose(56, 20, Math.toRadians(180));
+    public Pose score = FieldPoses.redCloseScore; // score
+    public Pose intake1 = FieldPoses.redBall1End; // intake\
+    public Pose intake1Control = FieldPoses.redBall1Ctrl;
+    public Pose intake2 = FieldPoses.redBall0End; // intake
+    public Pose intake2Control = FieldPoses.redBall0Ctrl;
+    public Pose gate = FieldPoses.redGatePickup; //new Pose(144-132.781509, 61, Math.toRadians(28+90)); // gate
+    public Pose gateControl = FieldPoses.redBall0Ctrl; //62);
     public Pose park = FieldPoses.redPark; //new Pose(36, 12, Math.toRadians(180));
 
     private int index;
@@ -35,23 +29,16 @@ public class Fast15 {
     public Fast15(Robot r) {
         this.f = r.f;
 
-        if (r.a.equals(Alliance.RED)) {
-            start = start.mirror();
-            scorePControl = scorePControl.mirror();
-            score = score.mirror();
-            intake1 = intake1.mirror();
-            intake1Control = intake1Control.mirror();
-            gate = gate.mirror();
-            gateControl = gateControl.mirror();
-            intake2 = intake2.mirror();
-            intake2Control = intake2Control.mirror();
-            intake3 = intake3.mirror();
-            intake3Control = intake3Control.mirror();
-            intakeCorner = intakeCorner.mirror();
-            intakeCornerControl = intakeCornerControl.mirror();
-            scoreToCorner = scoreToCorner.mirror();
-            scoreCorner = scoreCorner.mirror();
-            park = park.mirror();
+        if (r.a.equals(Alliance.BLUE)) {
+            start = mirror(start);
+            score = mirror(score);
+            intake1 = mirror(intake1);
+            intake1Control = mirror(intake1Control);
+            intake2 = mirror(intake2);
+            intake2Control = mirror(intake2Control);
+            gate = mirror(gate);
+            gateControl = mirror(gateControl);
+            park = mirror(park);
         }
 
         index = 0;
@@ -60,9 +47,8 @@ public class Fast15 {
     public PathChain scoreP() {
         return f.pathBuilder()
                 .addPath(
-                        new BezierCurve(
+                        new BezierLine(
                                 start,
-                                scorePControl,
                                 score
                         )
                 )
@@ -93,17 +79,11 @@ public class Fast15 {
                 .build();
     }
 
-    public PathChain intake2() {
+    public PathChain gateIntake() { // go to gate from intake1
         return f.pathBuilder()
-                .addPath(
-                        new BezierCurve(
-                                score,
-                                intake2Control,
-                                intake2
-                        )
-                )
+                .addPath(new BezierCurve(score, gateControl, gate))
                 .setBrakingStrength(2)
-                .setLinearHeadingInterpolation(score.getHeading(), intake2.getHeading(), 0.5)
+                .setLinearHeadingInterpolation(score.getHeading(), gate.getHeading(), 0.3)
                 .build();
     }
 
@@ -115,57 +95,40 @@ public class Fast15 {
                 .build();
     }
 
-    public PathChain gate() { // go to gate from intake1
-        return f.pathBuilder()
-                .addPath(new BezierCurve(intake2, gateControl, gate))
-                .setNoDeceleration()
-                .setLinearHeadingInterpolation(intake2.getHeading(), gate.getHeading())
-                .build();
-    }
-
-//    public PathChain scoreGate() {
-//        return f.pathBuilder()
-//                .addPath(new BezierCurve(gate, gateControl, score))
-//                .setLinearHeadingInterpolation(gate.getHeading(), score.getHeading())
-//                .build();
-//    }
-
-    public PathChain intake3() {
-        return f.pathBuilder()
-                .addPath(new BezierCurve(score, intake3Control, intake3))
-                .setBrakingStrength(2)
-                .setLinearHeadingInterpolation(score.getHeading(), intake3.getHeading(), 0.7)
-                .build();
-    }
-
     public PathChain score3() {
         return f.pathBuilder()
-                .addPath(new BezierCurve(intake3, scoreCorner))
+                .addPath(new BezierCurve(gate, score))
                 .setNoDeceleration()
-                .setLinearHeadingInterpolation(intake3.getHeading(), scoreCorner.getHeading())
+                .setLinearHeadingInterpolation(gate.getHeading(), score.getHeading())
                 .build();
     }
 
-    public PathChain intakeCorner() {
+    public PathChain intake2() {
         return f.pathBuilder()
-                .addPath(new BezierCurve(scoreCorner, intakeCornerControl, intakeCorner))
+                .addPath(
+                        new BezierCurve(
+                                score,
+                                intake2Control,
+                                intake2
+                        )
+                )
                 .setBrakingStrength(2)
-                .setLinearHeadingInterpolation(scoreCorner.getHeading(), intakeCorner.getHeading(), 0.3)
+                .setLinearHeadingInterpolation(score.getHeading(), intake2.getHeading(), 0.3)
                 .build();
     }
 
-    public PathChain scoreCorner() {
+    public PathChain score4() {
         return f.pathBuilder()
-                .addPath(new BezierLine(intakeCorner, scoreCorner))
+                .addPath(new BezierCurve(intake2, score))
                 .setNoDeceleration()
-                .setLinearHeadingInterpolation(intakeCorner.getHeading(), scoreCorner.getHeading())
+                .setLinearHeadingInterpolation(intake2.getHeading(), score.getHeading())
                 .build();
     }
 
     public PathChain park() {
         return f.pathBuilder()
-                .addPath(new BezierLine(scoreCorner, park))
-                .setLinearHeadingInterpolation(scoreCorner.getHeading(), park.getHeading())
+                .addPath(new BezierLine(score, park))
+                .setLinearHeadingInterpolation(score.getHeading(), park.getHeading())
                 .build();
     }
 
@@ -174,21 +137,19 @@ public class Fast15 {
             case 0: return scoreP();
             case 1: return intake1();
             case 2: return score1();
-            case 3: return intake2();
-            case 4: return gate();
-            case 5: return score2();
-            //case 6: return scoreGate();
-            case 6: return intake3();
-            case 7: return score3();
-            case 8: return intakeCorner();
-            case 9: return scoreCorner();
-            case 10: return park();
+            case 3: return gateIntake();
+            case 4: return score2();
+            case 5: return gateIntake();
+            case 6: return score3();
+            case 7: return intake2();
+            case 8: return score4();
+            case 9: return park();
             default: return null;
         }
     }
 
     public boolean hasNext() {
-        int PATH_COUNT = 9;
+        int PATH_COUNT = 8;
         return index < PATH_COUNT;
     }
 
