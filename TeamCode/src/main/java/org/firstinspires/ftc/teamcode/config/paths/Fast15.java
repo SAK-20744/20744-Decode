@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.config.paths;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
@@ -11,6 +12,7 @@ import static org.firstinspires.ftc.teamcode.config.FieldPoses.mirror;
 import org.firstinspires.ftc.teamcode.config.Robot;
 import org.firstinspires.ftc.teamcode.util.Alliance;
 
+@Config
 public class Fast15 {
     private final Follower f;
 
@@ -21,13 +23,14 @@ public class Fast15 {
     public Pose intake2 = FieldPoses.redBall0End; // intake
     public Pose intake2Control = FieldPoses.redBall0Ctrl;
     public Pose gate = FieldPoses.redGatePickup; //new Pose(144-132.781509, 61, Math.toRadians(28+90)); // gate
-    public Pose gateControl = FieldPoses.redBall0Ctrl; //62);
-    public Pose park = FieldPoses.redPark; //new Pose(36, 12, Math.toRadians(180));
+    public Pose gateControl = FieldPoses.redBall1Ctrl; //62);
+    public Pose park = FieldPoses.redClosePark; //new Pose(36, 12, Math.toRadians(180));
     public Pose goal = FieldPoses.redHoop;
 
     private int index;
 
-    private double intakeBreakStrength = 3;
+    public static double intakeBreakStrength = 3;
+    public static double gateIntakeTime = 3;
 
     public Fast15(Robot r) {
         this.f = r.f;
@@ -56,7 +59,7 @@ public class Fast15 {
                                 score
                         )
                 )
-                .setNoDeceleration()
+//                .setNoDeceleration()
                 .setLinearHeadingInterpolation(start.getHeading(), score.getHeading())
                 .build();
     }
@@ -78,7 +81,7 @@ public class Fast15 {
     public PathChain score1() {
         return f.pathBuilder()
                 .addPath(new BezierLine(intake1, score))
-                .setNoDeceleration()
+//                .setNoDeceleration()
                 .setLinearHeadingInterpolation(gate.getHeading(), score.getHeading())
                 .build();
     }
@@ -94,7 +97,7 @@ public class Fast15 {
     public PathChain scoreG() {
         return f.pathBuilder()
                 .addPath(new BezierLine(gate, score))
-                .setNoDeceleration()
+//                .setNoDeceleration()
                 .setLinearHeadingInterpolation(gate.getHeading(), score.getHeading())
                 .build();
     }
@@ -116,7 +119,7 @@ public class Fast15 {
     public PathChain score4() {
         return f.pathBuilder()
                 .addPath(new BezierCurve(intake2, score))
-                .setNoDeceleration()
+//                .setNoDeceleration()
                 .setLinearHeadingInterpolation(intake2.getHeading(), score.getHeading())
                 .build();
     }

@@ -4,23 +4,25 @@ import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.config.ApolloConstants;
+import org.firstinspires.ftc.teamcode.config.ApolloConstants.CS;
 import org.firstinspires.ftc.teamcode.util.BallColor;
 import org.firstinspires.ftc.teamcode.util.Motif;
 import org.firstinspires.ftc.teamcode.util.Pattern;
 
 public class BallSensors {
     Motif motif = Motif.GPP ;
-    RevColorSensorV3 m1,m2, l1,l2,r1,r2;
+    RevColorSensorV3 m1, l1,r1;
     BallColor lColor = BallColor.N, mColor = BallColor.N, rColor = BallColor.N;
     boolean left, mid, right = false;
 
     public BallSensors(HardwareMap h) {
         m1 = h.get(RevColorSensorV3.class, "m1");
         l1 = h.get(RevColorSensorV3.class, "l1");
-        l2 = h.get(RevColorSensorV3.class, "l2");
         r1 = h.get(RevColorSensorV3.class, "r1");
-        r2 = h.get(RevColorSensorV3.class, "r2");
+
+        l1.setGain(75);
+        m1.setGain(515);
+        r1.setGain(500);
     }
 
     public void motif(Motif motif) {this.motif = motif;}
@@ -34,11 +36,11 @@ public class BallSensors {
     }
 
     public void periodic() {
-        if(l1.getDistance(DistanceUnit.MM) < 30 || l2.getDistance(DistanceUnit.MM) < 25)
+        if(l1.getDistance(DistanceUnit.MM) < 30)
             left=true;
         else left = false;
 
-        if(r1.getDistance(DistanceUnit.MM) < 30 || r2.getDistance(DistanceUnit.MM) < 25)
+        if(r1.getDistance(DistanceUnit.MM) < 30)
             right=true;
         else right = false;
 
@@ -61,44 +63,61 @@ public class BallSensors {
         RevColorSensorV3 s1, s2;
         double s1R,s1G,s1B,s2R,s2G,s2B;
         BallColor s1Color = BallColor.N, s2Color = BallColor.N;
+        double p1R, p1G, p1B;
+        double g1R, g1G, g1B;
+        double range;
         if (m == "l") {
-            s1 = l1; s2 = l2;
+            s1 = l1;
+            p1R = CS.P.l1R; p1G = CS.P.l1G; p1B = CS.P.l1B;
+            g1R = CS.G.l1R; g1G = CS.G.l1G; g1B = CS.G.l1B;
+            range = CS.l1Range;
         } else if (m == "m") {
-            s1 = m1; s2 = m1;
+            s1 = m1;
+            p1R = CS.P.m1R; p1G = CS.P.m1G; p1B = CS.P.m1B;
+            g1R = CS.G.m1R; g1G = CS.G.m1G; g1B = CS.G.m1B;
+            range = CS.m1Range;
         } else if (m == "r") {
-            s1 = r1; s2 = r2;
+            s1 = r1;
+            p1R = CS.P.r1R; p1G = CS.P.r1G; p1B = CS.P.r1B;
+            g1R = CS.G.r1R; g1G = CS.G.r1G; g1B = CS.G.r1B;
+            range = CS.r1Range;
         } else {
-            s1 = l1; s2 = l2; // Default Case to Prevent Crashes and as Backup
+            s1 = l1;
+            p1R = CS.P.l1R; p1G = CS.P.l1G; p1B = CS.P.l1B;
+            g1R = CS.G.l1R; g1G = CS.G.l1G; g1B = CS.G.l1B;
+            range = CS.l1Range;
+            // Default Case to Prevent Crashes and as Backup
         }
         s1R = s1.getNormalizedColors().red;
         s1G = s1.getNormalizedColors().green;
         s1B = s1.getNormalizedColors().blue;
 
-        s2R = s2.getNormalizedColors().red;
-        s2G = s2.getNormalizedColors().green;
-        s2B = s2.getNormalizedColors().blue;
+//        s2R = s2.getNormalizedColors().red;
+//        s2G = s2.getNormalizedColors().green;
+//        s2B = s2.getNormalizedColors().blue;
 
-        if (inCRange(s1R,s1G,s1B, ApolloConstants.CS.G.l1R,ApolloConstants.CS.G.l1G,ApolloConstants.CS.G.l1B))
+        if (inCRange(s1R,s1G,s1B, g1R,g1G,g1B, range))
             s1Color = BallColor.G;
-        else if (inCRange(s1R,s1G,s1B,ApolloConstants.CS.P.l1R,ApolloConstants.CS.P.l1G,ApolloConstants.CS.P.l1B))
+        else if (inCRange(s1R,s1G,s1B,p1R,p1G,p1B, range))
             s1Color = BallColor.P;
         else
             s1Color = BallColor.N;
 
-        if (inCRange(s2R,s2G,s2B, ApolloConstants.CS.G.l2R,ApolloConstants.CS.G.l2G,ApolloConstants.CS.G.l2B))
-            s2Color = BallColor.G;
-        else if (inCRange(s2R,s2G,s2B,ApolloConstants.CS.P.l2R,ApolloConstants.CS.P.l2G,ApolloConstants.CS.P.l2B))
-            s2Color = BallColor.P;
-        else
-            s2Color = BallColor.N;
+//        if (inCRange(s2R,s2G,s2B, CS.G.l2R,CS.G.l2G,CS.G.l2B))
+//            s2Color = BallColor.G;
+//        else if (inCRange(s2R,s2G,s2B,CS.P.l2R,CS.P.l2G,CS.P.l2B))
+//            s2Color = BallColor.P;
+//        else
+//            s2Color = BallColor.N;
 
-        if (s2Color != BallColor.N) return s2Color;
-        if (s1Color != BallColor.N) return s1Color;
-        return BallColor.N;
+//        if (s2Color != BallColor.N) return s2Color;
+//        if (s1Color != BallColor.N) return s1Color;
+//        return BallColor.N;
+        return s1Color;
     }
 
-    boolean inCRange(double r,double g,double b, double tr, double tg, double tb) {
-        return (Math.abs(tr-r) < ApolloConstants.CS.error && Math.abs(tg-g) < ApolloConstants.CS.error && Math.abs(tb-b) < ApolloConstants.CS.error);
+    boolean inCRange(double r,double g,double b, double tr, double tg, double tb, double range) {
+        return (Math.abs(tr-r) < range && Math.abs(tg-g) < range && Math.abs(tb-b) < range);
     }
 //    public String[] shootSequence() { // THIS IS THE SHITTIEST THING EVER ITS JUST A PROTOTYPE
 //        ArrayList<String> sequence = new ArrayList<String>();

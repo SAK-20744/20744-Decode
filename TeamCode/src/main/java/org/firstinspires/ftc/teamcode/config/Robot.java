@@ -61,6 +61,7 @@ public class Robot {
         f.update();
         t.periodic();
         s.periodic();
+        k.periodic();
     }
 
     public void stop() {

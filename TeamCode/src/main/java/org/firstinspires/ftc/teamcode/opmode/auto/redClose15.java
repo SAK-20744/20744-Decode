@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.opmode.auto;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.config.FieldPoses;
 import org.firstinspires.ftc.teamcode.config.Robot;
@@ -15,20 +16,27 @@ public class redClose15 extends OpMode {
     Fast15 p;
     int state = 0;
     int shootState = -1;
+    ElapsedTime stateTimer = new ElapsedTime();
     @Override
     public void init() {
         r = new Robot(hardwareMap, Alliance.RED);
         p = new Fast15(r);
         r.f.setStartingPose(p.start);
+        r.k.init();
     }
 
     @Override
     public void init_loop() {
+        if (gamepad1.x)
+            r.t.resetTurret();
 
+        telemetry.addData("Turret Angle:", r.t.getTurret());
+        telemetry.update();
     }
 
     @Override
     public void start() {
+        r.t.on();
         r.s.close();r.s.down();
     }
 
@@ -39,61 +47,82 @@ public class redClose15 extends OpMode {
             case 0: r.f.followPath(p.next()); state++; break;
             case 1: if (!r.f.isBusy()) state++; break;
             case 2: startShoot(); state++; break;
-            case 3: if (shootState != -1) shoot(); else state++; break;
+            case 3: if (shootState == -1) state++; break;
 
-            case 4: r.i.spinIn(); state++;
-            case 5: r.f.followPath(p.next()); state++;
+            // spike intake 1
+            case 4: r.i.spinIn(); state++; break;
+            case 5: r.f.followPath(p.next()); state++; break;
             case 6: if (!r.f.isBusy()) state++; break;
-            case 7: r.f.followPath(p.next()); state++;
+            case 7: r.f.followPath(p.next()); state++; break;
             case 8: if (!r.f.isBusy()) state++; break;
             case 9: r.i.spinOut(); state++; break;
             case 10: startShoot(); state++; break;
-            case 11: if (shootState != -1) shoot(); else state++; break;
+            case 11: if (shootState == -1) state++; break;
 
-            case 12: r.i.spinIn(); state++;
-            case 13: r.f.followPath(p.next()); state++;
+            // gate intake 1
+            case 12: r.i.spinIn(); state++; break;
+            case 13: r.f.followPath(p.next()); state++; break;
             case 14: if (!r.f.isBusy()) state++; break;
-            case 15: r.f.followPath(p.next()); state++;
-            case 16: if (!r.f.isBusy()) state++; break;
-            case 17: r.i.spinOut(); state++; break;
-            case 18: startShoot(); state++; break;
-            case 19: if (shootState != -1) shoot(); else state++; break;
 
-            case 20: r.i.spinIn(); state++;
-            case 21: r.f.followPath(p.next()); state++;
-            case 22: if (!r.f.isBusy()) state++; break;
-            case 23: r.f.followPath(p.next()); state++;
+            case 15: stateTimer.reset(); state++; break;
+            case 16: if (stateTimer.seconds() > p.gateIntakeTime) state++; break;
+
+            case 17: r.f.followPath(p.next()); state++; break;
+            case 18: if (!r.f.isBusy()) state++; break;
+            case 19: r.i.spinOut(); state++; break;
+            case 20: startShoot(); state++; break;
+            case 21: if (shootState == -1) state++; break;
+
+            // gate intake 2
+            case 22: r.i.spinIn(); state++; break;
+            case 23: r.f.followPath(p.next()); state++; break;
             case 24: if (!r.f.isBusy()) state++; break;
-            case 25: r.i.spinOut(); state++; break;
-            case 26: startShoot(); state++; break;
-            case 27: if (shootState != -1) shoot(); else state++; break;
 
-            case 28: r.i.spinIn(); state++;
-            case 29: r.f.followPath(p.next()); state++;
-            case 30: if (!r.f.isBusy()) state++; break;
-            case 31: r.f.followPath(p.next()); state++;
-            case 32: if (!r.f.isBusy()) state++; break;
-            case 33: r.i.spinOut(); state++; break;
-            case 34: startShoot(); state++; break;
-            case 35: if (shootState != -1) shoot(); else state++; break;
+            case 25: stateTimer.reset(); state++; break;
+            case 26: if (stateTimer.seconds() > p.gateIntakeTime) state++; break;
 
-            case 36: r.f.followPath(p.next()); state++;
-            case 37: if (!r.f.isBusy()) state++; break;
-            case 38: stop();
+            case 27: r.f.followPath(p.next()); state++; break;
+            case 28: if (!r.f.isBusy()) state++; break;
+            case 29: r.i.spinOut(); state++; break;
+            case 30: startShoot(); state++; break;
+            case 31: if (shootState == -1) state++; break;
+
+            // spike intake 2
+            case 32: r.i.spinIn(); state++; break;
+            case 33: r.f.followPath(p.next()); state++; break;
+            case 34: if (!r.f.isBusy()) state++; break;
+            case 35: r.f.followPath(p.next()); state++; break;
+            case 36: if (!r.f.isBusy()) state++; break;
+            case 37: r.i.spinOut(); state++; break;
+            case 38: startShoot(); state++; break;
+            case 39: if (shootState == -1) state++; break;
+
+            case 40: r.f.followPath(p.next()); state++; break;
+            case 41: if (!r.f.isBusy()) state++; break;
 
         }
         r.t.face(p.goal, r.f.getPose());
         r.periodic();
+        shoot();
+
+        telemetry.addData("state", state);
+        telemetry.addData("shootState", shootState);
+        telemetry.addLine();
+        telemetry.addData("shooter at target", r.s.atTarget());
+        telemetry.addData("shooter vel", r.s.getVelocity());
+        telemetry.addData("shooter target", r.s.getTarget());
+        telemetry.update();
     }
     public void startShoot() {
         r.s.close();r.s.down();
         shootState = 0;
+        shoot();
     }
     public void shoot() {
         switch (shootState) {
-            case 0: if (r.s.atTarget()) state++; break;
-            case 1: r.k.kickAll(); state++; break;
-            case 2: if (!r.k.kickersActive()) state++;  break;
+            case 0: if (r.s.atTarget()) shootState++; break;
+            case 1: r.k.kickAll(); shootState++; break;
+            case 2: if (!r.k.kickersActive()) shootState++;  break;
             case 3: shootState = -1; break;
         }
     }

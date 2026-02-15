@@ -13,9 +13,9 @@ public class FieldPoses {
     public static Pose redFarStart = new Pose(TS*-3+BOT_WIDTH/2, -BOT_LENGTH/2, -R);
     public static Pose redCloseStart = new Pose(49, -54.5, rads(-140));
     public static Pose redShooting = new Pose(TS*-3+BOT_WIDTH*0.65,-BOT_LENGTH/2, -R);
-    public static Pose redCloseScore = new Pose (2, -12, -R*1.5);
+    public static Pose redCloseScore = new Pose (2, -12, -R);
 
-    public static Pose redBall0Ctrl = new Pose(TS*0.5, TS*-0.375, Math.PI*-0.625);
+    public static Pose redBall0Ctrl = new Pose(TS*0.5, TS*-0.375, Math.PI*4/8);
     public static Pose redBall0Start = new Pose(TS*0.5, -TS*0.75, -R);
     public static Pose redBall0End = new Pose(TS*0.5, -TS*2, -R);
 
@@ -33,6 +33,7 @@ public class FieldPoses {
     public static Pose redHPPickupEnd = new Pose(TS*-2.5, -TS*3+BOT_LENGTH/2, -R);
     public static Pose redHoop = new Pose(TS*3,-TS*3);
     public static Pose redTele = new Pose(TS*2.75,-TS*2.75);
+    public static Pose redClosePark = new Pose(-16, -16, -R);
     public static Pose redPark = new Pose(redBall2Start.getX(), -BOT_LENGTH*0.75, -R);
 
     public static Pose blueFarStart = mirror(redFarStart);

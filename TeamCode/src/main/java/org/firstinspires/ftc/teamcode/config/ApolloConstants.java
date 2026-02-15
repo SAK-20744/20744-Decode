@@ -30,7 +30,7 @@ public class ApolloConstants {
         RKICKER_UP = 0.28,
         HOOD_MIN = 0.07,
         HOOD_MAX = 0.72,
-        HOOD_CLOSE = 0.15,
+        HOOD_CLOSE = 0.22,
         HOOD_FAR = 0.63,
 //        SHOOTER_CLOSE = 0.65,
 //        SHOOTER_FAR = 0.8,
@@ -68,8 +68,8 @@ public class ApolloConstants {
 //        KICKER_DOWNTIME = 0.3;
 
     public static double
-        KUP = 135,
-        KDOWN = 65;
+        KUP = 200,
+        KDOWN = 100;
     public static int
 //        TURRET_BLUE_FAR = -285,
         TURRET_MIDDLE = 0;
@@ -92,14 +92,37 @@ public class ApolloConstants {
                 br = "br";
     }
     public static class CS {
-        public static double error = 0.008;
-        public static class G {
-            public static double l1R = 0.005, l1G = 0.019, l1B = 0.014;
-            public static double l2R = 0.006, l2G = 0.025, l2B = 0.018;
-        }
+        //      Left Sensor:
+        // NoBall:      R=0.185 G=0.311 B=0.285
+        // HolePurple:  R=0.213 G=0.336 B=0.339
+        // Purple:      R=0.222 G=0.347 B=0.356
+        // HoleGreen:   R=0.195 G=0.365 B=0.336
+        // Green:       R=0.197 G=0.379 B=0.347
+        //      Middle Sensor:
+        // NoBall:      R=0.189 G=0.330 B=0.291
+        // HolePurple:  R=0.275 G=0.401 B=0.450
+        // Purple:      R=0.299 G=0.438 B=0.470
+        // HoleGreen:   R=0.204 G=0.479 B=0.380
+        // Green:       R=0.216 G=0.527 B=0.409
+        //      Right Sensor:
+        // NoBall:      R=0.191 G=0.351 B=0.328
+        // HolePurple:  R=0.267 G=0.412 B=0.458
+        // Purple:      R=0.282 G=0.427 B=0.481
+        // HoleGreen:   R=0.214 G=0.465 B=0.412
+        // Green:       R=0.214 G=0.496 B=0.435
+
+        public static double l1Range = 0.024;
+        public static double m1Range = 0.040;
+        public static double r1Range = 0.035;
         public static class P {
-            public static double l1R = 0.011, l1G = 0.013, l1B = 0.020;
-            public static double l2R = 0.015, l2G = 0.018, l2B = 0.028;
+            public static double l1R = 0.218, l1G = 0.342, l1B = 0.348;
+            public static double m1R = 0.287, m1G = 0.420, m1B = 0.460;
+            public static double r1R = 0.275, r1G = 0.420, r1B = 0.470;
+        }
+        public static class G {
+            public static double l1R = 0.196, l1G = 0.372, l1B = 0.342;
+            public static double m1R = 0.210, m1G = 0.503, m1B = 0.395;
+            public static double r1R = 0.214, r1G = 0.481, r1B = 0.424;
         }
     }
 }

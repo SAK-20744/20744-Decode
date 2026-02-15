@@ -6,7 +6,6 @@ import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.config.ApolloConstants;
 import org.firstinspires.ftc.teamcode.subsystems.Kicker;
 import org.firstinspires.ftc.teamcode.subsystems.KickersV2;
@@ -142,7 +141,7 @@ public class kickersV2Test extends LinearOpMode {
         }
     }
     boolean inCRange(double r,double g,double b, double tr, double tg, double tb) {
-        return (Math.abs(tr-r) < ApolloConstants.CS.error && Math.abs(tg-g) < ApolloConstants.CS.error && Math.abs(tb-b) < ApolloConstants.CS.error);
+        return (Math.abs(tr-r) < ApolloConstants.CS.r1Range && Math.abs(tg-g) < ApolloConstants.CS.r1Range && Math.abs(tb-b) < ApolloConstants.CS.r1Range);
     }
     void cycleSensor() {
         switch (selectedSensor) {

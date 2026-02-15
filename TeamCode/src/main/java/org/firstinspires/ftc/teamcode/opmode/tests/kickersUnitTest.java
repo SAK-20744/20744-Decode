@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.config.ApolloConstants;
+import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Kickers;
 import org.firstinspires.ftc.teamcode.util.BallColor;
 
@@ -18,7 +19,7 @@ public class kickersUnitTest extends LinearOpMode {
     boolean cyclePressed = false;
     boolean lPressed=false,mPressed=false,rPressed=false;
 
-    RevColorSensorV3 m1,m2, l1,l2,r1,r2;
+    RevColorSensorV3 m1,l1,r1;
     boolean left, mid, right = false;
 
 //    double colorError= 0.005;
@@ -27,22 +28,33 @@ public class kickersUnitTest extends LinearOpMode {
 
     BallColor sensor1Color = BallColor.N,sensor2Color = BallColor.N;
     String selectedSensor = "L";
-    RevColorSensorV3 sensor1 = l1,sensor2 = l2;
+    RevColorSensorV3 sensor1 = l1;
 
     @Override
     public void runOpMode() {
+        Intake intake = new Intake(hardwareMap);
         Kickers kickers = new Kickers(hardwareMap);
 
         m1 = hardwareMap.get(RevColorSensorV3.class, "m1");
         l1 = hardwareMap.get(RevColorSensorV3.class, "l1");
-        l2 = hardwareMap.get(RevColorSensorV3.class, "l2");
         r1 = hardwareMap.get(RevColorSensorV3.class, "r1");
-        r2 = hardwareMap.get(RevColorSensorV3.class, "r2");
+
+        l1.setGain(75);
+        m1.setGain(515);
+        r1.setGain(500);
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         waitForStart();
         while (opModeIsActive()) {
+
+            if (gamepad1.right_bumper)
+                intake.spinIn();
+            else if (gamepad1.left_bumper) {
+                intake.spinOut();
+            } else {
+                intake.idle();
+            }
 
             if (gamepad1.x && !lPressed)
                 kickers.kick(Kickers.Kicker.L);
@@ -60,43 +72,43 @@ public class kickersUnitTest extends LinearOpMode {
                 cycleSensor();
             cyclePressed = gamepad1.a;
 
-            if(l1.getDistance(DistanceUnit.MM) < 30 || l2.getDistance(DistanceUnit.MM) < 25)
+            if(l1.getDistance(DistanceUnit.MM) < 35)
                 left=true;
             else left = false;
 
-            if(r1.getDistance(DistanceUnit.MM) < 30 || r2.getDistance(DistanceUnit.MM) < 25)
+            if(r1.getDistance(DistanceUnit.MM) < 35)
                 right=true;
             else right = false;
 
-            if(m1.getDistance(DistanceUnit.MM) < 34)
+            if(m1.getDistance(DistanceUnit.MM) < 35)
                 mid=true;
             else mid = false;
 
-            if (selectedSensor == "L") {sensor1 = l1;sensor2 = l2;}
-            if (selectedSensor == "M") {sensor1 = m1;sensor2 = m1;}
-            if (selectedSensor == "R") {sensor1 = r1;sensor2 = r2;}
+            if (selectedSensor == "L") {sensor1 = l1;}
+            if (selectedSensor == "M") {sensor1 = m1;}
+            if (selectedSensor == "R") {sensor1 = r1;}
 
             sensor1R = sensor1.getNormalizedColors().red;
             sensor1G = sensor1.getNormalizedColors().green;
             sensor1B = sensor1.getNormalizedColors().blue;
 
-            sensor2R = sensor2.getNormalizedColors().red;
-            sensor2G = sensor2.getNormalizedColors().green;
-            sensor2B = sensor2.getNormalizedColors().blue;
+//            sensor2R = sensor2.getNormalizedColors().red;
+//            sensor2G = sensor2.getNormalizedColors().green;
+//            sensor2B = sensor2.getNormalizedColors().blue;
 
-            if (inCRange(sensor1R,sensor1G,sensor1B, ApolloConstants.CS.G.l1R,ApolloConstants.CS.G.l1G,ApolloConstants.CS.G.l1B))
+            if (inCRange(sensor1R,sensor1G,sensor1B, ApolloConstants.CS.G.m1R,ApolloConstants.CS.G.m1G,ApolloConstants.CS.G.m1B))
                 sensor1Color = BallColor.G;
-            else if (inCRange(sensor1R,sensor1G,sensor1B,ApolloConstants.CS.P.l1R,ApolloConstants.CS.P.l1G,ApolloConstants.CS.P.l1B))
+            else if (inCRange(sensor1R,sensor1G,sensor1B,ApolloConstants.CS.P.m1R,ApolloConstants.CS.P.m1G,ApolloConstants.CS.P.m1B))
                 sensor1Color = BallColor.P;
             else
                 sensor1Color = BallColor.N;
 
-            if (inCRange(sensor2R,sensor2G,sensor2B, ApolloConstants.CS.G.l2R,ApolloConstants.CS.G.l2G,ApolloConstants.CS.G.l2B))
-                sensor2Color = BallColor.G;
-            else if (inCRange(sensor2R,sensor2G,sensor2B,ApolloConstants.CS.P.l2R,ApolloConstants.CS.P.l2G,ApolloConstants.CS.P.l2B))
-                sensor2Color = BallColor.P;
-            else
-                sensor2Color = BallColor.N;
+//            if (inCRange(sensor2R,sensor2G,sensor2B, ApolloConstants.CS.G.l2R,ApolloConstants.CS.G.l2G,ApolloConstants.CS.G.l2B))
+//                sensor2Color = BallColor.G;
+//            else if (inCRange(sensor2R,sensor2G,sensor2B,ApolloConstants.CS.P.l2R,ApolloConstants.CS.P.l2G,ApolloConstants.CS.P.l2B))
+//                sensor2Color = BallColor.P;
+//            else
+//                sensor2Color = BallColor.N;
 
             kickers.periodic();
 
@@ -107,13 +119,13 @@ public class kickersUnitTest extends LinearOpMode {
 
             telemetry.addData("m1 Dist", m1.getDistance(DistanceUnit.MM));
 
-            telemetry.addData("sensor1 Red", "%.3f", sensor1.getNormalizedColors().red);
-            telemetry.addData("sensor1 Green", "%.3f", sensor1.getNormalizedColors().green);
-            telemetry.addData("sensor1 Blue", "%.3f", sensor1.getNormalizedColors().blue);
+            telemetry.addData("sensor1 Red", "%.3f", sensor1R);
+            telemetry.addData("sensor1 Green", "%.3f", sensor1G);
+            telemetry.addData("sensor1 Blue", "%.3f", sensor1B);
 
-            telemetry.addData("sensor2 Red", "%.3f", sensor2R);
-            telemetry.addData("sensor2 Green", "%.3f", sensor2G);
-            telemetry.addData("sensor2 Blue", "%.3f", sensor2B);
+//            telemetry.addData("sensor2 Red", "%.3f", sensor2R);
+//            telemetry.addData("sensor2 Green", "%.3f", sensor2G);
+//            telemetry.addData("sensor2 Blue", "%.3f", sensor2B);
 
             switch (sensor1Color) {
                 case G: telemetry.addLine("sensor1 is green"); break;
@@ -121,11 +133,11 @@ public class kickersUnitTest extends LinearOpMode {
                 case N: telemetry.addLine("sensor1 no ball"); break;
             }
 
-            switch (sensor2Color) {
-                case G: telemetry.addLine("sensor2 is green"); break;
-                case P: telemetry.addLine("sensor2 is purple"); break;
-                case N: telemetry.addLine("sensor2 no ball"); break;
-            }
+//            switch (sensor2Color) {
+//                case G: telemetry.addLine("sensor2 is green"); break;
+//                case P: telemetry.addLine("sensor2 is purple"); break;
+//                case N: telemetry.addLine("sensor2 no ball"); break;
+//            }
 
 //            telemetry.addData("Kicker Up",kickers.kickerUp());
 //            telemetry.addData("Kicker Down",kickers.kickerDown());
@@ -135,7 +147,7 @@ public class kickersUnitTest extends LinearOpMode {
         }
     }
     boolean inCRange(double r,double g,double b, double tr, double tg, double tb) {
-        return (Math.abs(tr-r) < ApolloConstants.CS.error && Math.abs(tg-g) < ApolloConstants.CS.error && Math.abs(tb-b) < ApolloConstants.CS.error);
+        return (Math.abs(tr-r) < ApolloConstants.CS.m1Range && Math.abs(tg-g) < ApolloConstants.CS.m1Range && Math.abs(tb-b) < ApolloConstants.CS.m1Range);
     }
     void cycleSensor() {
         switch (selectedSensor) {
