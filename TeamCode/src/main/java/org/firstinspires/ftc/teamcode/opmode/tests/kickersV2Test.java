@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.config.ApolloConstants;
+import org.firstinspires.ftc.teamcode.subsystems.Kicker;
 import org.firstinspires.ftc.teamcode.subsystems.KickersV2;
 import org.firstinspires.ftc.teamcode.util.BallColor;
 
@@ -44,20 +45,20 @@ public class kickersV2Test extends LinearOpMode {
         while (opModeIsActive()) {
 
             if (gamepad1.x && !lPressed)
-                kickers.kick(KickersV2.Kicker.L);
+                kickers.kick(Kicker.L);
             lPressed = gamepad1.x;
 
             if (gamepad1.y && !mPressed)
-                kickers.kick(KickersV2.Kicker.M);
+                kickers.kick(Kicker.M);
             mPressed = gamepad1.y;
 
             if (gamepad1.b && !rPressed)
-                kickers.kick(KickersV2.Kicker.R);
+                kickers.kick(Kicker.R);
             rPressed = gamepad1.b;
             if (gamepad1.a && !aPressed) {
-                kickers.kick(KickersV2.Kicker.L);
-                kickers.kick(KickersV2.Kicker.M);
-                kickers.kick(KickersV2.Kicker.R);
+                kickers.kick(Kicker.L);
+                kickers.kick(Kicker.M);
+                kickers.kick(Kicker.R);
             }
             aPressed = gamepad1.a;
 

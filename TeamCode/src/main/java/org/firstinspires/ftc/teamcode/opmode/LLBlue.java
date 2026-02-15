@@ -19,6 +19,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.config.*;
+import org.firstinspires.ftc.teamcode.subsystems.Kicker;
 import org.firstinspires.ftc.teamcode.subsystems.KickersV2;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.Tilt;
@@ -141,13 +142,13 @@ public class LLBlue extends LinearOpMode {
 //            if (gamepad1.x) lKickerTarget = LKICKER_UP; else lKickerTarget = LKICKER_DOWN;
 //            if (gamepad1.y) mKickerTarget = MKICKER_UP; else mKickerTarget = MKICKER_DOWN;
 //            if (gamepad1.b) rKickerTarget = RKICKER_UP; else rKickerTarget = RKICKER_DOWN;
-            if (gamepad1.xWasPressed()) kickers.kick(KickersV2.Kicker.L);
-            if (gamepad1.yWasPressed()) kickers.kick(KickersV2.Kicker.M);
-            if (gamepad1.bWasPressed()) kickers.kick(KickersV2.Kicker.R);
+            if (gamepad1.xWasPressed()) kickers.kick(Kicker.L);
+            if (gamepad1.yWasPressed()) kickers.kick(Kicker.M);
+            if (gamepad1.bWasPressed()) kickers.kick(Kicker.R);
             if (gamepad1.aWasPressed()) {
-                kickers.kick(KickersV2.Kicker.L);
-                kickers.kick(KickersV2.Kicker.M);
-                kickers.kick(KickersV2.Kicker.R);
+                kickers.kick(Kicker.L);
+                kickers.kick(Kicker.M);
+                kickers.kick(Kicker.R);
             }
             kickers.periodic();
 
@@ -177,7 +178,7 @@ public class LLBlue extends LinearOpMode {
                 rotX = rotX * 1.1;  // Counteract imperfect strafing
 
                 // Denominator is the largest motor power (absolute value) or 1
-                // This ensures all the powers maintain the same ratio,
+                // This ensures all the powers maintain the same r  atio,
                 // but only if at least one is out of the range [-1, 1]
                 double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
 

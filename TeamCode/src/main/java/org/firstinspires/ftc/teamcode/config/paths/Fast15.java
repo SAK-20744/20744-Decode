@@ -23,8 +23,11 @@ public class Fast15 {
     public Pose gate = FieldPoses.redGatePickup; //new Pose(144-132.781509, 61, Math.toRadians(28+90)); // gate
     public Pose gateControl = FieldPoses.redBall0Ctrl; //62);
     public Pose park = FieldPoses.redPark; //new Pose(36, 12, Math.toRadians(180));
+    public Pose goal = FieldPoses.redHoop;
 
     private int index;
+
+    private double intakeBreakStrength = 3;
 
     public Fast15(Robot r) {
         this.f = r.f;
@@ -39,6 +42,7 @@ public class Fast15 {
             gate = mirror(gate);
             gateControl = mirror(gateControl);
             park = mirror(park);
+            goal = mirror(goal);
         }
 
         index = 0;
@@ -66,7 +70,7 @@ public class Fast15 {
                                 intake1
                         )
                 )
-                .setBrakingStrength(2)
+                .setBrakingStrength(intakeBreakStrength)
                 .setLinearHeadingInterpolation(score.getHeading(), intake1.getHeading(), 0.3)
                 .build();
     }
@@ -82,7 +86,7 @@ public class Fast15 {
     public PathChain gateIntake() { // go to gate from intake1
         return f.pathBuilder()
                 .addPath(new BezierCurve(score, gateControl, gate))
-                .setBrakingStrength(2)
+                .setBrakingStrength(intakeBreakStrength)
                 .setLinearHeadingInterpolation(score.getHeading(), gate.getHeading(), 0.3)
                 .build();
     }
@@ -104,7 +108,7 @@ public class Fast15 {
                                 intake2
                         )
                 )
-                .setBrakingStrength(2)
+                .setBrakingStrength(intakeBreakStrength)
                 .setLinearHeadingInterpolation(score.getHeading(), intake2.getHeading(), 0.3)
                 .build();
     }

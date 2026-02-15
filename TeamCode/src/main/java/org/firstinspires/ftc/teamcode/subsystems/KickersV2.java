@@ -18,7 +18,6 @@ import org.firstinspires.ftc.teamcode.config.ApolloHardwareNames;
 import java.util.Queue;
 import java.util.ArrayDeque;
 public class KickersV2 {
-    public enum Kicker { L,M,R }
     Servo lKicker, mKicker, rKicker;
     ElapsedTime kickerTimer = new ElapsedTime();
     Kicker currentUp = null;
@@ -37,6 +36,7 @@ public class KickersV2 {
         if (queue.size() >= 3) return;
         queue.add(kicker);
     }
+    public void kickAll() {kick(Kicker.L); kick(Kicker.M); kick(Kicker.R);}
     public void periodic() {
         if (currentUp == null && !queue.isEmpty()) {
             kickerTimer.reset();
@@ -59,4 +59,5 @@ public class KickersV2 {
         else if (kickerGoingDown())    servo.setPosition(downPos);
         else                           currentUp = null;
     }
+    public boolean kickersActive() {return currentUp != null || queue.peek() != null;}
 }
