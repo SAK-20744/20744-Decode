@@ -31,7 +31,7 @@ public class BallSensorTest extends LinearOpMode {
             if (gamepad1.a && !cyclePressed) cycleMotif();
             cyclePressed = gamepad1.a;
 
-            balls.periodic();
+            balls.read();
 
             telemetry.addLine("--Colors--");
             telemetry.addData("left Color", balls.leftC());

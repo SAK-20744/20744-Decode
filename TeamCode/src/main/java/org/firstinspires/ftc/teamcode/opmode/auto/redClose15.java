@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.config.FieldPoses;
 import org.firstinspires.ftc.teamcode.config.Robot;
 import org.firstinspires.ftc.teamcode.config.paths.Fast15;
 import org.firstinspires.ftc.teamcode.subsystems.Limelight;
+import org.firstinspires.ftc.teamcode.subsystems.BallSensors;
 import org.firstinspires.ftc.teamcode.util.Alliance;
 
 @Autonomous
@@ -16,6 +17,7 @@ public class redClose15 extends OpMode {
     Robot r;
     Limelight l;
     Fast15 p;
+    BallSensors bs;
     int state = 0;
     int shootState = -1;
     ElapsedTime stateTimer = new ElapsedTime();
@@ -26,6 +28,7 @@ public class redClose15 extends OpMode {
         r.f.setStartingPose(p.start);
         r.k.init();
         l.switchToShoot();
+        bs = new BallSensors(hardwareMap);
     }
 
     @Override
@@ -130,6 +133,16 @@ public class redClose15 extends OpMode {
             case 1: r.k.kickAll(); shootState++; break;
             case 2: if (!r.k.kickersActive()) shootState++;  break;
             case 3: shootState = -1; break;
+        }
+    }
+    public void sortedShoot() {
+        String[] shootSequence;
+        switch (shootState) {
+            case 0: if (r.s.atTarget()) shootState++; break;
+            case 1: bs.read(); shootState++; break;
+            case 2: r.k.kickSequenced(bs.shootSequence()); shootState++; break;
+            case 3: if (!r.k.kickersActive()) shootState++;  break;
+            case 4: shootState = -1; break;
         }
     }
     @Override

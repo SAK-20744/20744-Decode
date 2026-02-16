@@ -37,6 +37,13 @@ public class KickersV2 {
         queue.add(kicker);
     }
     public void kickAll() {kick(Kicker.L); kick(Kicker.M); kick(Kicker.R);}
+    public void kickSequenced(String[] sequence) {
+        for (String i: sequence) {
+            if (i.toLowerCase() == "l") kick(Kicker.L);
+            if (i.toLowerCase() == "m") kick(Kicker.M);
+            if (i.toLowerCase() == "r") kick(Kicker.R);
+        }
+    }
     public void periodic() {
         if (currentUp == null && !queue.isEmpty()) {
             kickerTimer.reset();

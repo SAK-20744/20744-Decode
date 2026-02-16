@@ -11,7 +11,6 @@ import static org.firstinspires.ftc.teamcode.util.Alliance.RED;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
-import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
@@ -254,7 +253,7 @@ public class farRed extends OpMode {
         return;
     }
     public void cursedShootSensor(){
-        ballSensors.periodic();
+        ballSensors.read();
         String[] sequence = ballSensors.shootSequence();
 
         shooter.far();

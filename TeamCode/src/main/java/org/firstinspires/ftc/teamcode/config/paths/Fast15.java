@@ -30,7 +30,7 @@ public class Fast15 {
     private int index;
 
     public static double intakeBreakStrength = 3;
-    public static double gateIntakeTime = 3;
+    public static double gateIntakeTime = 1.5;
 
     public Fast15(Robot r) {
         this.f = r.f;

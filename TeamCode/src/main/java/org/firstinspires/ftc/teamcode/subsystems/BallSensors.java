@@ -35,7 +35,7 @@ public class BallSensors {
         }
     }
 
-    public void periodic() {
+    public void read() {
         if(l1.getDistance(DistanceUnit.MM) < 30)
             left=true;
         else left = false;
