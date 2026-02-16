@@ -27,6 +27,7 @@ public class redClose15 extends OpMode {
         p = new Fast15(r);
         r.f.setStartingPose(p.start);
         r.k.init();
+        l = new Limelight(hardwareMap);
         l.switchToShoot();
         bs = new BallSensors(hardwareMap);
     }
@@ -120,6 +121,9 @@ public class redClose15 extends OpMode {
         telemetry.addData("shooter at target", r.s.atTarget());
         telemetry.addData("shooter vel", r.s.getVelocity());
         telemetry.addData("shooter target", r.s.getTarget());
+        telemetry.addLine("");
+        telemetry.addData("motif", l.motifDetection());
+        telemetry.addData("shoot order", bs.shootSequence().toString());
         telemetry.update();
     }
     public void startShoot() {
