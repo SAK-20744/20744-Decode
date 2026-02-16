@@ -46,6 +46,8 @@ public class Fast15 {
             intake1Control = mirror(intake1Control);
             intake2 = mirror(intake2);
             intake2Control = mirror(intake2Control);
+            intake3 = mirror(intake3);
+            intake3Control = mirror(intake3Control);
             gate = mirror(gate);
             gateControl = mirror(gateControl);
             park = mirror(park);
