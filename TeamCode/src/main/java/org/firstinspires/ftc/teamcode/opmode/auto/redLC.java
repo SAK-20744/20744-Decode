@@ -81,11 +81,11 @@ public class redLC extends OpMode {
                 .setConstantHeadingInterpolation(FieldPoses.redFarStart.getHeading())
                 .build();
         toLaunch1 = drive.pathBuilder()
-                .addPath(new BezierCurve(FieldPoses.redBall1End, FieldPoses.redBall1Start, FieldPoses.redShooting))
+                .addPath(new BezierCurve(FieldPoses.redBall1End, FieldPoses.redBall1Start, FieldPoses.redFarScore))
                 .setConstantHeadingInterpolation(FieldPoses.redFarStart.getHeading())
                 .build();
         toBall2Start = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.redShooting, FieldPoses.redBall2Start))
+                .addPath(new BezierLine(FieldPoses.redFarScore, FieldPoses.redBall2Start))
                 .setConstantHeadingInterpolation(FieldPoses.redFarStart.getHeading())
                 .build();
         toBall2End = drive.pathBuilder()
@@ -94,11 +94,11 @@ public class redLC extends OpMode {
                 .setConstantHeadingInterpolation(FieldPoses.redFarStart.getHeading())
                 .build();
         toLaunch2 = drive.pathBuilder()
-                .addPath(new BezierCurve(FieldPoses.redBall2End, FieldPoses.redBall2Start, FieldPoses.redShooting))
+                .addPath(new BezierCurve(FieldPoses.redBall2End, FieldPoses.redBall2Start, FieldPoses.redFarScore))
                 .setConstantHeadingInterpolation(FieldPoses.redFarStart.getHeading())
                 .build();
         toPark = drive.pathBuilder()
-                .addPath(new BezierLine(FieldPoses.redShooting, FieldPoses.redPark))
+                .addPath(new BezierLine(FieldPoses.redFarScore, FieldPoses.redPark))
                 .setLinearHeadingInterpolation(FieldPoses.redFarStart.getHeading(), FieldPoses.redPark.getHeading())
                 .build();
 //        turret.off();

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.config.paths;
 
+import static org.firstinspires.ftc.teamcode.config.FieldPoses.mirror;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
@@ -8,16 +10,15 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 
 import org.firstinspires.ftc.teamcode.config.FieldPoses;
-import static org.firstinspires.ftc.teamcode.config.FieldPoses.mirror;
 import org.firstinspires.ftc.teamcode.config.Robot;
 import org.firstinspires.ftc.teamcode.util.Alliance;
 
 @Config
-public class Fast15 {
+public class Far15 {
     private final Follower f;
 
-    public Pose start = FieldPoses.redCloseStart;
-    public Pose score = FieldPoses.redCloseScore; // score
+    public Pose start = FieldPoses.redFarStart;
+    public Pose score = FieldPoses.redFarScore; // score
     public Pose intake1 = FieldPoses.redBall1End; // intake\
     public Pose intake1Control = FieldPoses.redBall1Ctrl;
     public Pose intake2 = FieldPoses.redBall0End; // intake
@@ -36,7 +37,7 @@ public class Fast15 {
 
     public static boolean fullClassifier = false;
 
-    public Fast15(Robot r) {
+    public Far15(Robot r) {
         this.f = r.f;
 
         if (r.a.equals(Alliance.BLUE)) {
