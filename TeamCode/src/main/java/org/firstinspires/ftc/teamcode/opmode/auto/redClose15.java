@@ -2,10 +2,8 @@ package org.firstinspires.ftc.teamcode.opmode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.config.FieldPoses;
 import org.firstinspires.ftc.teamcode.config.Robot;
 import org.firstinspires.ftc.teamcode.config.paths.Fast15;
 import org.firstinspires.ftc.teamcode.subsystems.Limelight;
@@ -36,11 +34,16 @@ public class redClose15 extends OpMode {
     public void init_loop() {
         if (gamepad1.x)
             r.t.resetTurret();
+        if (gamepad1.bWasPressed())
+            p.fullClassifier = !p.fullClassifier;
 
         bs.motif(l.motifDetection());
 
         telemetry.addData("Detected ID: ", l.motifDetection());
+        telemetry.addLine();
         telemetry.addData("Turret Angle:", r.t.getTurret());
+        telemetry.addLine();
+        telemetry.addData("full classifier", p.fullClassifier);
         telemetry.update();
     }
 
@@ -113,7 +116,7 @@ public class redClose15 extends OpMode {
         }
         r.t.face(p.goal, r.f.getPose());
         r.periodic();
-        shoot();
+        sortedShoot();
 
         telemetry.addData("state", state);
         telemetry.addData("shootState", shootState);
