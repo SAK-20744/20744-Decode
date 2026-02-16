@@ -17,6 +17,8 @@ public class FieldPoses {
     public static Pose redFarScore = new Pose(TS*-3+BOT_WIDTH*0.65,-BOT_LENGTH/2, -R);
     public static Pose redCloseScore = new Pose (6, -16, -R);
 
+    public static Pose redPushFar = new Pose(redFarStart.getX(), -36, -R);
+
     public static Pose redBall0Ctrl = new Pose(TS*0.3, TS*-0.375, -R);
     public static Pose redBall0Start = new Pose(TS*0.3, -TS*0.75, -R);
     public static Pose redBall0End = new Pose(TS*0.3, -TS*2.4, -R);
