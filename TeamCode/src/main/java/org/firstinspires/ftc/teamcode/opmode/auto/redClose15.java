@@ -8,11 +8,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.config.FieldPoses;
 import org.firstinspires.ftc.teamcode.config.Robot;
 import org.firstinspires.ftc.teamcode.config.paths.Fast15;
+import org.firstinspires.ftc.teamcode.subsystems.Limelight;
 import org.firstinspires.ftc.teamcode.util.Alliance;
 
 @Autonomous
 public class redClose15 extends OpMode {
     Robot r;
+    Limelight l;
     Fast15 p;
     int state = 0;
     int shootState = -1;
@@ -23,6 +25,7 @@ public class redClose15 extends OpMode {
         p = new Fast15(r);
         r.f.setStartingPose(p.start);
         r.k.init();
+        l.switchToShoot();
     }
 
     @Override
@@ -30,6 +33,9 @@ public class redClose15 extends OpMode {
         if (gamepad1.x)
             r.t.resetTurret();
 
+        bs.motif(l.motifDetection());
+
+        telemetry.addData("Detected ID: ", l.motifDetection());
         telemetry.addData("Turret Angle:", r.t.getTurret());
         telemetry.update();
     }
