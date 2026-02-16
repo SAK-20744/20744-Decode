@@ -7,10 +7,12 @@ import com.pedropathing.geometry.Pose;
 @Config
 public class FieldPoses {
     private static double TS = 24.0; // Tile Size
-    private static double BOT_LENGTH = 17.5, BOT_WIDTH = 15;
+    private static double BOT_LENGTH = 17.5, BOT_WIDTH = 18;
     private static double R = Math.PI/2;
 
     public static Pose redFarStart = new Pose(TS*-3+BOT_WIDTH/2, -BOT_LENGTH/2, -R);
+    public static Pose redCyclerStart = new Pose(TS*-3+BOT_WIDTH/2,-16,-R);
+    public static Pose redCyclerScore = new Pose(TS*-3+BOT_WIDTH/ + 4,-18,-R);
     public static Pose redCloseStart = new Pose(49, -54.5, rads(-140));
     public static Pose redShooting = new Pose(TS*-3+BOT_WIDTH*0.65,-BOT_LENGTH/2, -R);
     public static Pose redCloseScore = new Pose (6, -16, -R);
@@ -34,6 +36,7 @@ public class FieldPoses {
     public static Pose redHoop = new Pose(TS*3,-TS*3);
     public static Pose redTele = new Pose(TS*2.75,-TS*2.75);
     public static Pose redClosePark = new Pose(-16, -16, -R);
+    public static Pose redFarPark = new Pose(-36, -16, -R);
     public static Pose redPark = new Pose(redBall2Start.getX(), -BOT_LENGTH*0.75, -R);
 
     public static Pose blueFarStart = mirror(redFarStart);
