@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.config.paths;
 
+import static org.firstinspires.ftc.teamcode.config.FieldPoses.mirror;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
@@ -8,22 +10,22 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 
 import org.firstinspires.ftc.teamcode.config.FieldPoses;
-import static org.firstinspires.ftc.teamcode.config.FieldPoses.mirror;
 import org.firstinspires.ftc.teamcode.config.Robot;
 import org.firstinspires.ftc.teamcode.util.Alliance;
 
 @Config
-public class Fast15 {
+public class Far15 {
     private final Follower f;
 
-    public Pose start = FieldPoses.redCloseStart;
-    public Pose score = FieldPoses.redCloseScore; // score
-    public Pose intake1 = FieldPoses.redBall1End; // intake\
-    public Pose intake1Control = FieldPoses.redBall1Ctrl;
-    public Pose intake2 = FieldPoses.redBall0End; // intake
-    public Pose intake2Control = FieldPoses.redBall0Ctrl;
-    public Pose intake3 = FieldPoses.redBall2End;
-    public Pose intake3Control = FieldPoses.redBall2Ctrl;
+    public Pose start = FieldPoses.redFarStart;
+    public Pose score = FieldPoses.redFarScore; // score
+    public Pose intake1 = FieldPoses.redPushFar;
+    public Pose intake2 = FieldPoses.redBall2End;
+    public Pose intake2Control = FieldPoses.redBall2Ctrl;
+    public Pose intake3 = FieldPoses.redBall1End; // intake
+    public Pose intake3Control = FieldPoses.redBall1Ctrl;
+    public Pose intake4 = FieldPoses.redBall0End; // intake
+    public Pose intake4Control = FieldPoses.redBall0Ctrl;
     public Pose gate = FieldPoses.redGatePickup; //new Pose(144-132.781509, 61, Math.toRadians(28+90)); // gate
     public Pose gateControl = FieldPoses.redBall1Ctrl; //62);
     public Pose park = FieldPoses.redClosePark; //new Pose(36, 12, Math.toRadians(180));
@@ -36,18 +38,15 @@ public class Fast15 {
 
     public static boolean fullClassifier = false;
 
-    public Fast15(Robot r) {
+    public Far15(Robot r) {
         this.f = r.f;
 
         if (r.a.equals(Alliance.BLUE)) {
             start = mirror(start);
             score = mirror(score);
             intake1 = mirror(intake1);
-            intake1Control = mirror(intake1Control);
             intake2 = mirror(intake2);
             intake2Control = mirror(intake2Control);
-            intake3 = mirror(intake3);
-            intake3Control = mirror(intake3Control);
             gate = mirror(gate);
             gateControl = mirror(gateControl);
             park = mirror(park);
@@ -57,27 +56,10 @@ public class Fast15 {
         index = 0;
     }
 
-    public PathChain scoreP() {
-        return f.pathBuilder()
-                .addPath(
-                        new BezierLine(
-                                start,
-                                score
-                        )
-                )
-//                .setNoDeceleration()
-                .setLinearHeadingInterpolation(start.getHeading(), score.getHeading())
-                .build();
-    }
-
     public PathChain intake1() { // intake 1
         return f.pathBuilder()
                 .addPath(
-                        new BezierCurve(
-                                score,
-                                intake1Control,
-                                intake1
-                        )
+                        new BezierLine(score, intake1)
                 )
                 .setBrakingStrength(intakeBreakStrength)
                 .setLinearHeadingInterpolation(score.getHeading(), intake1.getHeading(), 0.3)
@@ -86,7 +68,7 @@ public class Fast15 {
 
     public PathChain score1() {
         return f.pathBuilder()
-                .addPath(new BezierCurve(intake1, intake1Control, score))
+                .addPath(new BezierLine(intake1, score))
 //                .setNoDeceleration()
                 .setLinearHeadingInterpolation(intake1.getHeading(), score.getHeading())
                 .build();
@@ -110,13 +92,7 @@ public class Fast15 {
 
     public PathChain intake2() {
         return f.pathBuilder()
-                .addPath(
-                        new BezierCurve(
-                                score,
-                                intake2Control,
-                                intake2
-                        )
-                )
+                .addPath(new BezierCurve(score, intake2Control, intake2))
                 .setBrakingStrength(intakeBreakStrength)
                 .setLinearHeadingInterpolation(score.getHeading(), intake2.getHeading(), 0.3)
                 .build();
@@ -124,7 +100,7 @@ public class Fast15 {
 
     public PathChain score2() {
         return f.pathBuilder()
-                .addPath(new BezierCurve(intake2, score))
+                .addPath(new BezierCurve(intake2, intake2Control, score))
 //                .setNoDeceleration()
                 .setLinearHeadingInterpolation(intake2.getHeading(), score.getHeading())
                 .build();
@@ -146,9 +122,30 @@ public class Fast15 {
 
     public PathChain score3() {
         return f.pathBuilder()
-                .addPath(new BezierCurve(intake3, score))
+                .addPath(new BezierCurve(intake3, intake3Control, score))
 //                .setNoDeceleration()
                 .setLinearHeadingInterpolation(intake3.getHeading(), score.getHeading())
+                .build();
+    }
+    public PathChain intake4() {
+        return f.pathBuilder()
+                .addPath(
+                        new BezierCurve(
+                                score,
+                                intake4Control,
+                                intake4
+                        )
+                )
+                .setBrakingStrength(intakeBreakStrength)
+                .setLinearHeadingInterpolation(score.getHeading(), intake4.getHeading(), 0.3)
+                .build();
+    }
+
+    public PathChain score4() {
+        return f.pathBuilder()
+                .addPath(new BezierCurve(intake4, intake3Control, score))
+//                .setNoDeceleration()
+                .setLinearHeadingInterpolation(intake4.getHeading(), score.getHeading())
                 .build();
     }
 
@@ -161,22 +158,21 @@ public class Fast15 {
 
     public PathChain next() {
         switch (index++) {
-            case 0: return scoreP();
-            case 1: return intake1();
-            case 2: return score1();
-            case 3: return gateIntake();
-            case 4: return scoreG();
-            case 5: if (fullClassifier) return intake2(); else return gateIntake();
-            case 6: if (fullClassifier) return score2(); else return scoreG();
-            case 7: if (fullClassifier) return intake3(); else return intake2();
-            case 8: if (fullClassifier) return score3(); else return score2();
-            case 9: return park();
+            case 0: return intake1();
+            case 1: return score1();
+            case 2: return intake2();
+            case 3: return score2();
+            case 4: return intake3();
+            case 5: return score3();
+            case 6: return intake4();
+            case 7: return score4();
+            case 8: return park();
             default: return null;
         }
     }
 
     public boolean hasNext() {
-        int PATH_COUNT = 8;
+        int PATH_COUNT = 7;
         return index < PATH_COUNT;
     }
 

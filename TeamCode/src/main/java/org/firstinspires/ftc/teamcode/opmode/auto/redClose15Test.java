@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.opmode.auto;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.config.Robot;
 import org.firstinspires.ftc.teamcode.config.paths.Fast15;
@@ -36,7 +35,7 @@ public class redClose15Test extends LinearOpMode {
             while (r.f.isBusy()) {r.periodic();}
             r.f.followPath(p.intake2());
             while (r.f.isBusy()) {r.periodic();}
-            r.f.followPath(p.score4());
+            r.f.followPath(p.score2());
             while (r.f.isBusy()) {r.periodic();}
             r.f.followPath(p.park());
             while (r.f.isBusy()) {r.periodic();}
