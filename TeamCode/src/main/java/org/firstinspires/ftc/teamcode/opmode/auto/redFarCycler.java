@@ -138,7 +138,7 @@ public class redFarCycler extends OpMode {
         telemetry.update();
     }
     public void startShoot() {
-        r.s.close();r.s.down();
+        r.s.far();r.s.up();
         shootState = 0;
     }
     public void shoot() {

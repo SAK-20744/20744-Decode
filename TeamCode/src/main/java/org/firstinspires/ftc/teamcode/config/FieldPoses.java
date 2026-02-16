@@ -12,7 +12,7 @@ public class FieldPoses {
 
     public static Pose redFarStart = new Pose(TS*-3+BOT_WIDTH/2, -BOT_LENGTH/2, -R);
     public static Pose redCyclerStart = new Pose(TS*-3+BOT_WIDTH/2,-16,-R);
-    public static Pose redCyclerScore = new Pose(TS*-3+BOT_WIDTH/ + 4,-18,-R);
+    public static Pose redCyclerScore = new Pose(TS*-3+BOT_WIDTH/2 + 4,-18,-R);
     public static Pose redCloseStart = new Pose(49, -54.5, rads(-140));
     public static Pose redFarScore = new Pose(TS*-3+BOT_WIDTH*0.65,-BOT_LENGTH/2, -R);
     public static Pose redCloseScore = new Pose (6, -16, -R);
