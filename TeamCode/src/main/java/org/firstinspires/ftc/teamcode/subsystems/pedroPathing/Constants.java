@@ -19,7 +19,7 @@ public class Constants {
             .mass(12)
             .forwardZeroPowerAcceleration(-31.15)
             .lateralZeroPowerAcceleration(-57.439)
-            .translationalPIDFCoefficients(new PIDFCoefficients(0.25,0,0.0225,0))
+            .translationalPIDFCoefficients(new PIDFCoefficients(0.25,0,0.0325,0))
             .headingPIDFCoefficients(new PIDFCoefficients(2, 0,0.03,0));
     public static MecanumConstants mecanumConstants = new MecanumConstants()
             .rightFrontMotorName(ApolloConstants.dt.fr)

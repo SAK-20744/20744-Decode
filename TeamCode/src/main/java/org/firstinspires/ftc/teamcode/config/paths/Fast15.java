@@ -29,8 +29,10 @@ public class Fast15 {
 
     private int index;
 
-    public static double intakeBreakStrength = 3;
-    public static double gateIntakeTime = 1.5;
+    public static double intakeBreakStrength = 5;
+    public static double gateIntakeTime = 2;
+
+    public static boolean classifierFull = false;
 
     public Fast15(Robot r) {
         this.f = r.f;
@@ -80,7 +82,7 @@ public class Fast15 {
 
     public PathChain score1() {
         return f.pathBuilder()
-                .addPath(new BezierLine(intake1, score))
+                .addPath(new BezierCurve(intake1, intake1Control, score))
 //                .setNoDeceleration()
                 .setLinearHeadingInterpolation(gate.getHeading(), score.getHeading())
                 .build();
@@ -96,7 +98,7 @@ public class Fast15 {
 
     public PathChain scoreG() {
         return f.pathBuilder()
-                .addPath(new BezierLine(gate, score))
+                .addPath(new BezierCurve(gate, gateControl, score))
 //                .setNoDeceleration()
                 .setLinearHeadingInterpolation(gate.getHeading(), score.getHeading())
                 .build();

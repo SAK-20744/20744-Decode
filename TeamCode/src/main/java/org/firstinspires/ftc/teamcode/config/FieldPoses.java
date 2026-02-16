@@ -13,21 +13,21 @@ public class FieldPoses {
     public static Pose redFarStart = new Pose(TS*-3+BOT_WIDTH/2, -BOT_LENGTH/2, -R);
     public static Pose redCloseStart = new Pose(49, -54.5, rads(-140));
     public static Pose redShooting = new Pose(TS*-3+BOT_WIDTH*0.65,-BOT_LENGTH/2, -R);
-    public static Pose redCloseScore = new Pose (2, -12, -R);
+    public static Pose redCloseScore = new Pose (6, -16, -R);
 
     public static Pose redBall0Ctrl = new Pose(TS*0.5, TS*-0.375, Math.PI*4/8);
     public static Pose redBall0Start = new Pose(TS*0.5, -TS*0.75, -R);
-    public static Pose redBall0End = new Pose(TS*0.5, -TS*2.1, -R);
+    public static Pose redBall0End = new Pose(TS*0.5, -TS*2, -R);
 
     public static Pose redBall1Ctrl = new Pose(-13, TS*-0.375, -R);
     public static Pose redBall1Start = new Pose(-13, -TS*0.75, -R);
-    public static Pose redBall1End = new Pose(redBall1Start.getX(), -TS*2.3, -R);
+    public static Pose redBall1End = new Pose(redBall1Start.getX(), -TS*2.5, -R);
 
     public static Pose redBall2Ctrl = new Pose(-TS*1.6, TS*-0.375, -R);
     public static Pose redBall2Start = new Pose(-TS*1.6, -TS*0.75, -R);
-    public static Pose redBall2End = new Pose(redBall2Start.getX(), -TS*2.3, -R);
+    public static Pose redBall2End = new Pose(redBall2Start.getX(), -TS*2.5 , -R);
 
-    public static Pose redGatePickup = new Pose(TS*-0.5, -TS*2.625, -R*0.75);
+    public static Pose redGatePickup = new Pose(TS*-0.6, -TS*2.625, -R*0.75);
 
     public static Pose redHPPickupStart = new Pose(TS*-2.5, -TS*0.75, -R);
     public static Pose redHPPickupEnd = new Pose(TS*-2.5, -TS*3+BOT_LENGTH/2, -R);

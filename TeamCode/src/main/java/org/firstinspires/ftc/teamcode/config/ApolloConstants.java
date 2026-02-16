@@ -111,11 +111,11 @@ public class ApolloConstants {
         // HoleGreen:   R=0.214 G=0.465 B=0.412
         // Green:       R=0.214 G=0.496 B=0.435
 
-        public static double l1Range = 0.024;
+        public static double l1Range = 0.032;
         public static double m1Range = 0.040;
         public static double r1Range = 0.035;
         public static class P {
-            public static double l1R = 0.218, l1G = 0.342, l1B = 0.348;
+            public static double l1R = 0.230, l1G = 0.352, l1B = 0.363;
             public static double m1R = 0.287, m1G = 0.420, m1B = 0.460;
             public static double r1R = 0.275, r1G = 0.420, r1B = 0.470;
         }
