@@ -129,7 +129,6 @@ public class redClose15 extends OpMode {
     public void startShoot() {
         r.s.close();r.s.down();
         shootState = 0;
-        shoot();
     }
     public void shoot() {
         switch (shootState) {
