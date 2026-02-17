@@ -51,7 +51,7 @@ public class redFar15 extends OpMode {
     @Override
     public void start() {
         r.t.on();
-        r.s.close();r.s.down();
+        r.s.far();r.s.up();
     }
 
     @Override
@@ -121,7 +121,7 @@ public class redFar15 extends OpMode {
         telemetry.update();
     }
     public void startShoot() {
-        r.s.close();r.s.down();
+        r.s.far();r.s.up();
         shootState = 0;
     }
     public void shoot() {
