@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.util.Alliance;
 
 @Autonomous
-public class redClose15 extends close15 {
-    public redClose15() {
-        super(Alliance.RED);
+public class blueClose15 extends close15 {
+    public blueClose15() {
+        super(Alliance.BLUE);
     }
 }
