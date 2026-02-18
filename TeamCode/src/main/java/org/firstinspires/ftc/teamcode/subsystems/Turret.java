@@ -25,7 +25,7 @@ public class Turret {
     public final DcMotorEx m;
     private PIDFController p, s; // pidf controller for turret
     public static double t = 0; // target for turret
-    public static double kp = 0.0007, kf = 0.0, kd = 0.00005, sp = 0.002, sf = 0, sd = 0.00000;
+    public static double kp = 0.0004, kf = 0.0, kd = 0.00003, sp = 0.002, sf = 0, sd = 0.00000;
 
     public static boolean on = true, manual = false;
 
