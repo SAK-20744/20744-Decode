@@ -33,7 +33,7 @@ public class Fast15 {
 
     public static double intakeBreakStrength = 1;
     public static double gateIntakeBreakStrength = 0.7;
-    public static double gateIntakeTime = 2;
+    public static double gateIntakeTime = 1.5;
 
     public static boolean fullClassifier = false;
 

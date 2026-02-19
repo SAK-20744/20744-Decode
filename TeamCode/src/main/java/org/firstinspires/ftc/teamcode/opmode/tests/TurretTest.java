@@ -48,6 +48,7 @@ public class TurretTest extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         while (opModeInInit()) {
             if (gamepad1.x) turret.resetTurret();
+            telemetry.addData("RPT", turret.getRPT());
             telemetry.addData("Turret Angle",turret.getYaw());
             telemetry.addData("Get Turret", turret.getTurret());
             telemetry.update();

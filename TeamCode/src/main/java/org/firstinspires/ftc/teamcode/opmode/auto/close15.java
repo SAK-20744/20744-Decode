@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmode.auto;
 
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.eject;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -76,8 +78,8 @@ public class close15 extends OpMode {
             case 5: r.f.followPath(p.next()); state++; break;
             case 6: if (!r.f.isBusy()) state++; break;
             case 7: r.f.followPath(p.next()); state++; break;
-            case 8: if (!r.f.isBusy()) state++; break;
-            case 9: r.i.spinOut(); state++; break;
+            case 8: if(r.f.getPathCompletion()>eject) r.i.spinOut(); state++; break;
+            case 9: if (!r.f.isBusy()) state++; break;
             case 10: startShoot(); state++; break;
             case 11: if (shootState == -1) state++; break;
 
@@ -90,8 +92,8 @@ public class close15 extends OpMode {
             case 16: if (stateTimer.seconds() > p.gateIntakeTime) state++; break;
 
             case 17: r.f.followPath(p.next()); state++; break;
-            case 18: if (!r.f.isBusy()) state++; break;
-            case 19: r.i.spinOut(); state++; break;
+            case 18: if(r.f.getPathCompletion()>eject) r.i.spinOut(); state++; break;
+            case 19: if (!r.f.isBusy()) state++; break;
             case 20: startShoot(); state++; break;
             case 21: if (shootState == -1) state++; break;
 
@@ -104,8 +106,8 @@ public class close15 extends OpMode {
             case 26: if (stateTimer.seconds() > p.gateIntakeTime) state++; break;
 
             case 27: r.f.followPath(p.next()); state++; break;
-            case 28: if (!r.f.isBusy()) state++; break;
-            case 29: r.i.spinOut(); state++; break;
+            case 28: if(r.f.getPathCompletion()>eject) r.i.spinOut(); state++; break;
+            case 29: if (!r.f.isBusy()) state++; break;
             case 30: startShoot(); state++; break;
             case 31: if (shootState == -1) state++; break;
 
@@ -114,8 +116,8 @@ public class close15 extends OpMode {
             case 33: r.f.followPath(p.next()); state++; break;
             case 34: if (!r.f.isBusy()) state++; break;
             case 35: r.f.followPath(p.next()); state++; break;
-            case 36: if (!r.f.isBusy()) state++; break;
-            case 37: r.i.spinOut(); state++; break;
+            case 36: if(r.f.getPathCompletion()>eject) r.i.spinOut(); state++; break;
+            case 37: if (!r.f.isBusy()) state++; break;
             case 38: startShoot(); state++; break;
             case 39: if (shootState == -1) state++; break;
 

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmode.auto;
 
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.eject;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -66,8 +68,8 @@ public class redFar15 extends OpMode {
             case 3: r.f.followPath(p.next()); state++; break;
             case 4: if (!r.f.isBusy()) state++; break;
             case 5: r.f.followPath(p.next()); state++; break;
-            case 6: if (!r.f.isBusy()) state++; break;
-            case 7: r.i.spinOut(); state++; break;
+            case 6: if(r.f.getPathCompletion()>eject) r.i.spinOut(); state++; break;
+            case 7: if (!r.f.isBusy()) state++; break;
             case 8: startShoot(); state++; break;
             case 9: if (shootState == -1) state++; break;
 
@@ -76,8 +78,8 @@ public class redFar15 extends OpMode {
             case 11: r.f.followPath(p.next()); state++; break;
             case 12: if (!r.f.isBusy()) state++; break;
             case 13: r.f.followPath(p.next()); state++; break;
-            case 14: if (!r.f.isBusy()) state++; break;
-            case 15: r.i.spinOut(); state++; break;
+            case 14: if(r.f.getPathCompletion()>eject) r.i.spinOut(); state++; break;
+            case 15: if (!r.f.isBusy()) state++; break;
             case 16: r.f.followPath(p.next()); state++; break;
             case 17: if (!r.f.isBusy()) state++; break;
             case 18: startShoot(); state++; break;
@@ -88,8 +90,8 @@ public class redFar15 extends OpMode {
             case 21: r.f.followPath(p.next()); state++; break;
             case 22: if (!r.f.isBusy()) state++; break;
             case 23: r.f.followPath(p.next()); state++; break;
-            case 24: if (!r.f.isBusy()) state++; break;
-            case 25: r.i.spinOut(); state++; break;
+            case 24: if(r.f.getPathCompletion()>eject) r.i.spinOut(); state++; break;
+            case 25: if (!r.f.isBusy()) state++; break;
             case 26: startShoot(); state++; break;
             case 27: if (shootState == -1) state++; break;
 
@@ -98,8 +100,8 @@ public class redFar15 extends OpMode {
             case 29: r.f.followPath(p.next()); state++; break;
             case 30: if (!r.f.isBusy()) state++; break;
             case 31: r.f.followPath(p.next()); state++; break;
-            case 32: if (!r.f.isBusy()) state++; break;
-            case 33: r.i.spinOut(); state++; break;
+            case 32: if(r.f.getPathCompletion()>eject) r.i.spinOut(); state++; break;
+            case 33: if (!r.f.isBusy()) state++; break;
             case 34: startShoot(); state++; break;
             case 35: if (shootState == -1) state++; break;
 

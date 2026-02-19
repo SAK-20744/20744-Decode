@@ -10,6 +10,8 @@ public class ApolloConstants {
     public static double autoTurret2 = 115;
     public static double autoTurret3 = 115;
 
+    public static double eject = 0.4;
+
     public static double blueautoTurret = -116;
     public static double blueautoTurret2 = -116;
     public static double blueautoTurret3 = -116;
@@ -31,7 +33,7 @@ public class ApolloConstants {
         HOOD_MIN = 0.07,
         HOOD_MAX = 0.72,
         HOOD_CLOSE = 0.22,
-        HOOD_FAR = 0.68,
+        HOOD_FAR = 0.7025,
 //        SHOOTER_CLOSE = 0.65,
 //        SHOOTER_FAR = 0.8,
 //        SHOOTER_OFF = 0,
@@ -57,8 +59,8 @@ public class ApolloConstants {
     public static double CAM_FWD_IN  = 5.0;   // camera offset forward from turret center
     public static double CAM_LEFT_IN = 0.5;   // camera offset left from turret center
 
-    public static double VISION_MAX_JUMP_IN = 1; // inches
-    public static double VISION_ALPHA = 0.075;       // blend factor
+    public static double VISION_MAX_JUMP_IN = 0; // inches
+    public static double VISION_ALPHA = 0;       // blend factor
 
 
 
@@ -68,8 +70,8 @@ public class ApolloConstants {
 //        KICKER_DOWNTIME = 0.3;
 
     public static double
-        KUP = 200,
-        KDOWN = 100;
+        KUP = 350,
+        KDOWN = 150;
     public static int
 //        TURRET_BLUE_FAR = -285,
         TURRET_MIDDLE = 0;

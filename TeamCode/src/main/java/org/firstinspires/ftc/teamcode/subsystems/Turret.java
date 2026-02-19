@@ -19,8 +19,10 @@ public class Turret {
     public static double pid_switch = 200, zero_switch = 50;
     public static double error = 0, power = 0, manualPower = 0;
 
-    private static double TICKS_PER_REV = 8192, GEAR_RATIO = 144/24; // Motor TPR=145.1 // REV Encoder TPR=8192
-    public static double rpt = /*0.0029919*/ Math.PI / ( (TICKS_PER_REV*GEAR_RATIO)/2 );
+    public static double stupidfuckingoffset = 0.105;
+
+    public static double TICKS_PER_REV = 8192, GEAR_RATIO = 6; // Motor TPR=145.1 // REV Encoder TPR=8192
+    private double rpt = /*0.0029919*/ Math.PI / ( (TICKS_PER_REV*GEAR_RATIO)/2 );
 
     public final DcMotorEx m;
     private PIDFController p, s; // pidf controller for turret
@@ -35,8 +37,14 @@ public class Turret {
 //        m.setDirection(DcMotor.Direction.REVERSE);
         m.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
+        rpt =  Math.PI / ( (TICKS_PER_REV*GEAR_RATIO)/2 );
+
         p = new PIDFController(new PIDFCoefficients(kp, 0, kd, kf));
         s = new PIDFController(new PIDFCoefficients(sp, 0, sd, sf));
+    }
+
+    public double getRPT(){
+        return rpt;
     }
 
     private void setTurretTarget(double ticks) {
@@ -115,7 +123,7 @@ public class Turret {
     public void face(Pose targetPose, Pose robotPose) {
         double angleToTargetFromCenter = Math.atan2((targetPose.getY() - robotPose.getY()), (targetPose.getX() - robotPose.getX()));
         double robotAngleDiff = normalizeAngle(angleToTargetFromCenter - robotPose.getHeading());
-        setYaw(robotAngleDiff);
+        setYaw(robotAngleDiff+stupidfuckingoffset);
     }
 
     public void resetTurret() {
