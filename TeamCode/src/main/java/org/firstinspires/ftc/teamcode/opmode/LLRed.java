@@ -1,6 +1,22 @@
 package org.firstinspires.ftc.teamcode.opmode;
 
-import static org.firstinspires.ftc.teamcode.config.ApolloConstants.*;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.CAM_FWD_IN;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.CAM_LEFT_IN;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.INTAKE_IN;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.INTAKE_OFF;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.INTAKE_OUT;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.PURPLELIGHT;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.REDLIGHT;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.UP_TIME;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.VISION_ALPHA;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.VISION_MAX_JUMP_IN;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.blDir;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.brDir;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.dt;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.flDir;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.frDir;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.intakeDir;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.bylazar.configurables.annotations.IgnoreConfigurable;
@@ -18,7 +34,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.config.*;
+import org.firstinspires.ftc.teamcode.config.FieldPoses;
+import org.firstinspires.ftc.teamcode.config.Robot;
 import org.firstinspires.ftc.teamcode.subsystems.Kicker;
 import org.firstinspires.ftc.teamcode.subsystems.KickersV2;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
@@ -28,7 +45,7 @@ import org.firstinspires.ftc.teamcode.subsystems.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.util.Drawing;
 
 @TeleOp ()
-public class LLBlue extends LinearOpMode {
+public class LLRed extends LinearOpMode {
     Turret turret;
     Follower drive;
     Tilt tilt;
@@ -80,10 +97,10 @@ public class LLBlue extends LinearOpMode {
         kickers.init();
         intake.setDirection(intakeDir);
 
-        fl = hardwareMap.dcMotor.get(ApolloConstants.dt.fl);
-        bl = hardwareMap.dcMotor.get(ApolloConstants.dt.bl);
-        fr = hardwareMap.dcMotor.get(ApolloConstants.dt.fr);
-        br = hardwareMap.dcMotor.get(ApolloConstants.dt.br);
+        fl = hardwareMap.dcMotor.get(dt.fl);
+        bl = hardwareMap.dcMotor.get(dt.bl);
+        fr = hardwareMap.dcMotor.get(dt.fr);
+        br = hardwareMap.dcMotor.get(dt.br);
 
         fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -128,7 +145,7 @@ public class LLBlue extends LinearOpMode {
             }
 
             if(gamepad1.dpad_left)
-                drive.setPose(new Pose(FieldPoses.redHPPickupEnd.getX(), FieldPoses.redHPPickupEnd.getY(),drive.getHeading()));
+                drive.setPose(new Pose(FieldPoses.blueHPPickupEnd.getX(), FieldPoses.blueHPPickupEnd.getY(),drive.getHeading()));
 
             if(gamepad1.dpad_down){
                 shooter.up();
@@ -156,7 +173,7 @@ public class LLBlue extends LinearOpMode {
             if (gamepad2.a) {tilt.retract();}
 
             if(gamepad1.options)
-                drive.setPose(new Pose(drive.getPose().getX(), drive.getPose().getY() , -Math.PI/2));
+                drive.setPose(new Pose(drive.getPose().getX(), drive.getPose().getY() , Math.PI/2));
 
             if (gamepad2.x && !fieldToggle)
                 toggleField();
@@ -169,7 +186,7 @@ public class LLBlue extends LinearOpMode {
 
             if(field){
 //            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-                double botHeading = drive.getPose().getHeading() + Math.PI/2;
+                double botHeading = drive.getPose().getHeading() - Math.PI/2;
 
                 // Rotate the movement direction counter to the bot's rotation
                 double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
@@ -210,7 +227,7 @@ public class LLBlue extends LinearOpMode {
 
             intake.setPower(intakePower);
 
-            turret.face(FieldPoses.blueHoop, drive.getPose());
+            turret.face(FieldPoses.redHoop, drive.getPose());
 
 //            lKicker.setPosition(lKickerTarget);
 //            mKicker.setPosition(mKickerTarget);
@@ -288,6 +305,8 @@ public class LLBlue extends LinearOpMode {
         // Tight gate + smooth blend
         Pose cur = drive.getPose();
         double jump = Math.hypot(robotX - cur.getX(), robotY - cur.getY());
+        telemetry.addData("jump",jump);
+
         if (jump > VISION_MAX_JUMP_IN) return;
 
         double newX = cur.getX() + VISION_ALPHA * (robotX - cur.getX());

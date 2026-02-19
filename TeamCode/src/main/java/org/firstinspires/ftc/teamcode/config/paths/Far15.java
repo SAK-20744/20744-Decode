@@ -20,13 +20,13 @@ public class Far15 {
     public Pose start = FieldPoses.redFarStart;
     public Pose score = FieldPoses.redFarScore; // score
     public Pose intake1 = FieldPoses.redPushFar;
-    public Pose intake2 = FieldPoses.redBall2End;
-    public Pose intake2Control = FieldPoses.redBall2Ctrl;
-    public Pose intake3 = FieldPoses.redBall1End; // intake
-    public Pose intake3Control = FieldPoses.redBall1Ctrl;
+    public Pose intake2 = FieldPoses.redBall1End;
+    public Pose intake2Control = FieldPoses.redBall1Ctrl;
+    public Pose intake3 = FieldPoses.redBall2End; // intake
+    public Pose intake3Control = FieldPoses.redBall2Ctrl;
     public Pose intake4 = FieldPoses.redBall0End; // intake
     public Pose intake4Control = FieldPoses.redBall0Ctrl;
-    public Pose gate = FieldPoses.redGatePickup; //new Pose(144-132.781509, 61, Math.toRadians(28+90)); // gate
+    public Pose gate = FieldPoses.redGateOpen; //new Pose(144-132.781509, 61, Math.toRadians(28+90)); // gate
     public Pose gateControl = FieldPoses.redBall1Ctrl; //62);
     public Pose park = FieldPoses.redClosePark; //new Pose(36, 12, Math.toRadians(180));
     public Pose goal = FieldPoses.redHoop;
@@ -47,6 +47,10 @@ public class Far15 {
             intake1 = mirror(intake1);
             intake2 = mirror(intake2);
             intake2Control = mirror(intake2Control);
+            intake3 = mirror(intake3);
+            intake3Control = mirror(intake3Control);
+            intake4 = mirror(intake4);
+            intake4Control = mirror(intake4Control);
             gate = mirror(gate);
             gateControl = mirror(gateControl);
             park = mirror(park);
@@ -59,10 +63,10 @@ public class Far15 {
     public PathChain intake1() { // intake 1
         return f.pathBuilder()
                 .addPath(
-                        new BezierLine(score, intake1)
+                        new BezierLine(start, intake1)
                 )
                 .setBrakingStrength(intakeBreakStrength)
-                .setLinearHeadingInterpolation(score.getHeading(), intake1.getHeading(), 0.3)
+                .setLinearHeadingInterpolation(start.getHeading(), intake1.getHeading(), 0.3)
                 .build();
     }
 
@@ -97,7 +101,13 @@ public class Far15 {
                 .setLinearHeadingInterpolation(score.getHeading(), intake2.getHeading(), 0.3)
                 .build();
     }
-
+    public PathChain openGate() {
+        return f.pathBuilder()
+                .addPath(new BezierCurve(intake2, intake2Control, gate))
+                .setBrakingStrength(intakeBreakStrength)
+                .setLinearHeadingInterpolation(intake2.getHeading(), gate.getHeading())
+                .build();
+    }
     public PathChain score2() {
         return f.pathBuilder()
                 .addPath(new BezierCurve(intake2, intake2Control, score))
@@ -143,7 +153,7 @@ public class Far15 {
 
     public PathChain score4() {
         return f.pathBuilder()
-                .addPath(new BezierCurve(intake4, intake3Control, score))
+                .addPath(new BezierCurve(intake4, intake4Control, score))
 //                .setNoDeceleration()
                 .setLinearHeadingInterpolation(intake4.getHeading(), score.getHeading())
                 .build();
@@ -161,18 +171,19 @@ public class Far15 {
             case 0: return intake1();
             case 1: return score1();
             case 2: return intake2();
-            case 3: return score2();
-            case 4: return intake3();
-            case 5: return score3();
-            case 6: return intake4();
-            case 7: return score4();
-            case 8: return park();
+            case 3: return openGate();
+            case 4: return score2();
+            case 5: return intake3();
+            case 6: return score3();
+            case 7: return intake4();
+            case 8: return score4();
+            case 9: return park();
             default: return null;
         }
     }
 
     public boolean hasNext() {
-        int PATH_COUNT = 7;
+        int PATH_COUNT = 8;
         return index < PATH_COUNT;
     }
 

@@ -71,38 +71,40 @@ public class redFar15 extends OpMode {
             case 8: startShoot(); state++; break;
             case 9: if (shootState == -1) state++; break;
 
-            // gate intake 1
+            //
             case 10: r.i.spinIn(); state++; break;
             case 11: r.f.followPath(p.next()); state++; break;
             case 12: if (!r.f.isBusy()) state++; break;
             case 13: r.f.followPath(p.next()); state++; break;
             case 14: if (!r.f.isBusy()) state++; break;
             case 15: r.i.spinOut(); state++; break;
-            case 16: startShoot(); state++; break;
-            case 17: if (shootState == -1) state++; break;
+            case 16: r.f.followPath(p.next()); state++; break;
+            case 17: if (!r.f.isBusy()) state++; break;
+            case 18: startShoot(); state++; break;
+            case 19: if (shootState == -1) state++; break;
 
-            // gate intake 2
-            case 18: r.i.spinIn(); state++; break;
-            case 19: r.f.followPath(p.next()); state++; break;
-            case 20: if (!r.f.isBusy()) state++; break;
+            //
+            case 20: r.i.spinIn(); state++; break;
             case 21: r.f.followPath(p.next()); state++; break;
             case 22: if (!r.f.isBusy()) state++; break;
-            case 23: r.i.spinOut(); state++; break;
-            case 24: startShoot(); state++; break;
-            case 25: if (shootState == -1) state++; break;
+            case 23: r.f.followPath(p.next()); state++; break;
+            case 24: if (!r.f.isBusy()) state++; break;
+            case 25: r.i.spinOut(); state++; break;
+            case 26: startShoot(); state++; break;
+            case 27: if (shootState == -1) state++; break;
 
             // spike intake 2
-            case 26: r.i.spinIn(); state++; break;
-            case 27: r.f.followPath(p.next()); state++; break;
-            case 28: if (!r.f.isBusy()) state++; break;
+            case 28: r.i.spinIn(); state++; break;
             case 29: r.f.followPath(p.next()); state++; break;
             case 30: if (!r.f.isBusy()) state++; break;
-            case 31: r.i.spinOut(); state++; break;
-            case 32: startShoot(); state++; break;
-            case 33: if (shootState == -1) state++; break;
+            case 31: r.f.followPath(p.next()); state++; break;
+            case 32: if (!r.f.isBusy()) state++; break;
+            case 33: r.i.spinOut(); state++; break;
+            case 34: startShoot(); state++; break;
+            case 35: if (shootState == -1) state++; break;
 
-            case 34: r.f.followPath(p.next()); state++; break;
-            case 35: if (!r.f.isBusy()) state++; break;
+            case 36: r.f.followPath(p.next()); state++; break;
+            case 37: if (!r.f.isBusy()) state++; break;
 
         }
         r.t.face(p.goal, r.f.getPose());

@@ -31,7 +31,7 @@ public class ApolloConstants {
         HOOD_MIN = 0.07,
         HOOD_MAX = 0.72,
         HOOD_CLOSE = 0.22,
-        HOOD_FAR = 0.7,
+        HOOD_FAR = 0.68,
 //        SHOOTER_CLOSE = 0.65,
 //        SHOOTER_FAR = 0.8,
 //        SHOOTER_OFF = 0,

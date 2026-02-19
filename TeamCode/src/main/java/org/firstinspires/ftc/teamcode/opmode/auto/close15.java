@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmode.auto;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.teamcode.subsystems.BallSensors;
 import org.firstinspires.ftc.teamcode.util.Alliance;
 
 
+@Config
 public class close15 extends OpMode {
     Robot r;
     Limelight l;
@@ -19,6 +21,9 @@ public class close15 extends OpMode {
     int state = 0;
     int shootState = -1;
     ElapsedTime stateTimer = new ElapsedTime();
+
+    public static double shootPauseTime = 0.5;
+
     final Alliance a;
     public close15(Alliance alliance) {
         this.a = alliance;
@@ -62,8 +67,8 @@ public class close15 extends OpMode {
 
         switch (state) {
             case 0: r.f.followPath(p.next()); state++; break;
-            case 1: if (!r.f.isBusy()) state++; break;
-            case 2: startShoot(); state++; break;
+            case 1: if (!r.f.isBusy()) state++; stateTimer.reset(); break;
+            case 2: if (stateTimer.seconds() > shootPauseTime) {startShoot(); state++; } break;
             case 3: if (shootState == -1) state++; break;
 
             // spike intake 1

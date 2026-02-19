@@ -32,6 +32,7 @@ public class Fast15 {
     private int index;
 
     public static double intakeBreakStrength = 1;
+    public static double gateIntakeBreakStrength = 0.7;
     public static double gateIntakeTime = 2;
 
     public static boolean fullClassifier = false;
@@ -95,7 +96,7 @@ public class Fast15 {
     public PathChain gateIntake() { // go to gate from intake1
         return f.pathBuilder()
                 .addPath(new BezierCurve(score, gateControl, gate))
-                .setBrakingStrength(intakeBreakStrength)
+                .setBrakingStrength(gateIntakeBreakStrength)
                 .setLinearHeadingInterpolation(score.getHeading(), gate.getHeading(), 0.3)
                 .build();
     }
