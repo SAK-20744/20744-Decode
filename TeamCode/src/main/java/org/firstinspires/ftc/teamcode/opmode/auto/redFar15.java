@@ -82,7 +82,7 @@ public class redFar15 extends OpMode {
             case 15: if (!r.f.isBusy()) state++; break;
             case 16: r.f.followPath(p.next()); state++; break;
             case 17: if (!r.f.isBusy()) state++; break;
-            case 18: startShoot(); state++; break;
+            case 18: startCloseShoot(); state++; break;
             case 19: if (shootState == -1) state++; break;
 
             //
@@ -92,7 +92,7 @@ public class redFar15 extends OpMode {
             case 23: r.f.followPath(p.next()); state++; break;
             case 24: if(r.f.getPathCompletion()>eject) r.i.spinOut(); state++; break;
             case 25: if (!r.f.isBusy()) state++; break;
-            case 26: startShoot(); state++; break;
+            case 26: startCloseShoot(); state++; break;
             case 27: if (shootState == -1) state++; break;
 
             // spike intake 2
@@ -102,7 +102,7 @@ public class redFar15 extends OpMode {
             case 31: r.f.followPath(p.next()); state++; break;
             case 32: if(r.f.getPathCompletion()>eject) r.i.spinOut(); state++; break;
             case 33: if (!r.f.isBusy()) state++; break;
-            case 34: startShoot(); state++; break;
+            case 34: startCloseShoot(); state++; break;
             case 35: if (shootState == -1) state++; break;
 
             case 36: r.f.followPath(p.next()); state++; break;
@@ -126,6 +126,10 @@ public class redFar15 extends OpMode {
     }
     public void startShoot() {
         r.s.far();r.s.up();
+        shootState = 0;
+    }
+    public void startCloseShoot() {
+        r.s.close();r.s.down();
         shootState = 0;
     }
     public void shoot() {

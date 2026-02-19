@@ -34,6 +34,7 @@ public class FieldPoses {
     public static Pose redGatePickup = new Pose(TS*-0.5, -TS*2.625+0.5, -R*0.75);
 
     public static Pose redGateOpen = new Pose(TS*-0.4, -TS*2.4, -R);
+    public static Pose redGateCtrl = new Pose(TS*-0.4, TS*-2, -R);
 
     public static Pose redHPPickupStart = new Pose(TS*-2.5, -TS*0.75, -R);
     public static Pose redHPPickupEnd = new Pose(TS*-3+BOT_WIDTH/2, -TS*3+BOT_LENGTH/2, -R);

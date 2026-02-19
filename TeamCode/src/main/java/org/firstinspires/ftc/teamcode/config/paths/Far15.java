@@ -19,6 +19,7 @@ public class Far15 {
 
     public Pose start = FieldPoses.redFarStart;
     public Pose score = FieldPoses.redFarScore; // score
+    public Pose closeScore = FieldPoses.redCloseScore;
     public Pose intake1 = FieldPoses.redPushFar;
     public Pose intake2 = FieldPoses.redBall1End;
     public Pose intake2Control = FieldPoses.redBall1Ctrl;
@@ -27,7 +28,7 @@ public class Far15 {
     public Pose intake4 = FieldPoses.redBall0End; // intake
     public Pose intake4Control = FieldPoses.redBall0Ctrl;
     public Pose gate = FieldPoses.redGateOpen; //new Pose(144-132.781509, 61, Math.toRadians(28+90)); // gate
-    public Pose gateControl = FieldPoses.redBall1Ctrl; //62);
+    public Pose gateControl = FieldPoses.redGateCtrl; //62);
     public Pose park = FieldPoses.redClosePark; //new Pose(36, 12, Math.toRadians(180));
     public Pose goal = FieldPoses.redHoop;
 
@@ -110,9 +111,9 @@ public class Far15 {
     }
     public PathChain score2() {
         return f.pathBuilder()
-                .addPath(new BezierCurve(intake2, intake2Control, score))
+                .addPath(new BezierCurve(intake2, intake2Control, closeScore))
 //                .setNoDeceleration()
-                .setLinearHeadingInterpolation(intake2.getHeading(), score.getHeading())
+                .setLinearHeadingInterpolation(intake2.getHeading(), closeScore.getHeading())
                 .build();
     }
 
@@ -120,49 +121,49 @@ public class Far15 {
         return f.pathBuilder()
                 .addPath(
                         new BezierCurve(
-                                score,
+                                closeScore,
                                 intake3Control,
                                 intake3
                         )
                 )
                 .setBrakingStrength(intakeBreakStrength)
-                .setLinearHeadingInterpolation(score.getHeading(), intake3.getHeading(), 0.3)
+                .setLinearHeadingInterpolation(closeScore.getHeading(), intake3.getHeading(), 0.3)
                 .build();
     }
 
     public PathChain score3() {
         return f.pathBuilder()
-                .addPath(new BezierCurve(intake3, intake3Control, score))
+                .addPath(new BezierCurve(intake3, intake3Control, closeScore))
 //                .setNoDeceleration()
-                .setLinearHeadingInterpolation(intake3.getHeading(), score.getHeading())
+                .setLinearHeadingInterpolation(intake3.getHeading(), closeScore.getHeading())
                 .build();
     }
     public PathChain intake4() {
         return f.pathBuilder()
                 .addPath(
                         new BezierCurve(
-                                score,
+                                closeScore,
                                 intake4Control,
                                 intake4
                         )
                 )
                 .setBrakingStrength(intakeBreakStrength)
-                .setLinearHeadingInterpolation(score.getHeading(), intake4.getHeading(), 0.3)
+                .setLinearHeadingInterpolation(closeScore.getHeading(), intake4.getHeading(), 0.3)
                 .build();
     }
 
     public PathChain score4() {
         return f.pathBuilder()
-                .addPath(new BezierCurve(intake4, intake4Control, score))
+                .addPath(new BezierCurve(intake4, intake4Control, closeScore))
 //                .setNoDeceleration()
-                .setLinearHeadingInterpolation(intake4.getHeading(), score.getHeading())
+                .setLinearHeadingInterpolation(intake4.getHeading(), closeScore.getHeading())
                 .build();
     }
 
     public PathChain park() {
         return f.pathBuilder()
-                .addPath(new BezierLine(score, park))
-                .setLinearHeadingInterpolation(score.getHeading(), park.getHeading())
+                .addPath(new BezierLine(closeScore, park))
+                .setLinearHeadingInterpolation(closeScore.getHeading(), park.getHeading())
                 .build();
     }
 
