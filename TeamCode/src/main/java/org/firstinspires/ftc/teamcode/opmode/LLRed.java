@@ -7,6 +7,7 @@ import static org.firstinspires.ftc.teamcode.config.ApolloConstants.INTAKE_OFF;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.INTAKE_OUT;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.PURPLELIGHT;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.REDLIGHT;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.TurretScaling;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.UP_TIME;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.VISION_ALPHA;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.VISION_MAX_JUMP_IN;
@@ -245,6 +246,8 @@ public class LLRed extends LinearOpMode {
             drive.updatePose();
 
             visionRelocalizeLoop(turret.getYaw());
+            turret.addYaw(TurretScaling * (gamepad2.right_trigger - gamepad2.left_trigger));
+            turret.periodic();
 
             telemetry.addData("Robot Pose", drive.getPose());
             telemetry.addData("Turret Angle",turret.getYaw());

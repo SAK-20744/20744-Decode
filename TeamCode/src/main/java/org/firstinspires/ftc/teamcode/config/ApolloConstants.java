@@ -10,7 +10,7 @@ public class ApolloConstants {
     public static double autoTurret2 = 115;
     public static double autoTurret3 = 115;
 
-    public static double TurretScaling = 0.33;
+    public static double TurretScaling = 0.15;
 
     public static double eject = 0.4;
 
