@@ -150,17 +150,19 @@ public class BallSensors {
                 case PPG: return new String[]{"r","m","l"};
             }
         }
-        if (rColor == BallColor.G) {
+        else if (rColor == BallColor.G) {
             switch (motif) {
                 case GPP: return new String[]{"r","m","l"};
                 case PGP: return new String[]{"l","r","m"};
                 case PPG: return new String[]{"l","m","r"};
             }
         }
-        switch (motif) {
-            case GPP: return new String[]{"m","r","l"};
-            case PGP: return new String[]{"l","m","r"};
-            case PPG: return new String[]{"l","r","m"};
+        else{
+            switch (motif) {
+                case GPP: return new String[]{"m","r","l"};
+                case PGP: return new String[]{"l","m","r"};
+                case PPG: return new String[]{"l","r","m"};
+            }
         }
         return new String[]{"l","m","r"};
     }
