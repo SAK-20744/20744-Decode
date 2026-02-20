@@ -229,6 +229,8 @@ public class LLBlue extends LinearOpMode {
 
             visionRelocalizeLoop(turret.getYaw());
 
+            turret.addYaw(TurretScaling * (gamepad2.right_trigger - gamepad2.left_trigger));
+
             telemetry.addData("Robot Pose", drive.getPose());
             telemetry.addData("Turret Angle",turret.getYaw());
             telemetry.addData("Get Turret", turret.getTurret());
