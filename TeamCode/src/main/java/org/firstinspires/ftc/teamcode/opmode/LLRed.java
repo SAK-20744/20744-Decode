@@ -148,11 +148,11 @@ public class LLRed extends LinearOpMode {
             if(gamepad1.dpad_left)
                 drive.setPose(new Pose(FieldPoses.blueHPPickupEnd.getX(), FieldPoses.blueHPPickupEnd.getY(),drive.getHeading()));
 
-            if(gamepad1.dpad_down){
+            if(gamepad1.dpad_down || gamepad2.dpad_down){
                 shooter.up();
                 shooter.far();
             }
-            if (gamepad1.dpad_up) {
+            if (gamepad1.dpad_up || gamepad2.dpad_up) {
                 shooter.down();
                 shooter.close();
             }
@@ -246,7 +246,7 @@ public class LLRed extends LinearOpMode {
             drive.updatePose();
 
             visionRelocalizeLoop(turret.getYaw());
-            turret.addYaw(TurretScaling * (gamepad2.right_trigger - gamepad2.left_trigger));
+            turret.setOffset(TurretScaling * (gamepad2.left_trigger - gamepad2.right_trigger));
             turret.periodic();
 
             telemetry.addData("Robot Pose", drive.getPose());

@@ -19,7 +19,8 @@ public class Turret {
     public static double pid_switch = 200, zero_switch = 50;
     public static double error = 0, power = 0, manualPower = 0;
 
-    public static double stupidfuckingoffset = 0.105;
+//    public static double stupidfuckingoffset = 0.105;
+    public static double stupidfuckingoffset = 0;
 
     public static double TICKS_PER_REV = 8192, GEAR_RATIO = 6; // Motor TPR=145.1 // REV Encoder TPR=8192
     private double rpt = /*0.0029919*/ Math.PI / ( (TICKS_PER_REV*GEAR_RATIO)/2 );
@@ -30,6 +31,8 @@ public class Turret {
     public static double kp = 0.0004, kf = 0.0, kd = 0.00003, sp = 0.002, sf = 0, sd = 0.00000;
 
     public static boolean on = true, manual = false;
+
+    public double offset = 0;
 
     public Turret(HardwareMap hardwareMap) {
         m = hardwareMap.get(DcMotorEx.class, "turret");
@@ -110,9 +113,14 @@ public class Turret {
     public double getYaw() {
         return normalizeAngle(getTurret() * rpt);
     }
-
+    public void setOffset(double off) {
+        this.offset = off;
+    }
+    public void addOffset(double off) {
+        this.offset += off;
+    }
     public void setYaw(double radians) {
-        radians = normalizeAngle(radians);
+        radians = normalizeAngle(radians + offset);
         setTurretTarget(radians/rpt);
     }
 

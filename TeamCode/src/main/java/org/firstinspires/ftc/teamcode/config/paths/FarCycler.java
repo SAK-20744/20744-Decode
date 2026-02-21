@@ -32,6 +32,7 @@ public class FarCycler {
         if (r.a.equals(Alliance.BLUE)) {
             start = mirror(start);
             score = mirror(score);
+            hpintake = mirror(hpintake);
             park = mirror(park);
             goal = mirror(goal);
         }

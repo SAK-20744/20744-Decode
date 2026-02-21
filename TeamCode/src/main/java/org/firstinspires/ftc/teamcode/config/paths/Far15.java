@@ -21,6 +21,7 @@ public class Far15 {
     public Pose score = FieldPoses.redFarScore; // score
     public Pose closeScore = FieldPoses.redCloseScore;
     public Pose intake1 = FieldPoses.redPushFar;
+    public Pose hpIntakePos = FieldPoses.redHPPickupEnd;
     public Pose intake2 = FieldPoses.redBall1End;
     public Pose intake2Control = FieldPoses.redBall1Ctrl;
     public Pose intake3 = FieldPoses.redBall2End; // intake
@@ -37,7 +38,7 @@ public class Far15 {
     public static double intakeBreakStrength = 1;
     public static double gateIntakeTime = 2;
 
-    public static boolean fullClassifier = false;
+    public static boolean intakeHP = false;
 
     public Far15(Robot r) {
         this.f = r.f;
@@ -45,7 +46,9 @@ public class Far15 {
         if (r.a.equals(Alliance.BLUE)) {
             start = mirror(start);
             score = mirror(score);
+            closeScore = mirror(closeScore);
             intake1 = mirror(intake1);
+            hpIntakePos = mirror(hpIntakePos);
             intake2 = mirror(intake2);
             intake2Control = mirror(intake2Control);
             intake3 = mirror(intake3);
@@ -60,7 +63,12 @@ public class Far15 {
 
         index = 0;
     }
-
+    public void intakeHP(boolean ihp) {
+        this.intakeHP = ihp;
+        if (ihp) {
+            intake1 = hpIntakePos;
+        }
+    }
     public PathChain intake1() { // intake 1
         return f.pathBuilder()
                 .addPath(
@@ -74,6 +82,7 @@ public class Far15 {
     public PathChain score1() {
         return f.pathBuilder()
                 .addPath(new BezierLine(intake1, score))
+                .setBrakingStrength(0.6)
 //                .setNoDeceleration()
                 .setLinearHeadingInterpolation(intake1.getHeading(), score.getHeading())
                 .build();
@@ -90,6 +99,7 @@ public class Far15 {
     public PathChain scoreG() {
         return f.pathBuilder()
                 .addPath(new BezierCurve(gate, gateControl, score))
+                .setBrakingStrength(0.6)
 //                .setNoDeceleration()
                 .setLinearHeadingInterpolation(gate.getHeading(), score.getHeading())
                 .build();

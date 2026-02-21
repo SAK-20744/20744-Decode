@@ -56,7 +56,7 @@ public class ApolloConstants {
 
     public static double REDLIGHT = 0.277;
     public static double PURPLELIGHT = 0.722;
-    public static double UP_TIME = 5.0;
+    public static double UP_TIME = 2.0;
 
     public static double CAM_FWD_IN  = 5.0;   // camera offset forward from turret center
     public static double CAM_LEFT_IN = 0.5;   // camera offset left from turret center
@@ -116,20 +116,24 @@ public class ApolloConstants {
         // HoleGreen:   R=0.214 G=0.465 B=0.412
         // Green:       R=0.214 G=0.496 B=0.435
 
-        public static double l1Range = 0.036;
-        public static double m1Range = 0.043;
-        public static double r1Range = 0.037;
+        public static double l1Range = 0.05;
+        public static double m1Range = 0.05;
+        public static double r1Range = 0.05;
         @Config
         public static class P {
-            public static double l1R = 0.230, l1G = 0.352, l1B = 0.363;
-            public static double m1R = 0.287, m1G = 0.420, m1B = 0.460;
-            public static double r1R = 0.275, r1G = 0.420, r1B = 0.470;
+//            public static double l1R = 0.230, l1G = 0.352, l1B = 0.363;
+//            public static double m1R = 0.287, m1G = 0.420, m1B = 0.460;
+//            public static double r1R = 0.275, r1G = 0.420, r1B = 0.470;
+
+            public static double l1R = 0, l1G = 0, l1B = 0;
+            public static double m1R = 0, m1G = 0, m1B = 0;
+            public static double r1R = 0, r1G = 0, r1B = 0;
         }
         @Config
         public static class G {
-            public static double l1R = 0.130, l1G = 0.280, l1B = 0.230;
-            public static double m1R = 0.210, m1G = 0.503, m1B = 0.395;
-            public static double r1R = 0.214, r1G = 0.481, r1B = 0.424;
+            public static double l1R = 0.240, l1G = 0.375, l1B = 0.385;
+            public static double m1R = 0.295, m1G = 0.700, m1B = 0.605;
+            public static double r1R = 0.265, r1G = 0.595, r1B = 0.545;
         }
     }
 }
