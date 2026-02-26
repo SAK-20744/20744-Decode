@@ -79,22 +79,22 @@ public class BallSensorsBroke {
             s1 = l1;
             p1R = CS.P.l1R; p1G = CS.P.l1G; p1B = CS.P.l1B;
             g1R = CS.G.l1R; g1G = CS.G.l1G; g1B = CS.G.l1B;
-            range = CS.l1Range;
+            range = CS.l1RRange;
         } else if (m == "m") {
             s1 = m1;
             p1R = CS.P.m1R; p1G = CS.P.m1G; p1B = CS.P.m1B;
             g1R = CS.G.m1R; g1G = CS.G.m1G; g1B = CS.G.m1B;
-            range = CS.m1Range;
+            range = CS.m1RRange;
         } else if (m == "r") {
             s1 = r1;
             p1R = CS.P.r1R; p1G = CS.P.r1G; p1B = CS.P.r1B;
             g1R = CS.G.r1R; g1G = CS.G.r1G; g1B = CS.G.r1B;
-            range = CS.r1Range;
+            range = CS.r1RRange;
         } else {
             s1 = l1;
             p1R = CS.P.l1R; p1G = CS.P.l1G; p1B = CS.P.l1B;
             g1R = CS.G.l1R; g1G = CS.G.l1G; g1B = CS.G.l1B;
-            range = CS.l1Range;
+            range = CS.l1RRange;
             // Default Case to Prevent Crashes and as Backup
         }
         s1R = s1.getNormalizedColors().red;

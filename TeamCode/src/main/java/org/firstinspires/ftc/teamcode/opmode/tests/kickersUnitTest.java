@@ -147,7 +147,7 @@ public class kickersUnitTest extends LinearOpMode {
         }
     }
     boolean inCRange(double r,double g,double b, double tr, double tg, double tb) {
-        return (Math.abs(tr-r) < ApolloConstants.CS.m1Range && Math.abs(tg-g) < ApolloConstants.CS.m1Range && Math.abs(tb-b) < ApolloConstants.CS.m1Range);
+        return (Math.abs(tr-r) < ApolloConstants.CS.m1RRange && Math.abs(tg-g) < ApolloConstants.CS.m1RRange && Math.abs(tb-b) < ApolloConstants.CS.m1RRange);
     }
     void cycleSensor() {
         switch (selectedSensor) {

@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.util.Pattern;
 
 public class BallSensors {
     Motif motif = Motif.GPP ;
-    RevColorSensorV3 m1, l1,r1;
+    public RevColorSensorV3 m1, l1,r1;
     BallColor lColor = BallColor.N, mColor = BallColor.N, rColor = BallColor.N;
     boolean left, mid, right = false;
 
@@ -68,24 +68,24 @@ public class BallSensors {
         double range;
         if (m == "l") {
             s1 = l1;
-            p1R = CS.P.l1R; p1G = CS.P.l1G; p1B = CS.P.l1B;
+//            p1R = CS.P.l1R; p1G = CS.P.l1G; p1B = CS.P.l1B;
             g1R = CS.G.l1R; g1G = CS.G.l1G; g1B = CS.G.l1B;
-            range = CS.l1Range;
+            range = CS.l1RRange;
         } else if (m == "m") {
             s1 = m1;
-            p1R = CS.P.m1R; p1G = CS.P.m1G; p1B = CS.P.m1B;
+//            p1R = CS.P.m1R; p1G = CS.P.m1G; p1B = CS.P.m1B;
             g1R = CS.G.m1R; g1G = CS.G.m1G; g1B = CS.G.m1B;
-            range = CS.m1Range;
+            range = CS.m1RRange;
         } else if (m == "r") {
             s1 = r1;
-            p1R = CS.P.r1R; p1G = CS.P.r1G; p1B = CS.P.r1B;
+//            p1R = CS.P.r1R; p1G = CS.P.r1G; p1B = CS.P.r1B;
             g1R = CS.G.r1R; g1G = CS.G.r1G; g1B = CS.G.r1B;
-            range = CS.r1Range;
+            range = CS.r1RRange;
         } else {
             s1 = l1;
-            p1R = CS.P.l1R; p1G = CS.P.l1G; p1B = CS.P.l1B;
+//            p1R = CS.P.l1R; p1G = CS.P.l1G; p1B = CS.P.l1B;
             g1R = CS.G.l1R; g1G = CS.G.l1G; g1B = CS.G.l1B;
-            range = CS.l1Range;
+            range = CS.l1RRange;
             // Default Case to Prevent Crashes and as Backup
         }
         s1R = s1.getNormalizedColors().red;
@@ -98,8 +98,8 @@ public class BallSensors {
 
         if (inCRange(s1R,s1G,s1B, g1R,g1G,g1B, range))
             s1Color = BallColor.G;
-        else if (inCRange(s1R,s1G,s1B,p1R,p1G,p1B, range))
-            s1Color = BallColor.P;
+//        else if (inCRange(s1R,s1G,s1B,p1R,p1G,p1B, range))
+//            s1Color = BallColor.P;
         else
             s1Color = BallColor.N;
 

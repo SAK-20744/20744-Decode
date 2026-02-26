@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.config;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.opencv.core.Scalar;
+
 @Config
 public class ApolloConstants {
 
@@ -116,9 +118,9 @@ public class ApolloConstants {
         // HoleGreen:   R=0.214 G=0.465 B=0.412
         // Green:       R=0.214 G=0.496 B=0.435
 
-        public static double l1Range = 0.05;
-        public static double m1Range = 0.05;
-        public static double r1Range = 0.05;
+        public static double l1RRange = 0.05, l1GRange = 0, l1BRange = 0;
+        public static double m1RRange = 0.05;
+        public static double r1RRange = 0.05;
         @Config
         public static class P {
 //            public static double l1R = 0.230, l1G = 0.352, l1B = 0.363;
@@ -136,4 +138,10 @@ public class ApolloConstants {
             public static double r1R = 0.265, r1G = 0.595, r1B = 0.545;
         }
     }
+    public Scalar lGMin = new Scalar(0.190,0.325,0.335);
+    public Scalar lGMax = new Scalar(0.290,0.425,0.435);
+    public Scalar mGMin = new Scalar(0.245,0.650,0.555);
+    public Scalar mGMax = new Scalar(0.345,0.750,0.655);
+    public Scalar rGMin = new Scalar(0.215,0.545,0.495);
+    public Scalar rGMax = new Scalar(0.315,0.645,0.595);
 }

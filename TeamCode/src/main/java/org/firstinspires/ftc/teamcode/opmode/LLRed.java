@@ -308,6 +308,12 @@ public class LLRed extends LinearOpMode {
         // Tight gate + smooth blend
         Pose cur = drive.getPose();
         double jump = Math.hypot(robotX - cur.getX(), robotY - cur.getY());
+
+
+        telemetry.addData("llrobotX",robotX);
+
+        telemetry.addData("llrobotY",robotY);
+
         telemetry.addData("jump",jump);
 
         if (jump > VISION_MAX_JUMP_IN) return;
