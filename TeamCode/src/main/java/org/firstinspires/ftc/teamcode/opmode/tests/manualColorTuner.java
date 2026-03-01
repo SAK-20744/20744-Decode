@@ -8,14 +8,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.config.ApolloConstants;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
-import org.firstinspires.ftc.teamcode.subsystems.Kickers;
 import org.firstinspires.ftc.teamcode.util.BallColor;
 
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 
 
 @TeleOp (group="UnitTest")
-public class kickersUnitTest extends LinearOpMode {
+public class manualColorTuner extends LinearOpMode {
     boolean cyclePressed = false;
     boolean lPressed=false,mPressed=false,rPressed=false;
 
@@ -33,7 +32,6 @@ public class kickersUnitTest extends LinearOpMode {
     @Override
     public void runOpMode() {
         Intake intake = new Intake(hardwareMap);
-        Kickers kickers = new Kickers(hardwareMap);
 
         m1 = hardwareMap.get(RevColorSensorV3.class, "m1");
         l1 = hardwareMap.get(RevColorSensorV3.class, "l1");
@@ -55,18 +53,6 @@ public class kickersUnitTest extends LinearOpMode {
             } else {
                 intake.idle();
             }
-
-            if (gamepad1.x && !lPressed)
-                kickers.kick(Kickers.Kicker.L);
-            lPressed = gamepad1.x;
-
-            if (gamepad1.y && !mPressed)
-                kickers.kick(Kickers.Kicker.M);
-            mPressed = gamepad1.y;
-
-            if (gamepad1.b && !rPressed)
-                kickers.kick(Kickers.Kicker.R);
-            rPressed = gamepad1.b;
 
             if (gamepad1.a && !cyclePressed)
                 cycleSensor();
@@ -103,14 +89,6 @@ public class kickersUnitTest extends LinearOpMode {
             else
                 sensor1Color = BallColor.N;
 
-//            if (inCRange(sensor2R,sensor2G,sensor2B, ApolloConstants.CS.G.l2R,ApolloConstants.CS.G.l2G,ApolloConstants.CS.G.l2B))
-//                sensor2Color = BallColor.G;
-//            else if (inCRange(sensor2R,sensor2G,sensor2B,ApolloConstants.CS.P.l2R,ApolloConstants.CS.P.l2G,ApolloConstants.CS.P.l2B))
-//                sensor2Color = BallColor.P;
-//            else
-//                sensor2Color = BallColor.N;
-
-            kickers.periodic();
 
             telemetry.addData("Sensor Selected",selectedSensor);
             telemetry.addData("Left?", left);
