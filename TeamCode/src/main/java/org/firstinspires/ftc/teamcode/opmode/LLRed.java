@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.config.FieldPoses;
 import org.firstinspires.ftc.teamcode.config.Robot;
@@ -275,7 +276,7 @@ public class LLRed extends LinearOpMode {
     public void visionRelocalizeLoop(double turretYawRad) {
 
         // Feed robot heading to Limelight (MegaTag2 needs this)
-        l.updateRobotOrientation(drive.getPose().getHeading());
+        l.updateRobotOrientation(Math.toDegrees( drive.getPose().getHeading() + turretYawRad));
 
         // Get MegaTag2 result
         LLResult result = l.getLatestResult();
@@ -284,11 +285,14 @@ public class LLRed extends LinearOpMode {
         // Read MegaTag2 field pose (INCHES)
         double camX = result.getBotpose_MT2()
                 .getPosition()
-                .toUnit(DistanceUnit.INCH).x;
+                .toUnit(DistanceUnit.INCH).x + 110;
 
         double camY = result.getBotpose_MT2()
                 .getPosition()
-                .toUnit(DistanceUnit.INCH).y;
+                .toUnit(DistanceUnit.INCH).y - 110;
+//        double camX = result.getBotpose().getPosition().x;
+//
+//        double camY = result.getBotpose().getPosition().y;
 
         // Heading (radians) from Pedro
         double headingRad = drive.getPose().getHeading();
@@ -315,6 +319,10 @@ public class LLRed extends LinearOpMode {
         telemetry.addData("llrobotY",robotY);
 
         telemetry.addData("jump",jump);
+
+        telemetry.addData("cam x", camX);
+        telemetry.addData("cam y", camY);
+        telemetry.addData("ll yaw", result.getBotpose_MT2().getOrientation().getYaw(AngleUnit.DEGREES));
 
         if (jump > VISION_MAX_JUMP_IN) return;
 

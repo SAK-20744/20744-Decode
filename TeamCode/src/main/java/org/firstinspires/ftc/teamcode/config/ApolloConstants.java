@@ -36,8 +36,8 @@ public class ApolloConstants {
         RKICKER_UP = 0.28,
         HOOD_MIN = 0.07,
         HOOD_MAX = 0.72,
-        HOOD_CLOSE = 0.22,
-        HOOD_FAR = 0.7025,
+//        HOOD_CLOSE = 0.22,
+//        HOOD_FAR = 0.7025,
 //        SHOOTER_CLOSE = 0.65,
 //        SHOOTER_FAR = 0.8,
 //        SHOOTER_OFF = 0,
@@ -74,8 +74,11 @@ public class ApolloConstants {
 //        KICKER_DOWNTIME = 0.3;
 
     public static double
-        KUP = 350,
-        KDOWN = 150;
+        KUP = 200,
+        KDOWN = 80;
+    public static double
+            AUTO_KUP = 350,
+            AUTO_KDOWN = 150;
     public static int
 //        TURRET_BLUE_FAR = -285,
         TURRET_MIDDLE = 0;
@@ -121,7 +124,7 @@ public class ApolloConstants {
         public static double l1RRange = 0.05, l1GRange = 0, l1BRange = 0;
         public static double m1RRange = 0.05;
         public static double r1RRange = 0.05;
-        @Config
+
         public static class P {
 //            public static double l1R = 0.230, l1G = 0.352, l1B = 0.363;
 //            public static double m1R = 0.287, m1G = 0.420, m1B = 0.460;
@@ -131,7 +134,7 @@ public class ApolloConstants {
             public static double m1R = 0, m1G = 0, m1B = 0;
             public static double r1R = 0, r1G = 0, r1B = 0;
         }
-        @Config
+
         public static class G {
             public static double l1R = 0.240, l1G = 0.375, l1B = 0.385;
             public static double m1R = 0.295, m1G = 0.700, m1B = 0.605;
