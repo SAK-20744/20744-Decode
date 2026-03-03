@@ -36,6 +36,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.config.FieldPoses;
 import org.firstinspires.ftc.teamcode.config.Robot;
 import org.firstinspires.ftc.teamcode.subsystems.Kicker;
@@ -45,6 +46,8 @@ import org.firstinspires.ftc.teamcode.subsystems.Tilt;
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
 import org.firstinspires.ftc.teamcode.subsystems.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.util.Drawing;
+
+import java.util.Locale;
 
 @TeleOp ()
 public class LLRed extends LinearOpMode {
@@ -147,7 +150,7 @@ public class LLRed extends LinearOpMode {
             }
 
             if(gamepad1.dpad_left)
-                drive.setPose(new Pose(FieldPoses.blueHPPickupEnd.getX(), FieldPoses.blueHPPickupEnd.getY(),drive.getHeading()));
+                drive.setPose(new Pose(FieldPoses.redReset.getX(), FieldPoses.redReset.getY(),drive.getHeading()));
 
             if(gamepad1.dpad_down || gamepad2.dpad_down){
                 shooter.up();
@@ -286,7 +289,6 @@ public class LLRed extends LinearOpMode {
         double camX = result.getBotpose_MT2()
                 .getPosition()
                 .toUnit(DistanceUnit.INCH).x + 110;
-
         double camY = result.getBotpose_MT2()
                 .getPosition()
                 .toUnit(DistanceUnit.INCH).y - 110;
@@ -320,9 +322,14 @@ public class LLRed extends LinearOpMode {
 
         telemetry.addData("jump",jump);
 
-        telemetry.addData("cam x", camX);
-        telemetry.addData("cam y", camY);
+//        telemetry.addData("cam x", camX);
+//        telemetry.addData("cam y", camY);
+        telemetry.addLine(String.format("cam X: %.3f Y: %.3f", camX, camY));
+        telemetry.addLine(String.format("off X: %.3f Y: %.3f", offX, offY));
         telemetry.addData("ll yaw", result.getBotpose_MT2().getOrientation().getYaw(AngleUnit.DEGREES));
+
+//        Pose3D robotPose = result.getFiducialResults().get(0).getRobotPoseFieldSpace();
+//        telemetry.addData("ll robotPose", robotPose.getPosition().toUnit(DistanceUnit.INCH));
 
         if (jump > VISION_MAX_JUMP_IN) return;
 
@@ -332,8 +339,6 @@ public class LLRed extends LinearOpMode {
 
         drive.setPose(new Pose(newX, newY, newH));
     }
-
-
 
     private static double wrapRad(double a) {
         a %= (Math.PI * 2.0);

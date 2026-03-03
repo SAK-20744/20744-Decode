@@ -37,7 +37,8 @@ public class FieldPoses {
     public static Pose redGateCtrl = new Pose(TS*-0.4, TS*-2, -R);
 
     public static Pose redHPPickupStart = new Pose(TS*-2.5, -TS*0.75, -R);
-    public static Pose redHPPickupEnd = new Pose(TS*-3+BOT_WIDTH/2, -TS*3+BOT_LENGTH/2, -R);
+    public static Pose redHPPickupEnd = new Pose(TS*-3+BOT_WIDTH/2, -TS*3+13/*BOT_LENGTH/2*/, -R);
+    public static Pose redReset = new Pose(TS*-3+BOT_WIDTH/2, TS*3-13/*BOT_LENGTH/2*/, R);
     public static Pose redHoop = new Pose(TS*3-2.5,-TS*3+2.5);
     public static Pose redTele = new Pose(TS*2.75,-TS*2.75);
     public static Pose redClosePark = new Pose(-16, -16, -R);
@@ -51,6 +52,7 @@ public class FieldPoses {
     public static Pose blueBall2Start = mirror(redBall2Start);
     public static Pose blueBall2End = mirror(redBall2End);
     public static Pose blueHPPickupEnd = mirror(redHPPickupEnd);
+    public static Pose blueReset = mirror(redReset);
     public static Pose blueHPPickupStart = mirror(redHPPickupStart);
     public static Pose blueHoop = mirror(redHoop);
     public static Pose blueTele = mirror(redTele);

@@ -128,7 +128,7 @@ public class LLBlue extends LinearOpMode {
             }
 
             if(gamepad1.dpad_left)
-                drive.setPose(new Pose(FieldPoses.redHPPickupEnd.getX(), FieldPoses.redHPPickupEnd.getY(),drive.getHeading()));
+                drive.setPose(new Pose(FieldPoses.blueReset.getX(), FieldPoses.blueReset.getY(),drive.getHeading()));
 
             if(gamepad1.dpad_down || gamepad2.dpad_down){
                 shooter.up();

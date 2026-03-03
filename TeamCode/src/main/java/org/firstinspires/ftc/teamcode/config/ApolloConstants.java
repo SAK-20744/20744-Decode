@@ -142,11 +142,12 @@ public class ApolloConstants {
         }
     }
     public static class colorRanges {
-        public static Scalar lGMin = new Scalar(0.190, 0.325, 0.335);
-        public static Scalar lGMax = new Scalar(0.290, 0.425, 0.435);
-        public static Scalar mGMin = new Scalar(0.245, 0.650, 0.555);
-        public static Scalar mGMax = new Scalar(0.345, 0.750, 0.655);
-        public static Scalar rGMin = new Scalar(0.215, 0.545, 0.495);
-        public static Scalar rGMax = new Scalar(0.315, 0.645, 0.595);
+        public Scalar lGMin = new Scalar(0.190, 0.325, 0.335);
+        public Scalar lGMax = new Scalar(0.290, 0.425, 0.435);
+        public Scalar mGMin = new Scalar(0.245, 0.650, 0.555);
+        public Scalar mGMax = new Scalar(0.345, 0.750, 0.655);
+        public Scalar rGMin = new Scalar(0.215, 0.545, 0.495);
+        public Scalar rGMax = new Scalar(0.315, 0.645, 0.595);
     }
+
 }

@@ -88,8 +88,8 @@ public class BallSensors2 {
 //
         } else {
             s1 = l1;
-            min = ApolloConstants.colorRanges.lGMin;
-            max = ApolloConstants.colorRanges.lGMax;
+            min = colorRanges.lGMin;
+            max = colorRanges.lGMax;
             // Default Case to Prevent Crashes and as Backup
         }
         s1R = s1.getNormalizedColors().red;

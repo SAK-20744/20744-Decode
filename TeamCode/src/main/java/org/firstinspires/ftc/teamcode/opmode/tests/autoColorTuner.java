@@ -50,15 +50,15 @@ public class autoColorTuner extends LinearOpMode {
         FileConfig.writeFile("endProgramTest.txt", "ended with: "+getRuntime());
     }
     public void save_left(NormalizedRGBA rgb) {
-        if (mode == "solid") ApolloConstants.colorRanges.lGMax = new Scalar(rgb.red,rgb.green,rgb.blue);
-        else if (mode == "hole") ApolloConstants.colorRanges.lGMin = new Scalar(rgb.red,rgb.green,rgb.blue);
+        if (mode == "solid") colorRanges.lGMax = new Scalar(rgb.red,rgb.green,rgb.blue);
+        else if (mode == "hole") colorRanges.lGMin = new Scalar(rgb.red,rgb.green,rgb.blue);
     }
     public void save_mid(NormalizedRGBA rgb) {
-        if (mode == "solid") ApolloConstants.colorRanges.mGMax = new Scalar(rgb.red,rgb.green,rgb.blue);
-        else if (mode == "hole") ApolloConstants.colorRanges.mGMin = new Scalar(rgb.red,rgb.green,rgb.blue);
+        if (mode == "solid") colorRanges.mGMax = new Scalar(rgb.red,rgb.green,rgb.blue);
+        else if (mode == "hole") colorRanges.mGMin = new Scalar(rgb.red,rgb.green,rgb.blue);
     }
     public void save_right(NormalizedRGBA rgb) {
-        if (mode == "solid") ApolloConstants.colorRanges.rGMax = new Scalar(rgb.red,rgb.green,rgb.blue);
-        else if (mode == "hole") ApolloConstants.colorRanges.rGMin = new Scalar(rgb.red,rgb.green,rgb.blue);
+        if (mode == "solid") colorRanges.rGMax = new Scalar(rgb.red,rgb.green,rgb.blue);
+        else if (mode == "hole") colorRanges.rGMin = new Scalar(rgb.red,rgb.green,rgb.blue);
     }
 }
