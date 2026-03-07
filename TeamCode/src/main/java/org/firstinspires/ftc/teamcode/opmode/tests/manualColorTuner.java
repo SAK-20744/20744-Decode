@@ -95,7 +95,7 @@ public class manualColorTuner extends LinearOpMode {
             telemetry.addData("Right?", right);
             telemetry.addData("Middle?", mid);
 
-            telemetry.addData("m1 Dist", m1.getDistance(DistanceUnit.MM));
+            telemetry.addData("s1 Dist", sensor1.getDistance(DistanceUnit.MM));
 
             telemetry.addData("sensor1 Red", "%.3f", sensor1R);
             telemetry.addData("sensor1 Green", "%.3f", sensor1G);

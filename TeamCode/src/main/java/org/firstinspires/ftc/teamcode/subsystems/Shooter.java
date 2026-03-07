@@ -22,6 +22,7 @@ public class Shooter extends SubsystemBase {
 
     private double t = 0;
     public static double kS = 0.435, kV = 0.00022, kP = 0.00325;
+    public static double far_kS = 0.435, far_kV = 0.00022, far_kP = 0.00325;
     private boolean activated = true;
     public static double close = 1240;
     public static double far = 1750;
@@ -30,7 +31,7 @@ public class Shooter extends SubsystemBase {
     public static double hoodCorrection = 0;
     private boolean hoodCorrect = true;
     private boolean up = false;
-
+    private boolean isFar = false;
     public Shooter(HardwareMap hardwareMap) {
         l = hardwareMap.get(DcMotorEx.class, "lShooter");
         r = hardwareMap.get(DcMotorEx.class, "rShooter");
@@ -71,11 +72,13 @@ public class Shooter extends SubsystemBase {
     public void far() {
         setTarget(far);
         on();
+        isFar = true;
     }
 
     public void close() {
         setTarget(close);
         on();
+        isFar = false;
     }
 
     public void setTarget(double velocity) {
@@ -84,8 +87,13 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (activated)
-            setPower((kV * getTarget()) + (kP * (getTarget() - getVelocity())) + kS);
+
+        if (activated) {
+            double power;
+            power = (kV * getTarget()) + (kP * (getTarget() - getVelocity())) + kS;
+            if (isFar) power = (far_kV * getTarget()) + (far_kP * (getTarget() - getVelocity())) + far_kS;
+            setPower(power);
+        }
 
         double hoodCorrectFactor = (getTarget()-getVelocity()) * clamp((flipUp-flipDown)/(far-close), -0.5, 0.5);
         double hoodPos = flipUp;

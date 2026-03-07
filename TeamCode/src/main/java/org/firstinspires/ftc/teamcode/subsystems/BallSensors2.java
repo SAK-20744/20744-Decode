@@ -44,15 +44,15 @@ public class BallSensors2 {
     }
 
     public void read() {
-        if(l1.getDistance(DistanceUnit.MM) < 30)
+        if(l1.getDistance(DistanceUnit.MM) < 150)
             left=true;
         else left = false;
 
-        if(r1.getDistance(DistanceUnit.MM) < 30)
+        if(r1.getDistance(DistanceUnit.MM) < 100)
             right=true;
         else right = false;
 
-        if(m1.getDistance(DistanceUnit.MM) < 34)
+        if(m1.getDistance(DistanceUnit.MM) < 37)
             mid=true;
         else mid = false;
 
