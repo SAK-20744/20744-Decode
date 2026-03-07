@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Kickers;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.pedroPathing.Constants;
 
-@TeleOp
+@TeleOp (group="UnitTest")
 public class FullShooterTest extends LinearOpMode {
     FtcDashboard dashboard = FtcDashboard.getInstance();
     Shooter shooter;

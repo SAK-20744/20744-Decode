@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.config.Robot;
 import org.firstinspires.ftc.teamcode.config.paths.Fast15;
+import org.firstinspires.ftc.teamcode.subsystems.BallSensors2;
 import org.firstinspires.ftc.teamcode.subsystems.Limelight;
 import org.firstinspires.ftc.teamcode.subsystems.BallSensors;
 import org.firstinspires.ftc.teamcode.util.Alliance;
@@ -19,7 +20,7 @@ public class close15 extends OpMode {
     Robot r;
     Limelight l;
     Fast15 p;
-    BallSensors bs;
+    BallSensors2 bs;
     int state = 0;
     int shootState = -1;
     ElapsedTime stateTimer = new ElapsedTime();
@@ -38,7 +39,7 @@ public class close15 extends OpMode {
         r.k.init();
         l = new Limelight(hardwareMap);
         l.switchToShoot();
-        bs = new BallSensors(hardwareMap);
+        bs = new BallSensors2(hardwareMap);
     }
 
     @Override
