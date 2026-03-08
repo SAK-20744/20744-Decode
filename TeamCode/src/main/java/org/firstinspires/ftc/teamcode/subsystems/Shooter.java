@@ -22,13 +22,13 @@ public class Shooter extends SubsystemBase {
 
     private double t = 0;
     public static double kS = 0.435, kV = 0.00022, kP = 0.00325;
-    public static double far_kS = 0.435, far_kV = 0.00022, far_kP = 0.00325;
+    public static double far_kS = 0.37, far_kV = 0.00027, far_kP = 0.0065;
     private boolean activated = true;
     public static double close = 1240;
-    public static double far = 1750;
+    public static double far = 1725;
     public static double flipUp = 0.75;
     public static double flipDown = 0.45;
-    public static double hoodCorrection = 0;
+    public static double hoodCorrection = 0.5;
     private boolean hoodCorrect = true;
     private boolean up = false;
     private boolean isFar = false;

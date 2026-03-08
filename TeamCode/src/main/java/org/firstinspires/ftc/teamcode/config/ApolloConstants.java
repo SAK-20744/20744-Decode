@@ -66,7 +66,7 @@ public class ApolloConstants {
     public static double VISION_MAX_JUMP_IN = 0; // inches
     public static double VISION_ALPHA = 0;       // blend factor
 
-
+    public static double VELOCITY_CORRECTION = 0.5;
 
 //    // OWENS CODE. ONLY FOR FULL SHOOTER TEST
 //    public static double

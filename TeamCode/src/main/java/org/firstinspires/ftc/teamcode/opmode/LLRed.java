@@ -37,6 +37,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+import org.firstinspires.ftc.teamcode.config.ApolloConstants;
 import org.firstinspires.ftc.teamcode.config.FieldPoses;
 import org.firstinspires.ftc.teamcode.config.Robot;
 import org.firstinspires.ftc.teamcode.subsystems.Kicker;
@@ -231,8 +232,12 @@ public class LLRed extends LinearOpMode {
             else intakePower = INTAKE_OFF;
 
             intake.setPower(intakePower);
-
-            turret.face(FieldPoses.redHoop, drive.getPose());
+            Pose correctedPose = drive.getPose()
+                    .plus(new Pose(
+                            drive.getVelocity().getXComponent() * ApolloConstants.VELOCITY_CORRECTION,
+                            drive.getVelocity().getYComponent() * ApolloConstants.VELOCITY_CORRECTION
+                    ));
+            turret.face(FieldPoses.redHoop, correctedPose);
 
 //            lKicker.setPosition(lKickerTarget);
 //            mKicker.setPosition(mKickerTarget);
