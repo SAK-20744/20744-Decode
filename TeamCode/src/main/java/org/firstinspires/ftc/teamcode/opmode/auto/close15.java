@@ -40,6 +40,7 @@ public class close15 extends OpMode {
         l = new Limelight(hardwareMap);
         l.switchToShoot();
         bs = new BallSensors2(hardwareMap);
+        r.k.slowed = true;
     }
 
     @Override
@@ -62,7 +63,7 @@ public class close15 extends OpMode {
     @Override
     public void start() {
         r.t.on();
-        r.s.close();r.s.down();
+        r.s.close();r.s.downAuto();
     }
 
     @Override
@@ -142,7 +143,7 @@ public class close15 extends OpMode {
         telemetry.update();
     }
     public void startShoot() {
-        r.s.close();r.s.down();
+        r.s.close();r.s.downAuto();
         shootState = 0;
     }
     public void shoot() {

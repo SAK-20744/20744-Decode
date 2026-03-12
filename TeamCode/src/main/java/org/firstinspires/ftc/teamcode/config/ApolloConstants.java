@@ -77,8 +77,8 @@ public class ApolloConstants {
         KUP = 200,
         KDOWN = 80;
     public static double
-            AUTO_KUP = 350,
-            AUTO_KDOWN = 150;
+            KUP_SLOW = 350,
+            KDOWN_SLOW = 150;
     public static int
 //        TURRET_BLUE_FAR = -285,
         TURRET_MIDDLE = 0;
@@ -148,6 +148,13 @@ public class ApolloConstants {
         public Scalar mGMax = new Scalar(0.345, 0.750, 0.655);
         public Scalar rGMin = new Scalar(0.215, 0.545, 0.495);
         public Scalar rGMax = new Scalar(0.315, 0.645, 0.595);
+
+        public Scalar l2GMin = new Scalar(0.190, 0.325, 0.335);
+        public Scalar l2GMax = new Scalar(0.290, 0.425, 0.435);
+        public Scalar m2GMin = new Scalar(0.245, 0.650, 0.555);
+        public Scalar m2GMax = new Scalar(0.345, 0.750, 0.655);
+        public Scalar r2GMin = new Scalar(0.215, 0.545, 0.495);
+        public Scalar r2GMax = new Scalar(0.315, 0.645, 0.595);
     }
 
 }

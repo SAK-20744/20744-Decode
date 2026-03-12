@@ -237,7 +237,9 @@ public class LLRed extends LinearOpMode {
                             drive.getVelocity().getXComponent() * ApolloConstants.VELOCITY_CORRECTION,
                             drive.getVelocity().getYComponent() * ApolloConstants.VELOCITY_CORRECTION
                     ));
-            turret.face(FieldPoses.redHoop, correctedPose);
+            Pose goal = FieldPoses.redHoop;
+            if (shooter.isFar) goal = FieldPoses.redHoopFar;
+            turret.face(goal, correctedPose);
 
 //            lKicker.setPosition(lKickerTarget);
 //            mKicker.setPosition(mKickerTarget);

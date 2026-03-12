@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.KDOWN;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.KDOWN_SLOW;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.KUP;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.KUP_SLOW;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.LKICKER_DOWN;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.LKICKER_UP;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.MKICKER_DOWN;
@@ -22,6 +24,8 @@ public class KickersV2 {
     ElapsedTime kickerTimer = new ElapsedTime();
     Kicker currentUp = null;
     Queue<Kicker> queue = new ArrayDeque<Kicker>();
+
+    public boolean slowed = false;
     public KickersV2(HardwareMap hardwareMap) {
         lKicker = hardwareMap.servo.get(ApolloHardwareNames.lKicker);
         mKicker = hardwareMap.servo.get(ApolloHardwareNames.mKicker);
@@ -59,8 +63,14 @@ public class KickersV2 {
     public Kicker getUp() {return currentUp;}
     public Kicker getQueued() {return queue.peek();}
     public double kickerTimer() {return kickerTimer.milliseconds();}
-    public boolean kickerGoingUp() {return kickerTimer() < KUP;}
-    public boolean kickerGoingDown() {return kickerTimer() < KDOWN+KUP;}
+    public boolean kickerGoingUp() {
+        if (slowed) return kickerTimer() < KUP_SLOW;
+        return kickerTimer() < KUP;
+    }
+    public boolean kickerGoingDown() {
+        if (slowed) return kickerTimer() < KDOWN_SLOW+KUP_SLOW;
+        return kickerTimer() < KDOWN+KUP;
+    }
     private void updateKicker(Servo servo, double upPos, double downPos) {
         if (kickerGoingUp())           servo.setPosition(upPos);
         else if (kickerGoingDown())    servo.setPosition(downPos);

@@ -29,6 +29,7 @@ public class redFarCycler extends OpMode {
         l = new Limelight(hardwareMap);
         l.switchToShoot();
         bs = new BallSensors(hardwareMap);
+        r.k.slowed = true;
     }
 
     @Override

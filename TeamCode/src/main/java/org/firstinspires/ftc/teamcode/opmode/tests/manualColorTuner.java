@@ -19,6 +19,7 @@ public class manualColorTuner extends LinearOpMode {
     boolean lPressed=false,mPressed=false,rPressed=false;
 
     RevColorSensorV3 m1,l1,r1;
+    RevColorSensorV3 m2,l2,r2;
     boolean left, mid, right = false;
 
 //    double colorError= 0.005;
@@ -28,6 +29,7 @@ public class manualColorTuner extends LinearOpMode {
     BallColor sensor1Color = BallColor.N,sensor2Color = BallColor.N;
     String selectedSensor = "L";
     RevColorSensorV3 sensor1 = l1;
+    RevColorSensorV3 sensor2 = l2;
 
     @Override
     public void runOpMode() {
@@ -37,9 +39,17 @@ public class manualColorTuner extends LinearOpMode {
         l1 = hardwareMap.get(RevColorSensorV3.class, "l1");
         r1 = hardwareMap.get(RevColorSensorV3.class, "r1");
 
-        l1.setGain(75);
-        m1.setGain(515);
-        r1.setGain(500);
+        m2 = hardwareMap.get(RevColorSensorV3.class, "m2");
+        l2 = hardwareMap.get(RevColorSensorV3.class, "l2");
+        r2 = hardwareMap.get(RevColorSensorV3.class, "r2");
+
+        l1.setGain(40);
+        m1.setGain(80);
+        r1.setGain(180);
+
+        l2.setGain(75);
+        m2.setGain(80);
+        r2.setGain(65);
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
@@ -70,17 +80,17 @@ public class manualColorTuner extends LinearOpMode {
                 mid=true;
             else mid = false;
 
-            if (selectedSensor == "L") {sensor1 = l1;}
-            if (selectedSensor == "M") {sensor1 = m1;}
-            if (selectedSensor == "R") {sensor1 = r1;}
+            if (selectedSensor == "L") {sensor1 = l1; sensor2 = l2;}
+            if (selectedSensor == "M") {sensor1 = m1; sensor2 = m2;}
+            if (selectedSensor == "R") {sensor1 = r1; sensor2 = r2;}
 
             sensor1R = sensor1.getNormalizedColors().red;
             sensor1G = sensor1.getNormalizedColors().green;
             sensor1B = sensor1.getNormalizedColors().blue;
 
-//            sensor2R = sensor2.getNormalizedColors().red;
-//            sensor2G = sensor2.getNormalizedColors().green;
-//            sensor2B = sensor2.getNormalizedColors().blue;
+            sensor2R = sensor2.getNormalizedColors().red;
+            sensor2G = sensor2.getNormalizedColors().green;
+            sensor2B = sensor2.getNormalizedColors().blue;
 
             if (inCRange(sensor1R,sensor1G,sensor1B, ApolloConstants.CS.G.m1R,ApolloConstants.CS.G.m1G,ApolloConstants.CS.G.m1B))
                 sensor1Color = BallColor.G;
@@ -101,16 +111,16 @@ public class manualColorTuner extends LinearOpMode {
             telemetry.addData("sensor1 Green", "%.3f", sensor1G);
             telemetry.addData("sensor1 Blue", "%.3f", sensor1B);
 
-//            telemetry.addData("sensor2 Red", "%.3f", sensor2R);
-//            telemetry.addData("sensor2 Green", "%.3f", sensor2G);
-//            telemetry.addData("sensor2 Blue", "%.3f", sensor2B);
+            telemetry.addData("sensor2 Red", "%.3f", sensor2R);
+            telemetry.addData("sensor2 Green", "%.3f", sensor2G);
+            telemetry.addData("sensor2 Blue", "%.3f", sensor2B);
 
-            switch (sensor1Color) {
-                case G: telemetry.addLine("sensor1 is green"); break;
-                case P: telemetry.addLine("sensor1 is purple"); break;
-                case N: telemetry.addLine("sensor1 no ball"); break;
-            }
-
+//            switch (sensor1Color) {
+//                case G: telemetry.addLine("sensor1 is green"); break;
+//                case P: telemetry.addLine("sensor1 is purple"); break;
+//                case N: telemetry.addLine("sensor1 no ball"); break;
+//            }
+//
 //            switch (sensor2Color) {
 //                case G: telemetry.addLine("sensor2 is green"); break;
 //                case P: telemetry.addLine("sensor2 is purple"); break;

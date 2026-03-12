@@ -210,7 +210,14 @@ public class LLBlue extends LinearOpMode {
 
             intake.setPower(intakePower);
 
-            turret.face(FieldPoses.blueHoop, drive.getPose());
+            Pose correctedPose = drive.getPose()
+                    .plus(new Pose(
+                            drive.getVelocity().getXComponent() * ApolloConstants.VELOCITY_CORRECTION,
+                            drive.getVelocity().getYComponent() * ApolloConstants.VELOCITY_CORRECTION
+                    ));
+            Pose goal = FieldPoses.blueHoop;
+            if (shooter.isFar) goal = FieldPoses.blueHoopFar;
+            turret.face(goal, correctedPose);
 
 //            lKicker.setPosition(lKickerTarget);
 //            mKicker.setPosition(mKickerTarget);

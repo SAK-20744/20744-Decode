@@ -15,6 +15,7 @@ import org.opencv.core.Scalar;
 public class BallSensors2 {
     Motif motif = Motif.GPP ;
     public RevColorSensorV3 m1, l1,r1;
+    public RevColorSensorV3 m2, l2,r2;
     BallColor lColor = BallColor.N, mColor = BallColor.N, rColor = BallColor.N;
     boolean left, mid, right = false;
 
@@ -25,9 +26,17 @@ public class BallSensors2 {
         l1 = h.get(RevColorSensorV3.class, "l1");
         r1 = h.get(RevColorSensorV3.class, "r1");
 
-        l1.setGain(75);
-        m1.setGain(515);
-        r1.setGain(500);
+        m2 = h.get(RevColorSensorV3.class, "m2");
+        l2 = h.get(RevColorSensorV3.class, "l2");
+        r2 = h.get(RevColorSensorV3.class, "r2");
+
+        l1.setGain(40);
+        m1.setGain(80);
+        r1.setGain(180);
+
+        l2.setGain(75);
+        m2.setGain(80);
+        r2.setGain(65);
 
         colorRanges = FileConfig.loadJson("ColorSensorRanges.json",ApolloConstants.colorRanges.class);
         if (colorRanges == null) colorRanges = new ApolloConstants.colorRanges();
@@ -72,33 +81,44 @@ public class BallSensors2 {
         double s1R,s1G,s1B,s2R,s2G,s2B;
         BallColor s1Color = BallColor.N, s2Color = BallColor.N;
         Scalar min, max;
+        Scalar min2, max2;
         if (m == "l") {
             s1 = l1;
             min = colorRanges.lGMin;
             max = colorRanges.lGMax;
+            s2 = l2;
+            min2 = colorRanges.l2GMin;
+            max2 = colorRanges.l2GMax;
         } else if (m == "m") {
             s1 = m1;
             min = colorRanges.mGMin;
             max = colorRanges.mGMax;
-//
+            s2 = m2;
+            min2 = colorRanges.m2GMin;
+            max2 = colorRanges.m2GMax;
         } else if (m == "r") {
             s1 = r1;
             min = colorRanges.rGMin;
             max = colorRanges.rGMax;
-//
+            s2 = r2;
+            min2 = colorRanges.r2GMin;
+            max2 = colorRanges.r2GMax;
         } else {
             s1 = l1;
             min = colorRanges.lGMin;
             max = colorRanges.lGMax;
+            s2 = l2;
+            min2 = colorRanges.l2GMin;
+            max2 = colorRanges.l2GMax;
             // Default Case to Prevent Crashes and as Backup
         }
         s1R = s1.getNormalizedColors().red;
         s1G = s1.getNormalizedColors().green;
         s1B = s1.getNormalizedColors().blue;
 
-//        s2R = s2.getNormalizedColors().red;
-//        s2G = s2.getNormalizedColors().green;
-//        s2B = s2.getNormalizedColors().blue;
+        s2R = s2.getNormalizedColors().red;
+        s2G = s2.getNormalizedColors().green;
+        s2B = s2.getNormalizedColors().blue;
 
         if (inCRange(s1R,s1G,s1B, min,max))
             s1Color = BallColor.G;
@@ -107,15 +127,15 @@ public class BallSensors2 {
         else
             s1Color = BallColor.N;
 
-//        if (inCRange(s2R,s2G,s2B, CS.G.l2R,CS.G.l2G,CS.G.l2B))
-//            s2Color = BallColor.G;
+        if (inCRange(s2R,s2G,s2B, min2, max2))
+            s2Color = BallColor.G;
 //        else if (inCRange(s2R,s2G,s2B,CS.P.l2R,CS.P.l2G,CS.P.l2B))
 //            s2Color = BallColor.P;
-//        else
-//            s2Color = BallColor.N;
+        else
+            s2Color = BallColor.N;
 
-//        if (s2Color != BallColor.N) return s2Color;
-//        if (s1Color != BallColor.N) return s1Color;
+        if (s2Color != BallColor.N) return s2Color;
+        if (s1Color != BallColor.N) return s1Color;
 //        return BallColor.N;
         return s1Color;
     }

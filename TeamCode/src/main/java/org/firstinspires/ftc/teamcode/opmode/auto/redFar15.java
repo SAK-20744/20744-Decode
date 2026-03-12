@@ -31,6 +31,7 @@ public class redFar15 extends OpMode {
         l = new Limelight(hardwareMap);
         l.switchToShoot();
         bs = new BallSensors(hardwareMap);
+        r.k.slowed = true;
     }
 
     @Override

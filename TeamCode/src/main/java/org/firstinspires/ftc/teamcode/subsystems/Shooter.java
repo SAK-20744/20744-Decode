@@ -28,10 +28,11 @@ public class Shooter extends SubsystemBase {
     public static double far = 1725;
     public static double flipUp = 0.75;
     public static double flipDown = 0.45;
+    public static double flipDownAutoOffset = 0.05;
     public static double hoodCorrection = 0.5;
     private boolean hoodCorrect = true;
     private boolean up = false;
-    private boolean isFar = false;
+    public boolean isFar = false;
     public Shooter(HardwareMap hardwareMap) {
         l = hardwareMap.get(DcMotorEx.class, "lShooter");
         r = hardwareMap.get(DcMotorEx.class, "rShooter");
@@ -114,6 +115,10 @@ public class Shooter extends SubsystemBase {
     public void down() {
         up = false;
         f.setPosition(flipDown);
+    }
+    public void downAuto() {
+        up = false;
+        f.setPosition(flipDown+flipDownAutoOffset);
     }
 
     public void flip() {
