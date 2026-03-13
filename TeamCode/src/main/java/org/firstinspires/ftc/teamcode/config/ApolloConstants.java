@@ -77,8 +77,8 @@ public class ApolloConstants {
         KUP = 200,
         KDOWN = 80;
     public static double
-            KUP_SLOW = 350,
-            KDOWN_SLOW = 150;
+            KUP_SLOW = 300,
+            KDOWN_SLOW = 125;
     public static int
 //        TURRET_BLUE_FAR = -285,
         TURRET_MIDDLE = 0;

@@ -24,6 +24,7 @@ import com.bylazar.configurables.annotations.IgnoreConfigurable;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
+import com.pedropathing.ftc.localization.localizers.PinpointLocalizer;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.util.PoseHistory;
 import com.qualcomm.hardware.limelightvision.LLResult;
@@ -94,6 +95,9 @@ public class LLRed extends LinearOpMode {
         intake = hardwareMap.dcMotor.get("intake");
         l = hardwareMap.get(Limelight3A.class, "limelight");
         light = hardwareMap.get(Servo.class, "light");
+
+//        if (drive.getPoseTracker().getLocalizer() instanceof PinpointLocalizer)
+//            ((PinpointLocalizer)drive.getPoseTracker().getLocalizer()).recalibrate();
 
 
 //        lKicker = hardwareMap.servo.get(ApolloHardwareNames.lKicker);
@@ -173,6 +177,7 @@ public class LLRed extends LinearOpMode {
                 kickers.kick(Kicker.M);
                 kickers.kick(Kicker.R);
             }
+            kickers.slowed = shooter.isFar;
             kickers.periodic();
 
             if (gamepad2.y) {tilt.extend();}

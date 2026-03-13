@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmode.auto;
 
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.eject;
 
+import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -61,7 +62,7 @@ public class redFar15 extends OpMode {
     public void loop() {
 
         switch (state) {
-            case 0: startShoot(); state++; break;
+            case 0: r.f.holdPoint(p.start); startShoot(); state++; break;
             case 1: if (shootState == -1) state++; break;
 
             // spike intake 1
@@ -110,7 +111,9 @@ public class redFar15 extends OpMode {
             case 37: if (!r.f.isBusy()) state++; break;
 
         }
-        r.t.face(p.goal, r.f.getPose());
+        Pose goal = p.goal;
+        if (r.s.isFar) goal = p.goalFar;
+        r.t.face(goal, r.f.getPose());
         r.periodic();
         sortedShoot();
 

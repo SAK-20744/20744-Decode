@@ -32,10 +32,11 @@ public class Far15 {
     public Pose gateControl = FieldPoses.redGateCtrl; //62);
     public Pose park = FieldPoses.redClosePark; //new Pose(36, 12, Math.toRadians(180));
     public Pose goal = FieldPoses.redHoop;
+    public Pose goalFar = FieldPoses.redHoopFar;
 
     private int index;
 
-    public static double intakeBreakStrength = 1;
+    public static double intakeBreakStrength = 0.7;
     public static double gateIntakeTime = 2;
 
     public static boolean intakeHP = false;
@@ -59,6 +60,7 @@ public class Far15 {
             gateControl = mirror(gateControl);
             park = mirror(park);
             goal = mirror(goal);
+            goalFar = mirror(goalFar);
         }
 
         index = 0;

@@ -31,8 +31,8 @@ public class Fast15 {
 
     private int index;
 
-    public static double intakeBreakStrength = 1;
-    public static double gateIntakeBreakStrength = 0.7;
+    public static double intakeBreakStrength = 0.7;
+    public static double gateIntakeBreakStrength = 0.5;
     public static double gateIntakeTime = 1.5;
 
     public static boolean fullClassifier = false;
@@ -147,9 +147,9 @@ public class Fast15 {
 
     public PathChain score3() {
         return f.pathBuilder()
-                .addPath(new BezierCurve(intake3, score))
+                .addPath(new BezierCurve(intake3, park))
 //                .setNoDeceleration()
-                .setLinearHeadingInterpolation(intake3.getHeading(), score.getHeading())
+                .setLinearHeadingInterpolation(intake3.getHeading(), park.getHeading())
                 .build();
     }
 
@@ -171,7 +171,7 @@ public class Fast15 {
             case 6: if (fullClassifier) return score2(); else return scoreG();
             case 7: if (fullClassifier) return intake3(); else return intake2();
             case 8: if (fullClassifier) return score3(); else return score2();
-            case 9: return park();
+//            case 9: return park();
             default: return null;
         }
     }

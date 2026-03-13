@@ -105,7 +105,7 @@ public class close15 extends OpMode {
             case 24: if (!r.f.isBusy()) state++; break;
 
             case 25: stateTimer.reset(); state++; break;
-            case 26: if (stateTimer.seconds() > p.gateIntakeTime) state++; break;
+            case 26: if (stateTimer.seconds() > p.gateIntakeTime || p.fullClassifier) state++; break;
 
             case 27: r.f.followPath(p.next()); state++; break;
             case 28: if(r.f.getPathCompletion()>eject) { r.i.spinOut(); state++; } break;
@@ -123,8 +123,8 @@ public class close15 extends OpMode {
             case 38: startShoot(); state++; break;
             case 39: if (shootState == -1) state++; break;
 
-            case 40: r.f.followPath(p.next()); state++; break;
-            case 41: if (!r.f.isBusy()) state++; break;
+//            case 40: r.f.followPath(p.next()); state++; break;
+//            case 41: if (!r.f.isBusy()) state++; break;
 
         }
         r.t.face(p.goal, r.f.getPose());

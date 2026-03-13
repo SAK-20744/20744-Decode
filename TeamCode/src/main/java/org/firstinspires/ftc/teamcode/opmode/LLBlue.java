@@ -150,6 +150,7 @@ public class LLBlue extends LinearOpMode {
                 kickers.kick(Kicker.M);
                 kickers.kick(Kicker.R);
             }
+            kickers.slowed = shooter.isFar;
             kickers.periodic();
 
             if (gamepad2.y) {tilt.extend();}

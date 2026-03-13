@@ -19,12 +19,18 @@ public class FarCycler {
 
     public Pose start = FieldPoses.redCyclerStart;
     public Pose score = FieldPoses.redCyclerScore;
-    public Pose hpintake = FieldPoses.redHPPickupEnd; // intake\
+    public Pose hpIntake = FieldPoses.redHPPickupEnd; // intake\
     public Pose park = FieldPoses.redFarPark; //new Pose(36, 12, Math.toRadians(180));
     public Pose goal = FieldPoses.redHoop;
+    public Pose goalFar = FieldPoses.redHoopFar;
+
+    public Pose intake1 = FieldPoses.redBall2End;
+    public Pose intake1Ctrl = FieldPoses.redBall2Ctrl;
+
+    public Pose cycleIntake = FieldPoses.redCyclerIntake;
 
     private int index;
-    public static double intakeBreakStrength = 5;
+    public static double intakeBreakStrength = 0.7;
 
     public FarCycler(Robot r) {
         this.f = r.f;
@@ -32,9 +38,13 @@ public class FarCycler {
         if (r.a.equals(Alliance.BLUE)) {
             start = mirror(start);
             score = mirror(score);
-            hpintake = mirror(hpintake);
+            intake1 = mirror(intake1);
+            intake1Ctrl = mirror(intake1Ctrl);
+            hpIntake = mirror(hpIntake);
+            cycleIntake = mirror(cycleIntake);
             park = mirror(park);
             goal = mirror(goal);
+            goalFar = mirror(goalFar);
         }
 
         index = 0;
@@ -53,24 +63,67 @@ public class FarCycler {
                 .build();
     }
 
-    public PathChain intake() { // intake 1
+    public PathChain intake1() { // intake 1
         return f.pathBuilder()
                 .addPath(
                         new BezierCurve(
                                 score,
-                                hpintake
+                                hpIntake
                         )
                 )
                 .setBrakingStrength(intakeBreakStrength)
-                .setLinearHeadingInterpolation(score.getHeading(), hpintake.getHeading(), 0.3)
+                .setLinearHeadingInterpolation(score.getHeading(), hpIntake.getHeading(), 0.3)
                 .build();
     }
 
-    public PathChain score() {
+    public PathChain score1() {
         return f.pathBuilder()
-                .addPath(new BezierCurve(hpintake, score))
+                .addPath(new BezierCurve(hpIntake, score))
 //                .setNoDeceleration()
-                .setLinearHeadingInterpolation(hpintake.getHeading(), score.getHeading())
+                .setLinearHeadingInterpolation(hpIntake.getHeading(), score.getHeading())
+                .build();
+    }
+
+    public PathChain intake2() { // intake 1
+        return f.pathBuilder()
+                .addPath(
+                        new BezierCurve(
+                                score,
+                                intake1Ctrl,
+                                intake1
+                        )
+                )
+                .setBrakingStrength(intakeBreakStrength)
+                .setLinearHeadingInterpolation(score.getHeading(), intake1.getHeading(), 0.3)
+                .build();
+    }
+
+    public PathChain score2() {
+        return f.pathBuilder()
+                .addPath(new BezierCurve(intake1, score))
+//                .setNoDeceleration()
+                .setLinearHeadingInterpolation(intake1.getHeading(), score.getHeading())
+                .build();
+    }
+
+    public PathChain cycleIntake() { // intake 1
+        return f.pathBuilder()
+                .addPath(
+                        new BezierCurve(
+                                score,
+                                cycleIntake
+                        )
+                )
+                .setBrakingStrength(intakeBreakStrength)
+                .setLinearHeadingInterpolation(score.getHeading(), cycleIntake.getHeading(), 0.3)
+                .build();
+    }
+
+    public PathChain cycleScore() {
+        return f.pathBuilder()
+                .addPath(new BezierCurve(cycleIntake, score))
+//                .setNoDeceleration()
+                .setLinearHeadingInterpolation(cycleIntake.getHeading(), score.getHeading())
                 .build();
     }
 
@@ -85,18 +138,18 @@ public class FarCycler {
     public PathChain next() {
         switch (index++) {
             case 0: return start();
-            case 1: return intake();
-            case 2: return score();
-            case 3: return intake();
-            case 4: return score();
-            case 5: return intake();
-            case 6: return score();
-            case 7: return intake();
-            case 8: return score();
-            case 9: return intake();
-            case 10: return score();
-            case 11: return intake();
-            case 12: return score();
+            case 1: return intake1();
+            case 2: return score1();
+            case 3: return intake2();
+            case 4: return score2();
+            case 5: return cycleIntake();
+            case 6: return cycleScore();
+            case 7: return cycleIntake();
+            case 8: return cycleScore();
+            case 9: return cycleIntake();
+            case 10: return cycleScore();
+            case 11: return cycleIntake();
+            case 12: return cycleScore();
             case 13: return park();
             default: return null;
         }

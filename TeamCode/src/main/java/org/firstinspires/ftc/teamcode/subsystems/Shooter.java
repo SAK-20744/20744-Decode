@@ -21,16 +21,16 @@ public class Shooter extends SubsystemBase {
     private DcMotorEx l, r;
 
     private double t = 0;
-    public static double kS = 0.435, kV = 0.00022, kP = 0.00325;
+    public static double kS = 0.535, kV = 0.00018, kP = 0.0025;
     public static double far_kS = 0.37, far_kV = 0.00027, far_kP = 0.0065;
     private boolean activated = true;
     public static double close = 1240;
     public static double far = 1725;
     public static double flipUp = 0.75;
     public static double flipDown = 0.45;
-    public static double flipDownAutoOffset = 0.05;
-    public static double hoodCorrection = 0.5;
-    private boolean hoodCorrect = true;
+    public static double flipDownAutoOffset = 0.025;
+    public static double hoodCorrection = 0.025;
+    private boolean correctHood = false;
     private boolean up = false;
     public boolean isFar = false;
     public Shooter(HardwareMap hardwareMap) {
@@ -102,7 +102,7 @@ public class Shooter extends SubsystemBase {
             hoodPos = flipUp;
         else
             hoodPos = flipDown;
-        if (hoodCorrect)
+        if (correctHood)
             hoodPos -= hoodCorrectFactor * hoodCorrection;
         f.setPosition(clamp(hoodPos, HOOD_MIN, HOOD_MAX));
     }
@@ -110,15 +110,18 @@ public class Shooter extends SubsystemBase {
     public void up() {
         up = true;
         f.setPosition(flipUp);
+        correctHood = true;
     }
 
     public void down() {
         up = false;
         f.setPosition(flipDown);
+        correctHood = true;
     }
     public void downAuto() {
         up = false;
         f.setPosition(flipDown+flipDownAutoOffset);
+        correctHood = false;
     }
 
     public void flip() {

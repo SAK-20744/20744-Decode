@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmode.auto;
 
+import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -60,7 +61,7 @@ public class blueFarCycler extends OpMode {
         switch (state) {
             case 0: r.f.followPath(p.next()); state++; break;
             case 1: if (!r.f.isBusy()) state++; break;
-            case 2: startShoot(); state++; break;
+            case 2: r.f.holdPoint(p.score); startShoot(); state++; break;
             case 3: if (shootState == -1) state++; break;
 
             // spike intake 1
@@ -122,7 +123,9 @@ public class blueFarCycler extends OpMode {
             case 53: if (!r.f.isBusy()) state++; break;
 
         }
-        r.t.face(p.goal, r.f.getPose());
+        Pose goal = p.goal;
+        if (r.s.isFar) goal = p.goalFar;
+        r.t.face(goal, r.f.getPose());
         r.periodic();
         sortedShoot();
 
