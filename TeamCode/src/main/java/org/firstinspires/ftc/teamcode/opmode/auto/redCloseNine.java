@@ -42,7 +42,7 @@
 //    cursedKicker kickers;
 //    DcMotor intake;
 //    Follower drive;
-//    Limelight3A l;
+//    Limelight3A limelight;
 //
 //    BallSensors ballSensors;
 //    private Alliance a = RED;
@@ -74,7 +74,7 @@
 //        ballSensors = new BallSensors(hardwareMap);
 //
 //
-//        l = hardwareMap.get(Limelight3A.class, "limelight");
+//        limelight = hardwareMap.get(Limelight3A.class, "limelight");
 //
 //
 //        drive = Constants.createFollower(hardwareMap);
@@ -272,9 +272,9 @@
 //    }
 //    public void shootStr(String a) {
 //        switch (a.toLowerCase()) {
-//            case "l": lKick();break;
+//            case "limelight": lKick();break;
 //            case "m": mKick();break;
-//            case "r": rKick();break;
+//            case "robot": rKick();break;
 //        }
 //    }
 //    public void shoot21GPP() {
@@ -371,19 +371,19 @@
 //
 //    public void switchToShoot() {
 //        if (pipeline != shoot)
-//            l.pipelineSwitch(shoot);
-//        l.setPollRateHz(20);
-//        l.start();
+//            limelight.pipelineSwitch(shoot);
+//        limelight.setPollRateHz(20);
+//        limelight.start();
 //    }
 //
 //    public double detectedID() {
 //        switchToShoot();
-//        List<LLResultTypes.FiducialResult> r = l.getLatestResult().getFiducialResults();
+//        List<LLResultTypes.FiducialResult> robot = limelight.getLatestResult().getFiducialResults();
 //
-//        if (r.isEmpty()) return 0;
+//        if (robot.isEmpty()) return 0;
 //
 //        LLResultTypes.FiducialResult target = null;
-//        for (LLResultTypes.FiducialResult i: r) {
+//        for (LLResultTypes.FiducialResult i: robot) {
 //            if (i != null && i.getFiducialId() == 21)
 //                return 21;
 //            else if (i != null && i.getFiducialId() == 22)

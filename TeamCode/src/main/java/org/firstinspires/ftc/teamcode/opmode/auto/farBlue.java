@@ -269,9 +269,9 @@ public class farBlue extends OpMode {
     }
     public void shootStr(String a) {
         switch (a.toLowerCase()) {
-            case "l": lKick();break;
+            case "limelight": lKick();break;
             case "m": mKick();break;
-            case "r": rKick();break;
+            case "robot": rKick();break;
         }
     }
     public void shoot21GPP() {
