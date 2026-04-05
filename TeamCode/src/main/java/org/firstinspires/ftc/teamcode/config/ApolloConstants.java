@@ -34,8 +34,8 @@ public class ApolloConstants {
         LKICKER_UP = 0.295,
         MKICKER_UP = 0.28,
         RKICKER_UP = 0.28,
-        HOOD_MIN = 0.07,
-        HOOD_MAX = 0.72,
+        HOOD_MIN = 0.03,
+        HOOD_MAX = 0.92,
 //        HOOD_CLOSE = 0.22,
 //        HOOD_FAR = 0.7025,
 //        SHOOTER_CLOSE = 0.65,
@@ -74,11 +74,11 @@ public class ApolloConstants {
 //        KICKER_DOWNTIME = 0.3;
 
     public static double
-        KUP = 200,
-        KDOWN = 80;
+        KUP = 150,
+        KDOWN = 70;
     public static double
-            KUP_SLOW = 300,
-            KDOWN_SLOW = 125;
+            KUP_SLOW = 150,
+            KDOWN_SLOW = 70;
     public static int
 //        TURRET_BLUE_FAR = -285,
         TURRET_MIDDLE = 0;
