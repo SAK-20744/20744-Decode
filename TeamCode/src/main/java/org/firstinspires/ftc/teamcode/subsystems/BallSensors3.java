@@ -5,23 +5,23 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.config.ApolloConstants;
-import org.firstinspires.ftc.teamcode.config.ApolloConstants.CS;
 import org.firstinspires.ftc.teamcode.util.BallColor;
 import org.firstinspires.ftc.teamcode.util.FileConfig;
 import org.firstinspires.ftc.teamcode.util.Motif;
 import org.firstinspires.ftc.teamcode.util.Pattern;
 import org.opencv.core.Scalar;
 
-public class BallSensors2 {
+public class BallSensors3 {
     Motif motif = Motif.GPP ;
     public RevColorSensorV3 m1, l1,r1;
     public RevColorSensorV3 m2, l2,r2;
+    public BallSensorsDigital bsDigi;
     BallColor lColor = BallColor.N, mColor = BallColor.N, rColor = BallColor.N;
     boolean left, mid, right = false;
 
     ApolloConstants.colorRanges colorRanges;
 
-    public BallSensors2(HardwareMap h) {
+    public BallSensors3(HardwareMap h) {
         m1 = h.get(RevColorSensorV3.class, "m1");
         l1 = h.get(RevColorSensorV3.class, "l1");
         r1 = h.get(RevColorSensorV3.class, "r1");
@@ -37,6 +37,8 @@ public class BallSensors2 {
         l2.setGain(75);
         m2.setGain(60);
         r2.setGain(35);
+
+        bsDigi = new BallSensorsDigital(h);
 
         colorRanges = FileConfig.loadJson("ColorSensorRanges.json",ApolloConstants.colorRanges.class);
         if (colorRanges == null) colorRanges = new ApolloConstants.colorRanges();
@@ -65,6 +67,8 @@ public class BallSensors2 {
             mid=true;
         else mid = false;
 
+        bsDigi.read();
+
         lColor = sense("l");
         mColor = sense("m");
         rColor = sense("r");
@@ -79,7 +83,7 @@ public class BallSensors2 {
     public BallColor sense(String m) {
         RevColorSensorV3 s1, s2;
         double s1R,s1G,s1B,s2R,s2G,s2B;
-        BallColor s1Color = BallColor.N, s2Color = BallColor.N;
+        BallColor s1Color = BallColor.N, s2Color = BallColor.N, digiColor = BallColor.N;
         Scalar min, max;
         Scalar min2, max2;
         if (m == "l") {
@@ -89,6 +93,7 @@ public class BallSensors2 {
             s2 = l2;
             min2 = colorRanges.l2GMin;
             max2 = colorRanges.l2GMax;
+            digiColor = bsDigi.lColor;
         } else if (m == "m") {
             s1 = m1;
             min = colorRanges.mGMin;
@@ -96,6 +101,7 @@ public class BallSensors2 {
             s2 = m2;
             min2 = colorRanges.m2GMin;
             max2 = colorRanges.m2GMax;
+            digiColor = bsDigi.mColor;
         } else if (m == "r") {
             s1 = r1;
             min = colorRanges.rGMin;
@@ -103,6 +109,7 @@ public class BallSensors2 {
             s2 = r2;
             min2 = colorRanges.r2GMin;
             max2 = colorRanges.r2GMax;
+            digiColor = bsDigi.rColor;
         } else {
             s1 = l1;
             min = colorRanges.lGMin;
@@ -110,6 +117,7 @@ public class BallSensors2 {
             s2 = l2;
             min2 = colorRanges.l2GMin;
             max2 = colorRanges.l2GMax;
+            digiColor = bsDigi.lColor;
             // Default Case to Prevent Crashes and as Backup
         }
         s1R = s1.getNormalizedColors().red;
@@ -135,7 +143,8 @@ public class BallSensors2 {
             s2Color = BallColor.N;
 
         if (s2Color != BallColor.N) return s2Color;
-        if (s1Color != BallColor.N) return s1Color;
+        else if (s1Color != BallColor.N) return s1Color;
+        else if (digiColor != BallColor.N) return digiColor;
 //        return BallColor.N;
         return s1Color;
     }

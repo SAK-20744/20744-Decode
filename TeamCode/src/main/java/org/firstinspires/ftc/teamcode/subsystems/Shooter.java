@@ -21,13 +21,13 @@ public class Shooter extends SubsystemBase {
     private DcMotorEx l, r;
 
     private double t = 0;
-    public static double kS = 0.535, kV = 0.00018, kP = 0.0025;
+    public static double kS = 0.385, kV = 0.00018, kP = 0.0025;
     public static double far_kS = 0.37, far_kV = 0.00027, far_kP = 0.0065;
     private boolean activated = true;
     public static double close = 1240;
     public static double far = 1725;
-    public static double flipUp = 0.75;
-    public static double flipDown = 0.45;
+    public static double flipUp = 1;
+    public static double flipDown = 0.7;
     public static double flipDownAutoOffset = 0.025;
     public static double hoodCorrection = 0.025;
     private boolean correctHood = false;

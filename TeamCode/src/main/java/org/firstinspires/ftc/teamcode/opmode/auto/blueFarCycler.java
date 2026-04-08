@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.config.ApolloConstants;
 import org.firstinspires.ftc.teamcode.config.Robot;
 import org.firstinspires.ftc.teamcode.config.paths.FarCycler;
 import org.firstinspires.ftc.teamcode.subsystems.BallSensors;
@@ -40,6 +41,7 @@ public class blueFarCycler extends OpMode {
 //            p.fullClassifier = !p.fullClassifier;
 
         bs.motif(l.motifDetection());
+        ApolloConstants.motif = l.motifDetection();
 
         telemetry.addData("Detected ID: ", l.motifDetection());
         telemetry.addLine();

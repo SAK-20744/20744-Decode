@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.config;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.teamcode.util.Pattern;
 import org.opencv.core.Scalar;
 
 @Config
@@ -12,7 +13,7 @@ public class ApolloConstants {
     public static double autoTurret2 = 115;
     public static double autoTurret3 = 115;
 
-    public static double TurretScaling = 0.15;
+    public static double TurretScaling = 0.18;
 
     public static double eject = 0.4;
 
@@ -24,6 +25,8 @@ public class ApolloConstants {
 
     public static double shooterVelError = 40;
 
+    public static Pattern motif = Pattern.GPP21;
+
     public static double
         INTAKE_IN = 1,
         INTAKE_OUT = -1,
@@ -34,8 +37,8 @@ public class ApolloConstants {
         LKICKER_UP = 0.295,
         MKICKER_UP = 0.28,
         RKICKER_UP = 0.28,
-        HOOD_MIN = 0.07,
-        HOOD_MAX = 0.72,
+        HOOD_MIN = 0.34,
+        HOOD_MAX = 1,
 //        HOOD_CLOSE = 0.22,
 //        HOOD_FAR = 0.7025,
 //        SHOOTER_CLOSE = 0.65,
