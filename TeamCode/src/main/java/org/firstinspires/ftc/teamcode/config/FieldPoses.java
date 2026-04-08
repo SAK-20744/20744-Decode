@@ -43,7 +43,7 @@ public class FieldPoses {
 
     public static Pose redReset = new Pose(TS*-3+BOT_WIDTH/2, TS*3-13/*BOT_LENGTH/2*/, R);
     public static Pose redHoop = new Pose(TS*3-2.5,-TS*3+2.5);
-    public static Pose redHoopFar = new Pose(TS*3-2.5,-TS*3+2.5+8);
+    public static Pose redHoopFar = new Pose(TS*3-2.5,-TS*3+2.5+6);
     public static Pose redTele = new Pose(TS*2.75,-TS*2.75);
     public static Pose redClosePark = new Pose(27, -15, -R);
     public static Pose redFarPark = new Pose(-36, -16, -R);
