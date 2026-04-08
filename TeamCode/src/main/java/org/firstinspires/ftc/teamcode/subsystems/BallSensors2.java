@@ -52,6 +52,10 @@ public class BallSensors2 {
         }
     }
 
+    public boolean isFull() {
+        return leftD() && rightD() && middleD();
+    }
+
     public void read() {
         if(l1.getDistance(DistanceUnit.MM) < 150)
             left=true;

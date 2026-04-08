@@ -14,7 +14,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.config.Robot;
 import org.firstinspires.ftc.teamcode.config.SequentialGroupFixed;
 import org.firstinspires.ftc.teamcode.subsystems.BallSensors2;
+import org.firstinspires.ftc.teamcode.subsystems.KickersV2;
 import org.firstinspires.ftc.teamcode.subsystems.Limelight;
+import org.firstinspires.ftc.teamcode.subsystems.Shooter;
+import org.firstinspires.ftc.teamcode.subsystems.Turret;
 import org.firstinspires.ftc.teamcode.subsystems.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.util.Alliance;
 
@@ -44,6 +47,13 @@ public class Blue_Flex extends NextFTCOpMode {
     public TelemetryManager telemetryManager = PanelsTelemetry.INSTANCE.getTelemetry();
     boolean isUpdating;
 
+    boolean isA = false;
+    boolean isB = false;
+    boolean isX = false;
+    boolean isY = false;
+
+    Pose scorePose;
+
     // Config
     public static double gateX = 14.5;
     public static double gateY = 58.75;
@@ -51,7 +61,6 @@ public class Blue_Flex extends NextFTCOpMode {
     public static double shootVel = 1240;
     public static double turretPos = 60;
     public static double distCheck = 2;
-    GamepadEx P1;
 
     @Override
     public void onInit() {
@@ -60,17 +69,18 @@ public class Blue_Flex extends NextFTCOpMode {
         Apollo = new Robot(hardwareMap, Alliance.BLUE);
         ballSensor = new BallSensors2(hardwareMap);
         limelight = new Limelight(hardwareMap);
-        P1 = new GamepadEx(() -> this.gamepad1);
+
+        commands = new ArrayList<>();
 
         // Create Poses
         Pose starting = new Pose(60, 84, Math.toRadians(180));
-        Pose scorePose = new Pose(52, 80, Math.toRadians(180));
+        scorePose = new Pose(52, 80, Math.toRadians(180));
         Pose intakeCloseStart = new Pose(44, 84, Math.toRadians(180));
-        Pose intakeCloseEnd = new Pose(20, 84, Math.toRadians(180));
+        Pose intakeCloseEnd = new Pose(18, 84, Math.toRadians(180));
         Pose intakeMiddleStart = new Pose(44, 60, Math.toRadians(180));
-        Pose intakeMiddleEnd = new Pose(20, 60, Math.toRadians(180));
+        Pose intakeMiddleEnd = new Pose(12, 60, Math.toRadians(180));
         Pose intakeFarStart = new Pose(44, 36, Math.toRadians(180));
-        Pose intakeFarEnd = new Pose(20, 36, Math.toRadians(180));
+        Pose intakeFarEnd = new Pose(12, 36, Math.toRadians(180));
         Pose intakeGateEnd = new Pose(gateX, gateY, gateHeading);
         Pose endPose = new Pose(36, 72, Math.toRadians(180));
         
@@ -113,17 +123,6 @@ public class Blue_Flex extends NextFTCOpMode {
                 .addPath(new BezierLine(intakeGateEnd, scorePose))
                 .setConstantHeadingInterpolation(scorePose.getHeading())
                 .build();
-        
-        P1.leftBumper().whenBecomesTrue(() -> preloads = new SequentialGroup(
-                new InstantCommand(() -> {
-                    Apollo.t.set(Math.toRadians(turretPos));
-                    Apollo.s.setTarget(shootVel);
-                    follower.followPath(scorePreloads);
-                }),
-                new WaitUntil(this::isDonePathing),
-                new InstantCommand(this::Shoot),
-                new WaitUntil(this::shootingDone)
-        ));
 
 
         close = new SequentialGroup(
@@ -131,7 +130,7 @@ public class Blue_Flex extends NextFTCOpMode {
                     Apollo.i.spinIn();
                     follower.followPath(intakeClose);
                 }),
-                new WaitUntil(this::isDonePathing),
+                new WaitUntil(() -> ballSensor.isFull()),
                 new InstantCommand(() -> {
                     Apollo.i.spinIdle();
                     follower.followPath(scoreClose);
@@ -146,7 +145,7 @@ public class Blue_Flex extends NextFTCOpMode {
                     Apollo.i.spinIn();
                     follower.followPath(intakeMiddle);
                 }),
-                new WaitUntil(this::isDonePathing),
+                new WaitUntil(() -> ballSensor.isFull()),
                 new InstantCommand(() -> {
                     Apollo.i.spinIdle();
                     follower.followPath(scoreMiddle);
@@ -161,7 +160,7 @@ public class Blue_Flex extends NextFTCOpMode {
                     Apollo.i.spinIn();
                     follower.followPath(intakeFar);
                 }),
-                new WaitUntil(this::isDonePathing),
+                new WaitUntil(() -> ballSensor.isFull()),
                 new InstantCommand(() -> {
                     Apollo.i.spinIdle();
                     follower.followPath(scoreFar);
@@ -176,7 +175,7 @@ public class Blue_Flex extends NextFTCOpMode {
                     Apollo.i.spinIn();
                     follower.followPath(intakeGate);
                 }),
-                new WaitUntil(this::isDonePathing),
+                new WaitUntil(() -> ballSensor.isFull()),
                 new InstantCommand(() -> {
                     Apollo.i.spinIdle();
                     follower.followPath(scoreGate);
@@ -191,26 +190,12 @@ public class Blue_Flex extends NextFTCOpMode {
         far.setName("far");
         gate.setName("gate");
 
-        scorePreloads = follower.pathBuilder()
-                    .addPath(new BezierLine(follower.getPose(), scorePose))
-                    .setLinearHeadingInterpolation(follower.getHeading(), scorePose.getHeading())
-                    .build();
+        follower.setStartingPose(starting);
 
-        P1.triangle().whenBecomesTrue(() -> commands.add(close));
-        P1.square().whenBecomesTrue(() -> {
-            if (!doingMiddles) {
-                commands.add(middle);
-                doingMiddles = true;
-            }
+        Apollo.t.face(new Pose(0, 144), scorePose);
+        Apollo.t.on();
 
-            commands.add(gate);
-        });
-        P1.circle().whenBecomesTrue(() -> {
-            commands.add(middle);
-            doingMiddles = true;
-        });
-        P1.cross().whenBecomesTrue(() -> commands.add(far));
-        routines = new SequentialGroupFixed(preloads);
+        Apollo.k.init();
     }
 
     @Override
@@ -224,10 +209,64 @@ public class Blue_Flex extends NextFTCOpMode {
         }
         telemetryManager.update(telemetry);
         follower.updatePose();
+
+        Apollo.t.periodic();
+
+        if (gamepad1.left_bumper) {
+            scorePreloads = follower.pathBuilder()
+                    .addPath(new BezierLine(follower.getPose(), scorePose))
+                    .setLinearHeadingInterpolation(follower.getHeading(), scorePose.getHeading())
+                    .build();
+            preloads = new SequentialGroup(
+                    new InstantCommand(() -> {
+                        Apollo.s.close();
+                        follower.followPath(scorePreloads);
+                    }),
+                    new WaitUntil(this::isDonePathing),
+                    new WaitUntil(() -> Apollo.s.atTarget()),
+                    new InstantCommand(this::Shoot),
+                    new WaitUntil(this::shootingDone)
+            );
+        }
+
+        if (gamepad1.x && !isX) {
+            if (!doingMiddles) {
+                commands.add(middle);
+                doingMiddles = true;
+            }
+
+            commands.add(gate);
+            isX = true;
+        } else if (!gamepad1.x && isX) {
+            isX = false;
+        }
+
+        if (gamepad1.y && !isY) {
+            commands.add(close);
+            isY = true;
+        } else if (!gamepad1.y && isY) {
+            isY = false;
+        }
+
+        if (gamepad1.b && !isB) {
+            commands.add(middle);
+            doingMiddles = true;
+            isB = true;
+        } else if (!gamepad1.b && isB) {
+            isB = false;
+        }
+
+        if (gamepad1.a && !isA) {
+            commands.add(far);
+            isA = true;
+        } else if (!gamepad1.a && isA) {
+            isA = false;
+        }
     }
 
     @Override
     public void onStartButtonPressed() {
+        routines = new SequentialGroupFixed(preloads);
         commands.add(end);
         for (int i = 0; i < commands.size(); i++) {
             routines.add(commands.get(i));
@@ -250,10 +289,14 @@ public class Blue_Flex extends NextFTCOpMode {
             telemetryManager.update(telemetry);
             isUpdating = false;
         } else isUpdating = true;
+
+        Apollo.t.periodic();
+        Apollo.s.periodic();
+        Apollo.k.periodic();
+        ballSensor.read();
     }
 
     public void Shoot() {
-        ballSensor.read();
         Apollo.k.kickSequenced(ballSensor.shootSequence());
     }
 
