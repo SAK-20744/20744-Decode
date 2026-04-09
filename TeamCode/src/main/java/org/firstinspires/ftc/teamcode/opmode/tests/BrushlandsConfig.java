@@ -12,15 +12,16 @@ import com.qualcomm.robotcore.hardware.I2cDeviceSynchSimple;
 public class BrushlandsConfig extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        ColorRangefinder crf = new ColorRangefinder(hardwareMap.get(RevColorSensorV3.class, "Color"));
+        ColorRangefinder2 crf = new ColorRangefinder2(hardwareMap.get(RevColorSensorV3.class, "Color"));
         waitForStart();
         /* Using this example configuration, you can detect both artifact colors based on which pin is reading true:
             pin0 --> purple
             pin1 --> green */
-        crf.setPin0Digital(ColorRangefinder.DigitalMode.HSV, 200 / 360.0 * 255, 250 / 360.0 * 255); // purple
-        crf.setPin0DigitalMaxDistance(ColorRangefinder.DigitalMode.HSV, 70); // 10mm or closer requirement
-        crf.setPin1Digital(ColorRangefinder.DigitalMode.HSV, 60 / 360.0 * 255, 170 / 360.0 * 255); // green
-        crf.setPin1DigitalMaxDistance(ColorRangefinder.DigitalMode.HSV, 70); // 10mm or closer requirement
+//        crf.setPin0Digital(ColorRangefinder2.DigitalMode.HSV, 170 / 360.0 * 255, 240 / 360.0 * 255); // purple
+//        crf.setPin0DigitalMaxDistance(ColorRangefinder2.DigitalMode.HSV, 20); // 10mm or closer requirement
+        crf.setPin0Digital(ColorRangefinder2.DigitalMode.DISTANCE, 7, 70);
+        crf.setPin1Digital(ColorRangefinder2.DigitalMode.HSV, 80 / 360.0 * 255, 160 / 360.0 * 255); // green
+        crf.setPin1DigitalMaxDistance(ColorRangefinder2.DigitalMode.HSV, 30); // 10mm or closer requirement
     }
 }
 
@@ -28,10 +29,10 @@ public class BrushlandsConfig extends LinearOpMode {
  * Helper class for configuring the Brushland Labs Color Rangefinder.
  * Online documentation: <a href="https://docs.brushlandlabs.com">...</a>
  */
-class ColorRangefinder {
+class ColorRangefinder2 {
     private final I2cDeviceSynchSimple i2c;
 
-    public ColorRangefinder(RevColorSensorV3 emulator) {
+    public ColorRangefinder2(RevColorSensorV3 emulator) {
         this.i2c = emulator.getDeviceClient();
         this.i2c.enableWriteCoalescing(true);
     }

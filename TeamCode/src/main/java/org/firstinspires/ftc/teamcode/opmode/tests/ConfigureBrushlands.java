@@ -15,15 +15,15 @@ public class ConfigureBrushlands extends LinearOpMode {
         calibrate("m1");
     }
     public void calibrate(String sensorName) {
-        ColorRangefinder crf = new ColorRangefinder(hardwareMap.get(RevColorSensorV3.class, sensorName));
+        ColorRangefinder2 crf = new ColorRangefinder2(hardwareMap.get(RevColorSensorV3.class, sensorName));
         waitForStart();
         /* Using this example configuration, you can detect both artifact colors based on which pin is reading true:
             pin0 --> purple
             pin1 --> green */
-        crf.setPin0Digital(ColorRangefinder.DigitalMode.HSV, 160 / 360.0 * 255, 190 / 360.0 * 255); // purple
-        crf.setPin0DigitalMaxDistance(ColorRangefinder.DigitalMode.HSV, 65); // 10mm or closer requirement
-        crf.setPin1Digital(ColorRangefinder.DigitalMode.HSV, 110 / 360.0 * 255, 140 / 360.0 * 255); // green
-        crf.setPin1DigitalMaxDistance(ColorRangefinder.DigitalMode.HSV, 65); // 10mm or closer requirement
+        crf.setPin0Digital(ColorRangefinder2.DigitalMode.HSV, 160 / 360.0 * 255, 190 / 360.0 * 255); // purple
+        crf.setPin0DigitalMaxDistance(ColorRangefinder2.DigitalMode.HSV, 65); // 10mm or closer requirement
+        crf.setPin1Digital(ColorRangefinder2.DigitalMode.HSV, 110 / 360.0 * 255, 140 / 360.0 * 255); // green
+        crf.setPin1DigitalMaxDistance(ColorRangefinder2.DigitalMode.HSV, 65); // 10mm or closer requirement
     }
 }
 

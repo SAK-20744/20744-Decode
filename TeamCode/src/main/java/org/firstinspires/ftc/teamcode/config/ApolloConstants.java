@@ -31,12 +31,12 @@ public class ApolloConstants {
         INTAKE_IN = 1,
         INTAKE_OUT = -1,
         INTAKE_OFF = 0,
-        LKICKER_DOWN = 0.015,
+        LKICKER_DOWN = 0.025,
         MKICKER_DOWN = 0.01,
-        RKICKER_DOWN = 0,
+        RKICKER_DOWN = 0.025,
         LKICKER_UP = 0.295,
-        MKICKER_UP = 0.28,
-        RKICKER_UP = 0.28,
+        MKICKER_UP = 0.295,
+        RKICKER_UP = 0.295,
         HOOD_MIN = 0.34,
         HOOD_MAX = 1,
 //        HOOD_CLOSE = 0.22,
@@ -54,8 +54,8 @@ public class ApolloConstants {
         tds = 0.000000075,
         TURRET_THRESHOLD = 100,
         OFFSET = 650,
-        TILT_RETRACT = 0.56,
-        TILT_EXTEND = 0.35;
+        TILT_RETRACT = 0.58,
+        TILT_EXTEND = 0.34;
 
     public static double shooterkS = 0.135, shooterkV = 0.000525, shooterkP = 0.02;
 

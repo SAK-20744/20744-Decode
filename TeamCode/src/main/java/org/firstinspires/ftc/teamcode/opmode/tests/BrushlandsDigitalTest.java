@@ -22,11 +22,11 @@ public class BrushlandsDigitalTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            telemetry.addData("left purple", leftPurple.getState());
+            telemetry.addData("left dist", leftPurple.getState());
             telemetry.addData("left green", leftGreen.getState());
-            telemetry.addData("middle purple", middlePurple.getState());
+            telemetry.addData("middle dist", middlePurple.getState());
             telemetry.addData("middle green", middleGreen.getState());
-            telemetry.addData("right purple", rightPurple.getState());
+            telemetry.addData("right dist", rightPurple.getState());
             telemetry.addData("right green", rightGreen.getState());
             telemetry.update();
         }
