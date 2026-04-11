@@ -42,11 +42,12 @@ public class BallSensorsDigital {
     }
 
     public void read() {
+        left = l1.getState();
+        mid = m1.getState();
+        right = r1.getState();
         lColor = sense(l1,l2);
         mColor = sense(m1,m2);
         rColor = sense(r1,r2);
-
-        left = lColor != BallColor.N;
     }
     public BallColor leftC() {return lColor;}
     public BallColor middleC() {return mColor;}
@@ -58,7 +59,7 @@ public class BallSensorsDigital {
     public BallColor sense(DigitalChannel p0, DigitalChannel p1) {
         BallColor s1Color = BallColor.N;
 
-        if (p0.getState()) s1Color = BallColor.P;
+//        if (p0.getState()) s1Color = BallColor.P;
         if (p1.getState()) s1Color = BallColor.G;
 
         return s1Color;

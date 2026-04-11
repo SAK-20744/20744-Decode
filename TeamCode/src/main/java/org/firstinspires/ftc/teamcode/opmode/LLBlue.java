@@ -20,6 +20,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.config.*;
 import org.firstinspires.ftc.teamcode.subsystems.BallSensors2;
+import org.firstinspires.ftc.teamcode.subsystems.BallSensorsDigital;
 import org.firstinspires.ftc.teamcode.subsystems.Kicker;
 import org.firstinspires.ftc.teamcode.subsystems.KickersV2;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
@@ -41,6 +42,7 @@ public class LLBlue extends LinearOpMode {
     ElapsedTime lightTimer = new ElapsedTime();
 
     BallSensors2 bs;
+    BallSensorsDigital bsd;
 
     private static final int shoot = 0, zone = 1;
     private int pipeline = shoot;
@@ -77,6 +79,7 @@ public class LLBlue extends LinearOpMode {
 
         bs = new BallSensors2(hardwareMap);
         bs.motif(motif);
+        bsd = new BallSensorsDigital(hardwareMap);
 
 //        lKicker = hardwareMap.servo.get(ApolloHardwareNames.lKicker);
 //        mKicker = hardwareMap.servo.get(ApolloHardwareNames.mKicker);
@@ -208,9 +211,10 @@ public class LLBlue extends LinearOpMode {
                 fr.setPower(frontRightPower);
                 br.setPower(backRightPower);
             }
-
-            if (gamepad1.right_bumper) intakePower = INTAKE_IN;
-            else if (gamepad1.left_bumper) intakePower = INTAKE_OUT;
+            bsd.read();
+            boolean kickdexerFull = bsd.leftD() && bsd.middleD() && bsd.rightD();
+            if (gamepad1.right_bumper && !kickdexerFull) intakePower = INTAKE_IN;
+            else if (gamepad1.left_bumper || kickdexerFull) intakePower = INTAKE_OUT;
             else intakePower = INTAKE_OFF;
 
             intake.setPower(intakePower);
