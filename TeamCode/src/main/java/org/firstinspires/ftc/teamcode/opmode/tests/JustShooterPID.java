@@ -20,12 +20,12 @@ public class JustShooterPID extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
         waitForStart();
         while (opModeIsActive()) {
-            if (gamepad1.a && !closePressed) {
+            if (gamepad1.dpad_up && !closePressed) {
                 shooter.close(); shooter.up();
-            }closePressed = gamepad1.a;
-            if (gamepad1.b && !farPressed) {
+            }closePressed = gamepad1.dpad_up;
+            if (gamepad1.dpad_down && !farPressed) {
                 shooter.far(); shooter.down();
-            }farPressed = gamepad1.b;
+            }farPressed = gamepad1.dpad_down;
             if (gamepad1.x && !onPressed)
                 shooter.on();
             onPressed = gamepad1.x;
