@@ -23,12 +23,12 @@ public class BallSensorsDigital {
     ApolloConstants.colorRanges colorRanges;
 
     public BallSensorsDigital(HardwareMap h) {
-        m1 = h.digitalChannel.get("bm1");
-        m2 = h.digitalChannel.get("bm2");
-        l1 = h.digitalChannel.get("bl1");
-        l2 = h.digitalChannel.get("bl2");
-        r1 = h.digitalChannel.get("br1");
-        r2 = h.digitalChannel.get("br2");
+        m1 = h.digitalChannel.get("middlepurple");
+        m2 = h.digitalChannel.get("middlegreen");
+        l1 = h.digitalChannel.get("leftpurple");
+        l2 = h.digitalChannel.get("leftgreen");
+        r1 = h.digitalChannel.get("rightpurple");
+        r2 = h.digitalChannel.get("rightgreen");
     }
 
     public void motif(Motif motif) {this.motif = motif;}

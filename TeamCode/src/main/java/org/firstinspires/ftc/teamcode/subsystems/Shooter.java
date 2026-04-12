@@ -24,8 +24,8 @@ public class Shooter extends SubsystemBase {
     public static double kS = 0.535, kV = 0.00018, kP = 0.0025;
     public static double far_kS = 0.37, far_kV = 0.00027, far_kP = 0.0065;
     private boolean activated = true;
-    public static double close = 1500;
-    public static double far = 1750;
+    public static double close = 1300;
+    public static double far = 1650;
     public static double flipUp = 0.87;
     public static double flipDown = 0.78;
     public static double flipDownAutoOffset = 0.025;
