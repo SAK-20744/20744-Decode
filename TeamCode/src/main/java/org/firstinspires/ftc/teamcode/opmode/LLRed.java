@@ -157,15 +157,6 @@ public class LLRed extends LinearOpMode {
             if(gamepad1.dpad_left)
                 drive.setPose(new Pose(FieldPoses.redReset.getX(), FieldPoses.redReset.getY(),drive.getHeading()));
 
-            if(gamepad1.dpad_down || gamepad2.dpad_down){
-                shooter.up();
-                shooter.far();
-            }
-            if (gamepad1.dpad_up || gamepad2.dpad_up) {
-                shooter.down();
-                shooter.close();
-            }
-
 //            if (gamepad1.x) lKickerTarget = LKICKER_UP; else lKickerTarget = LKICKER_DOWN;
 //            if (gamepad1.y) mKickerTarget = MKICKER_UP; else mKickerTarget = MKICKER_DOWN;
 //            if (gamepad1.b) rKickerTarget = RKICKER_UP; else rKickerTarget = RKICKER_DOWN;
@@ -258,6 +249,7 @@ public class LLRed extends LinearOpMode {
             light.setPosition(pos);
 
             turret.periodic();
+            shooter.adaptive(drive.getPose().distanceFrom(FieldPoses.redHoop));
             shooter.periodic();
             drive.updatePose();
 
@@ -272,7 +264,10 @@ public class LLRed extends LinearOpMode {
 
             telemetry.addData("Shooter Current", shooter.getVelocity());
             telemetry.addData("Shooter  Target", shooter.getTarget());
-            telemetry.addData("Distance to Goal", drive.getPose().distanceFrom(FieldPoses.blueHoop));
+            telemetry.addData("Distance to Goal", drive.getPose().distanceFrom(FieldPoses.redHoop));
+
+            telemetry.addData("Hood Target", shooter.f.getPosition());
+            telemetry.addData("theoretical hood target", shooter.calcHoodPower(drive.getPose().distanceFrom(FieldPoses.blueHoop)));
 
             double loop = System.nanoTime();
             telemetry.addData("hz ", 1000000000 / (loop - looptime));

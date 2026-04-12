@@ -27,6 +27,8 @@ import org.firstinspires.ftc.teamcode.subsystems.Turret;
 import org.firstinspires.ftc.teamcode.subsystems.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.util.Drawing;
 
+import java.lang.reflect.Field;
+
 @TeleOp ()
 public class LLBlue extends LinearOpMode {
     Turret turret;
@@ -232,6 +234,7 @@ public class LLBlue extends LinearOpMode {
             light.setPosition(pos);
 
             turret.periodic();
+            shooter.adaptive(drive.getPose().distanceFrom(FieldPoses.blueHoop));
             shooter.periodic();
             drive.updatePose();
 
@@ -248,6 +251,9 @@ public class LLBlue extends LinearOpMode {
             telemetry.addData("Shooter Current", shooter.getVelocity());
             telemetry.addData("Shooter  Target", shooter.getTarget());
             telemetry.addData("Distance to Goal", drive.getPose().distanceFrom(FieldPoses.blueHoop));
+
+            telemetry.addData("Hood Target", shooter.hoodPos);
+            telemetry.addData("theoretical hood target", shooter.calcHoodPower(drive.getPose().distanceFrom(FieldPoses.blueHoop)));
 
             double loop = System.nanoTime();
             telemetry.addData("hz ", 1000000000 / (loop - looptime));

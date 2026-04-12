@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.config.ApolloConstants;
 @Configurable
 
 public class Shooter extends SubsystemBase {
-    private Servo f;
+    public Servo f;
     private DcMotorEx l, r;
 
     private double t = 0;
@@ -33,6 +33,7 @@ public class Shooter extends SubsystemBase {
     private boolean correctHood = false;
     private boolean up = false;
     public boolean isFar = false;
+    public double hoodPos = 0.4;
     public Shooter(HardwareMap hardwareMap) {
         l = hardwareMap.get(DcMotorEx.class, "lShooter");
         r = hardwareMap.get(DcMotorEx.class, "rShooter");
@@ -82,6 +83,61 @@ public class Shooter extends SubsystemBase {
         isFar = false;
     }
 
+    public void adaptive(double dist) {
+        setTarget(calcShooterPower(dist));
+        if (calcHoodPower(dist) != hoodPos) hoodPos = calcHoodPower(dist);
+        f.setPosition(hoodPos);
+        isFar = dist >= 100;
+        on();
+    }
+
+    double[][] table = {
+
+            {50.7,800, 0.37},
+            {65.9,875,0.37},
+            {83,940,0.5},
+            {91,1000,0.5},
+            {105,1100,0.6},
+            {125,1300,0.7}, //far shot
+            {136,1345,0.7},
+            {145,1350,0.7}
+    };
+    public double calcShooterPower(double dist) {
+        if (dist <= table[0][0]) return table[0][1];
+
+        for (int i = 0; i < table.length - 1; i++) {
+
+            double d1 = table[i][0];
+            double t1 = table[i][1];
+            double d2 = table[i+1][0];
+            double t2 = table[i+1][1];
+
+            if (dist <= d2) {
+                return t1 + (dist - d1) * (t2 - t1) / (d2 - d1);
+            }
+        }
+
+        return table[table.length - 1][1];
+    }
+
+    public double calcHoodPower(double dist) {
+        if (dist <= table[0][0]) return table[0][2];
+
+        for (int i = 0; i < table.length - 1; i++) {
+
+            double d1 = table[i][0];
+            double t1 = table[i][2];
+            double d2 = table[i+1][0];
+            double t2 = table[i+1][2];
+
+            if (dist <= d2) {
+                return t1 + (dist - d1) * (t2 - t1) / (d2 - d1);
+            }
+        }
+
+        return table[table.length - 1][2];
+    }
+
     public void setTarget(double velocity) {
         t = velocity;
     }
@@ -95,16 +151,6 @@ public class Shooter extends SubsystemBase {
             if (isFar) power = (far_kV * getTarget()) + (far_kP * (getTarget() - getVelocity())) + far_kS;
             setPower(power);
         }
-
-        double hoodCorrectFactor = (getTarget()-getVelocity()) * clamp((flipUp-flipDown)/(far-close), -0.5, 0.5);
-        double hoodPos = flipUp;
-        if (up)
-            hoodPos = flipUp;
-        else
-            hoodPos = flipDown;
-        if (correctHood)
-            hoodPos -= hoodCorrectFactor * hoodCorrection;
-        f.setPosition(clamp(hoodPos, HOOD_MIN, HOOD_MAX));
     }
 
     public void up() {
