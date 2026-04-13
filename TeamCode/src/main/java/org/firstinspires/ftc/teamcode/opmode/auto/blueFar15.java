@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.config.ApolloConstants;
 import org.firstinspires.ftc.teamcode.config.FieldPoses;
 import org.firstinspires.ftc.teamcode.config.Robot;
 import org.firstinspires.ftc.teamcode.config.paths.Far15;
@@ -43,6 +44,7 @@ public class blueFar15 extends OpMode {
             p.intakeHP(!p.intakeHP);
 
         bs.motif(l.motifDetection());
+        ApolloConstants.motif = l.motifDetection();
 
         telemetry.addData("Detected ID: ", l.motifDetection());
         telemetry.addLine();

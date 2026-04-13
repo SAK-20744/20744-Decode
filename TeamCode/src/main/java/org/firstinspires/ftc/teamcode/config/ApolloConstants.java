@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.config;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.teamcode.util.Pattern;
 import org.opencv.core.Scalar;
 
 @Config
@@ -12,7 +13,7 @@ public class ApolloConstants {
     public static double autoTurret2 = 115;
     public static double autoTurret3 = 115;
 
-    public static double TurretScaling = 0.15;
+    public static double TurretScaling = 0.18;
 
     public static double eject = 0.4;
 
@@ -24,18 +25,20 @@ public class ApolloConstants {
 
     public static double shooterVelError = 40;
 
+    public static Pattern motif = Pattern.GPP21;
+
     public static double
         INTAKE_IN = 1,
         INTAKE_OUT = -1,
         INTAKE_OFF = 0,
-        LKICKER_DOWN = 0.015,
+        LKICKER_DOWN = 0.025,
         MKICKER_DOWN = 0.01,
-        RKICKER_DOWN = 0,
+        RKICKER_DOWN = 0.025,
         LKICKER_UP = 0.295,
-        MKICKER_UP = 0.28,
-        RKICKER_UP = 0.28,
-        HOOD_MIN = 0.03,
-        HOOD_MAX = 0.92,
+        MKICKER_UP = 0.295,
+        RKICKER_UP = 0.295,
+        HOOD_MIN = 0.34,
+        HOOD_MAX = 1,
 //        HOOD_CLOSE = 0.22,
 //        HOOD_FAR = 0.7025,
 //        SHOOTER_CLOSE = 0.65,
@@ -51,8 +54,8 @@ public class ApolloConstants {
         tds = 0.000000075,
         TURRET_THRESHOLD = 100,
         OFFSET = 650,
-        TILT_RETRACT = 0.56,
-        TILT_EXTEND = 0.35;
+        TILT_RETRACT = 0.58,
+        TILT_EXTEND = 0.34;
 
     public static double shooterkS = 0.135, shooterkV = 0.000525, shooterkP = 0.02;
 
@@ -74,11 +77,11 @@ public class ApolloConstants {
 //        KICKER_DOWNTIME = 0.3;
 
     public static double
-        KUP = 150,
-        KDOWN = 70;
+        KUP = 200,
+        KDOWN = 80;
     public static double
-            KUP_SLOW = 150,
-            KDOWN_SLOW = 70;
+            KUP_SLOW = 300,
+            KDOWN_SLOW = 125;
     public static int
 //        TURRET_BLUE_FAR = -285,
         TURRET_MIDDLE = 0;

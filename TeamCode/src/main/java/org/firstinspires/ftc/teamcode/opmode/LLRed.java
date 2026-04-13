@@ -17,6 +17,7 @@ import static org.firstinspires.ftc.teamcode.config.ApolloConstants.dt;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.flDir;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.frDir;
 import static org.firstinspires.ftc.teamcode.config.ApolloConstants.intakeDir;
+import static org.firstinspires.ftc.teamcode.config.ApolloConstants.motif;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -41,6 +42,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.config.ApolloConstants;
 import org.firstinspires.ftc.teamcode.config.FieldPoses;
 import org.firstinspires.ftc.teamcode.config.Robot;
+import org.firstinspires.ftc.teamcode.subsystems.BallSensors2;
+import org.firstinspires.ftc.teamcode.subsystems.BallSensorsDigital;
 import org.firstinspires.ftc.teamcode.subsystems.Kicker;
 import org.firstinspires.ftc.teamcode.subsystems.KickersV2;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
@@ -59,6 +62,8 @@ public class LLRed extends LinearOpMode {
 //    Servo lKicker, mKicker, rKicker;
     Shooter shooter;
     DcMotor fl, bl, fr, br, intake;
+    BallSensors2 bs;
+    BallSensorsDigital bsd;
 
     Servo light;
     ElapsedTime lightTimer = new ElapsedTime();
@@ -95,6 +100,10 @@ public class LLRed extends LinearOpMode {
         intake = hardwareMap.dcMotor.get("intake");
         l = hardwareMap.get(Limelight3A.class, "limelight");
         light = hardwareMap.get(Servo.class, "light");
+
+        bs = new BallSensors2(hardwareMap);
+        bs.motif(motif);
+        bsd = new BallSensorsDigital(hardwareMap);
 
 //        if (drive.getPoseTracker().getLocalizer() instanceof PinpointLocalizer)
 //            ((PinpointLocalizer)drive.getPoseTracker().getLocalizer()).recalibrate();
@@ -164,15 +173,14 @@ public class LLRed extends LinearOpMode {
             if (gamepad1.yWasPressed()) kickers.kick(Kicker.M);
             if (gamepad1.bWasPressed()) kickers.kick(Kicker.R);
             if (gamepad1.aWasPressed()) {
-                kickers.kick(Kicker.L);
-                kickers.kick(Kicker.M);
-                kickers.kick(Kicker.R);
+                bs.read();
+                kickers.kickSequenced(bs.shootSequence());
             }
             kickers.slowed = shooter.isFar;
             kickers.periodic();
 
-            if (gamepad2.y) {tilt.extend();}
-            if (gamepad2.a) {tilt.retract();}
+            if (gamepad2.y) {tilt.extend(); shooter.off(); turret.off();}
+            if (gamepad2.a) {tilt.retract(); shooter.on(); turret.on();}
 
             if(gamepad1.options)
                 drive.setPose(new Pose(drive.getPose().getX(), drive.getPose().getY() , Math.PI/2));
@@ -223,8 +231,10 @@ public class LLRed extends LinearOpMode {
                 br.setPower(backRightPower);
             }
 
-            if (gamepad1.right_bumper) intakePower = INTAKE_IN;
-            else if (gamepad1.left_bumper) intakePower = INTAKE_OUT;
+            bsd.read();
+            boolean kickdexerFull = bsd.leftD() && bsd.middleD() && bsd.rightD();
+            if (gamepad1.right_bumper && !kickdexerFull) intakePower = INTAKE_IN;
+            else if (gamepad1.left_bumper || kickdexerFull) intakePower = INTAKE_OUT;
             else intakePower = INTAKE_OFF;
 
             intake.setPower(intakePower);
