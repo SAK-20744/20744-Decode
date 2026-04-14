@@ -291,7 +291,7 @@ public class Blue_Flex extends NextFTCOpMode {
 
     public Command Shoot() {
         return new SequentialGroup(
-                Apollo.k.kickSequenced(ballSensor.shootSequenceNew())
+                Apollo.kicker.kickSequenced(ballSensor.shootSequenceNew())
         );
     }
 
