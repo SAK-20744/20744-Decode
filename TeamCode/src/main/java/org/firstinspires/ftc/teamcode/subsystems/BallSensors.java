@@ -166,6 +166,8 @@ public class BallSensors {
         }
         return new String[]{"l","m","r"};
     }
+
+
 //    public KOrder shootSequence() {
 //        if (lColor == BallColor.G) {
 //            switch (motif) {

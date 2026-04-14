@@ -96,4 +96,47 @@ public class BallSensorsDigital {
         }
         return new String[]{"l","m","r"};
     }
+
+    public Kicker[] shootSequenceNew() {
+        Kicker[] order = {
+                Kicker.NULL,
+                Kicker.NULL,
+                Kicker.NULL
+        };
+
+        BallColor[] ballColors = {
+                lColor,
+                mColor,
+                rColor
+        };
+
+        boolean[] kickersUsing = {
+                false,
+                false,
+                false
+        };
+
+        // Find Green Artifact and put it in the correct spot in the kicker order
+        for (int i = 0; i < 3; i++) {
+            if (ballColors[i] == BallColor.G || i == 2) {
+                order[motif.id()] = Kicker.withId(i);
+                kickersUsing[i] = true;
+                i = 3;
+            }
+        }
+
+        // Fill all other spots with the two kickers that haven't been used
+        for (int i = 0; i < 3; i++) {
+            if (order[i] == Kicker.NULL) {
+                for (int i2 = 0; i2 < 3; i2++) {
+                    if (!kickersUsing[i2] || i == 2) {
+                        order[i] = Kicker.withId(i2);
+                        i2 = 3;
+                    }
+                }
+            }
+        }
+
+        return order;
+    }
 }

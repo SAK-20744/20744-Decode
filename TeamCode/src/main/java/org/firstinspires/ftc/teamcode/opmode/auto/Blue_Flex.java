@@ -23,6 +23,7 @@ import org.firstinspires.ftc.teamcode.util.Alliance;
 
 import java.util.ArrayList;
 
+import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.commands.delays.WaitUntil;
 import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.commands.utility.InstantCommand;
@@ -136,8 +137,7 @@ public class Blue_Flex extends NextFTCOpMode {
                     follower.followPath(scoreClose);
                 }),
                 new WaitUntil(this::isDonePathing),
-                new InstantCommand(this::Shoot),
-                new WaitUntil(this::shootingDone)
+                Shoot()
         );
 
         middle = new SequentialGroup(
@@ -151,8 +151,7 @@ public class Blue_Flex extends NextFTCOpMode {
                     follower.followPath(scoreMiddle);
                 }),
                 new WaitUntil(this::isDonePathing),
-                new InstantCommand(this::Shoot),
-                new WaitUntil(this::shootingDone)
+                Shoot()
         );
 
         far = new SequentialGroup(
@@ -166,8 +165,7 @@ public class Blue_Flex extends NextFTCOpMode {
                     follower.followPath(scoreFar);
                 }),
                 new WaitUntil(this::isDonePathing),
-                new InstantCommand(this::Shoot),
-                new WaitUntil(this::shootingDone)
+                Shoot()
         );
 
         gate = new SequentialGroup(
@@ -181,8 +179,7 @@ public class Blue_Flex extends NextFTCOpMode {
                     follower.followPath(scoreGate);
                 }),
                 new WaitUntil(this::isDonePathing),
-                new InstantCommand(this::Shoot),
-                new WaitUntil(this::shootingDone)
+                Shoot()
         );
 
         close.setName("close");
@@ -194,8 +191,6 @@ public class Blue_Flex extends NextFTCOpMode {
 
         Apollo.t.face(new Pose(0, 144), scorePose);
         Apollo.t.on();
-
-        Apollo.k.init();
     }
 
     @Override
@@ -224,8 +219,7 @@ public class Blue_Flex extends NextFTCOpMode {
                     }),
                     new WaitUntil(this::isDonePathing),
                     new WaitUntil(() -> Apollo.s.atTarget()),
-                    new InstantCommand(this::Shoot),
-                    new WaitUntil(this::shootingDone)
+                    Shoot()
             );
         }
 
@@ -292,16 +286,13 @@ public class Blue_Flex extends NextFTCOpMode {
 
         Apollo.t.periodic();
         Apollo.s.periodic();
-        Apollo.k.periodic();
         ballSensor.read();
     }
 
-    public void Shoot() {
-        Apollo.k.kickSequenced(ballSensor.shootSequence());
-    }
-
-    public boolean shootingDone() {
-        return !Apollo.k.kickersActive();
+    public Command Shoot() {
+        return new SequentialGroup(
+                Apollo.k.kickSequenced(ballSensor.shootSequenceNew())
+        );
     }
 
     public boolean isDonePathing() {

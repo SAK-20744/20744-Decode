@@ -25,7 +25,6 @@ import com.bylazar.configurables.annotations.IgnoreConfigurable;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
-import com.pedropathing.ftc.localization.localizers.PinpointLocalizer;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.util.PoseHistory;
 import com.qualcomm.hardware.limelightvision.LLResult;
@@ -38,21 +37,20 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.config.ApolloConstants;
 import org.firstinspires.ftc.teamcode.config.FieldPoses;
 import org.firstinspires.ftc.teamcode.config.Robot;
 import org.firstinspires.ftc.teamcode.subsystems.BallSensors2;
 import org.firstinspires.ftc.teamcode.subsystems.BallSensorsDigital;
+import org.firstinspires.ftc.teamcode.subsystems.CommandScheduler;
 import org.firstinspires.ftc.teamcode.subsystems.Kicker;
+import org.firstinspires.ftc.teamcode.subsystems.KickersImp;
 import org.firstinspires.ftc.teamcode.subsystems.KickersV2;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.Tilt;
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
 import org.firstinspires.ftc.teamcode.subsystems.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.util.Drawing;
-
-import java.util.Locale;
 
 @TeleOp ()
 public class LLRed extends LinearOpMode {
@@ -90,6 +88,8 @@ public class LLRed extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        CommandScheduler commandScheduler = new CommandScheduler(this);
+        commandScheduler.initialize();
         drive = Constants.createFollower(hardwareMap);
         turret = new Turret(hardwareMap);
         turret.off();
@@ -112,8 +112,7 @@ public class LLRed extends LinearOpMode {
 //        lKicker = hardwareMap.servo.get(ApolloHardwareNames.lKicker);
 //        mKicker = hardwareMap.servo.get(ApolloHardwareNames.mKicker);
 //        rKicker = hardwareMap.servo.get(ApolloHardwareNames.rKicker);
-        KickersV2 kickers = new KickersV2(hardwareMap);
-        kickers.init();
+        KickersImp kickers = new KickersImp(hardwareMap);
         intake.setDirection(intakeDir);
 
         fl = hardwareMap.dcMotor.get(dt.fl);
@@ -137,6 +136,7 @@ public class LLRed extends LinearOpMode {
 
         switchToShoot();
         while (opModeInInit()) {
+            commandScheduler.update();
             if (gamepad1.x) turret.resetTurret();
             telemetry.addData("Turret Angle",turret.getYaw());
             telemetry.addData("Get Turret", turret.getTurret());
@@ -158,6 +158,7 @@ public class LLRed extends LinearOpMode {
         shooter.close();
         shooter.down();
         while (opModeIsActive()) {
+            commandScheduler.update();
             turret.on();
             {
                 Drawing.drawDebug(drive);
@@ -169,15 +170,14 @@ public class LLRed extends LinearOpMode {
 //            if (gamepad1.x) lKickerTarget = LKICKER_UP; else lKickerTarget = LKICKER_DOWN;
 //            if (gamepad1.y) mKickerTarget = MKICKER_UP; else mKickerTarget = MKICKER_DOWN;
 //            if (gamepad1.b) rKickerTarget = RKICKER_UP; else rKickerTarget = RKICKER_DOWN;
-            if (gamepad1.xWasPressed()) kickers.kick(Kicker.L);
-            if (gamepad1.yWasPressed()) kickers.kick(Kicker.M);
-            if (gamepad1.bWasPressed()) kickers.kick(Kicker.R);
+            if (gamepad1.xWasPressed()) kickers.kick(Kicker.LEFT);
+            if (gamepad1.yWasPressed()) kickers.kick(Kicker.MIDDLE);
+            if (gamepad1.bWasPressed()) kickers.kick(Kicker.RIGHT);
             if (gamepad1.aWasPressed()) {
                 bs.read();
-                kickers.kickSequenced(bs.shootSequence());
+                kickers.kickSequenced(bs.shootSequenceNew());
             }
             kickers.slowed = shooter.isFar;
-            kickers.periodic();
 
             if (gamepad2.y) {tilt.extend(); shooter.off(); turret.off();}
             if (gamepad2.a) {tilt.retract(); shooter.on(); turret.on();}
@@ -284,6 +284,7 @@ public class LLRed extends LinearOpMode {
             looptime = loop;
             telemetry.update();
         }
+        commandScheduler.stop();
     }
 
     public void switchToShoot() {

@@ -44,20 +44,20 @@ public class kickersV2Test extends LinearOpMode {
         while (opModeIsActive()) {
 
             if (gamepad1.x && !lPressed)
-                kickers.kick(Kicker.L);
+                kickers.kick(Kicker.LEFT);
             lPressed = gamepad1.x;
 
             if (gamepad1.y && !mPressed)
-                kickers.kick(Kicker.M);
+                kickers.kick(Kicker.MIDDLE);
             mPressed = gamepad1.y;
 
             if (gamepad1.b && !rPressed)
-                kickers.kick(Kicker.R);
+                kickers.kick(Kicker.RIGHT);
             rPressed = gamepad1.b;
             if (gamepad1.a && !aPressed) {
-                kickers.kick(Kicker.L);
-                kickers.kick(Kicker.M);
-                kickers.kick(Kicker.R);
+                kickers.kick(Kicker.LEFT);
+                kickers.kick(Kicker.MIDDLE);
+                kickers.kick(Kicker.RIGHT);
             }
             aPressed = gamepad1.a;
 

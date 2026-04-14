@@ -21,15 +21,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.config.*;
 import org.firstinspires.ftc.teamcode.subsystems.BallSensors2;
 import org.firstinspires.ftc.teamcode.subsystems.BallSensorsDigital;
+import org.firstinspires.ftc.teamcode.subsystems.CommandScheduler;
 import org.firstinspires.ftc.teamcode.subsystems.Kicker;
+import org.firstinspires.ftc.teamcode.subsystems.KickersImp;
 import org.firstinspires.ftc.teamcode.subsystems.KickersV2;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.Tilt;
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
 import org.firstinspires.ftc.teamcode.subsystems.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.util.Drawing;
-
-import java.lang.reflect.Field;
 
 @TeleOp ()
 public class LLBlue extends LinearOpMode {
@@ -86,8 +86,9 @@ public class LLBlue extends LinearOpMode {
 //        lKicker = hardwareMap.servo.get(ApolloHardwareNames.lKicker);
 //        mKicker = hardwareMap.servo.get(ApolloHardwareNames.mKicker);
 //        rKicker = hardwareMap.servo.get(ApolloHardwareNames.rKicker);
-        KickersV2 kickers = new KickersV2(hardwareMap);
-        kickers.init();
+        CommandScheduler commandScheduler = new CommandScheduler(this);
+        commandScheduler.initialize();
+        KickersImp kickers = new KickersImp(hardwareMap);
         intake.setDirection(intakeDir);
 
         fl = hardwareMap.dcMotor.get(ApolloConstants.dt.fl);
@@ -111,6 +112,7 @@ public class LLBlue extends LinearOpMode {
 
         switchToShoot();
         while (opModeInInit()) {
+            commandScheduler.update();
             if (gamepad1.x) turret.resetTurret();
             telemetry.addData("Turret Angle",turret.getYaw());
             telemetry.addData("Get Turret", turret.getTurret());
@@ -132,6 +134,7 @@ public class LLBlue extends LinearOpMode {
         shooter.close();
         shooter.down();
         while (opModeIsActive()) {
+            commandScheduler.update();
             turret.on();
             {
                 Drawing.drawDebug(drive);
@@ -140,27 +143,26 @@ public class LLBlue extends LinearOpMode {
             if(gamepad1.dpad_left)
                 drive.setPose(new Pose(FieldPoses.blueReset.getX(), FieldPoses.blueReset.getY(),drive.getHeading()));
 
-            if(gamepad1.dpad_down || gamepad2.dpad_down){
-                shooter.up();
-                shooter.far();
-            }
-            if (gamepad1.dpad_up || gamepad2.dpad_up) {
-                shooter.down();
-                shooter.close();
-            }
+//            if(gamepad1.dpad_down || gamepad2.dpad_down){
+//                shooter.up();
+//                shooter.far();
+//            }
+//            if (gamepad1.dpad_up || gamepad2.dpad_up) {
+//                shooter.down();
+//                shooter.close();
+//            }
 
 //            if (gamepad1.x) lKickerTarget = LKICKER_UP; else lKickerTarget = LKICKER_DOWN;
 //            if (gamepad1.y) mKickerTarget = MKICKER_UP; else mKickerTarget = MKICKER_DOWN;
 //            if (gamepad1.b) rKickerTarget = RKICKER_UP; else rKickerTarget = RKICKER_DOWN;
-            if (gamepad1.xWasPressed()) kickers.kick(Kicker.L);
-            if (gamepad1.yWasPressed()) kickers.kick(Kicker.M);
-            if (gamepad1.bWasPressed()) kickers.kick(Kicker.R);
+            if (gamepad1.xWasPressed()) kickers.kick(Kicker.LEFT);
+            if (gamepad1.yWasPressed()) kickers.kick(Kicker.MIDDLE);
+            if (gamepad1.bWasPressed()) kickers.kick(Kicker.RIGHT);
             if (gamepad1.aWasPressed()) {
                 bs.read();
-                kickers.kickSequenced(bs.shootSequence());
+                kickers.kickSequenced(bs.shootSequenceNew());
             }
             kickers.slowed = shooter.isFar;
-            kickers.periodic();
 
             if (gamepad2.y) {tilt.extend(); shooter.off(); turret.off();}
             if (gamepad2.a) {tilt.retract(); shooter.on(); turret.on();}
@@ -268,6 +270,7 @@ public class LLBlue extends LinearOpMode {
             looptime = loop;
             telemetry.update();
         }
+        commandScheduler.stop();
     }
 
     public void switchToShoot() {

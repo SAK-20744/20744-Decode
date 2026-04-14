@@ -40,12 +40,12 @@ public class KickersV2 {
         if (queue.size() >= 3) return;
         queue.add(kicker);
     }
-    public void kickAll() {kick(Kicker.L); kick(Kicker.M); kick(Kicker.R);}
+    public void kickAll() {kick(Kicker.LEFT); kick(Kicker.MIDDLE); kick(Kicker.RIGHT);}
     public void kickSequenced(String[] sequence) {
         for (String i: sequence) {
-            if (i.toLowerCase() == "l") kick(Kicker.L);
-            if (i.toLowerCase() == "m") kick(Kicker.M);
-            if (i.toLowerCase() == "r") kick(Kicker.R);
+            if (i.toLowerCase() == "l") kick(Kicker.LEFT);
+            if (i.toLowerCase() == "m") kick(Kicker.MIDDLE);
+            if (i.toLowerCase() == "r") kick(Kicker.RIGHT);
         }
     }
     public void periodic() {
@@ -55,9 +55,9 @@ public class KickersV2 {
         }
         if (currentUp != null)
             switch (currentUp) {
-            case L: updateKicker(lKicker,LKICKER_UP,LKICKER_DOWN); break;
-            case M: updateKicker(mKicker,MKICKER_UP,MKICKER_DOWN); break;
-            case R: updateKicker(rKicker,RKICKER_UP,RKICKER_DOWN); break;
+            case LEFT: updateKicker(lKicker,LKICKER_UP,LKICKER_DOWN); break;
+            case MIDDLE: updateKicker(mKicker,MKICKER_UP,MKICKER_DOWN); break;
+            case RIGHT: updateKicker(rKicker,RKICKER_UP,RKICKER_DOWN); break;
         }
     }
     public Kicker getUp() {return currentUp;}
