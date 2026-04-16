@@ -74,9 +74,17 @@ public class KickersV2 {
         return kickerTimer() < KDOWN+KUP;
     }
     private void updateKicker(Servo servo, double upPos, double downPos) {
-        if (kickerGoingUp() || !upsSignalSent)           { servo.setPosition(upPos); upsSignalSent = true;}
-        else if (kickerGoingDown() || !downSignalSent)    { servo.setPosition(downPos); downSignalSent = true;}
-        else { currentUp = null;              }
+        if (kickerGoingUp() || !upsSignalSent) {
+            servo.setPosition(upPos);
+            upsSignalSent = true;
+        } else if (kickerGoingDown() || !downSignalSent) {
+            servo.setPosition(downPos);
+            downSignalSent = true;
+        } else {
+            currentUp = null;
+            upsSignalSent = false;
+            downSignalSent = false;
+        }
     }
     public boolean kickersActive() {return currentUp != null || queue.peek() != null;}
 }
