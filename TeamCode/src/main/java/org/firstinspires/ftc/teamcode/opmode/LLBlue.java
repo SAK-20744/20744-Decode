@@ -46,6 +46,7 @@ public class LLBlue extends LinearOpMode {
     BallSensors2 bs;
     BallSensorsDigital bsd;
 
+    KickersV2 kickers;
     private static final int shoot = 0, zone = 1;
     private int pipeline = shoot;
     private Limelight3A l;
@@ -88,7 +89,7 @@ public class LLBlue extends LinearOpMode {
 //        rKicker = hardwareMap.servo.get(ApolloHardwareNames.rKicker);
         CommandScheduler commandScheduler = new CommandScheduler(this);
         commandScheduler.initialize();
-        KickersImp kickers = new KickersImp(hardwareMap);
+        kickers = new KickersV2(hardwareMap);
         intake.setDirection(intakeDir);
 
         fl = hardwareMap.dcMotor.get(ApolloConstants.dt.fl);
@@ -160,9 +161,9 @@ public class LLBlue extends LinearOpMode {
             if (gamepad1.bWasPressed()) kickers.kick(Kicker.RIGHT);
             if (gamepad1.aWasPressed()) {
                 bs.read();
-                kickers.kickSequenced(bs.shootSequenceNew());
+                kickers.kickSequenced(bs.shootSequence());
             }
-            kickers.slowed = shooter.isFar;
+//            kickers.slowed = shooter.isFar;
 
             if (gamepad2.y) {tilt.extend(); shooter.off(); turret.off();}
             if (gamepad2.a) {tilt.retract(); shooter.on(); turret.on();}
@@ -217,7 +218,7 @@ public class LLBlue extends LinearOpMode {
             }
             bsd.read();
             boolean kickdexerFull = bsd.leftD() && bsd.middleD() && bsd.rightD();
-            if (gamepad1.right_bumper && !kickdexerFull) intakePower = INTAKE_IN;
+            if (gamepad1.right_bumper && !kickdexerFull && !kickers.kickersActive()) intakePower = INTAKE_IN;
             else if (gamepad1.left_bumper || kickdexerFull) intakePower = INTAKE_OUT;
             else intakePower = INTAKE_OFF;
 
@@ -229,7 +230,7 @@ public class LLBlue extends LinearOpMode {
                             drive.getVelocity().getYComponent() * ApolloConstants.VELOCITY_CORRECTION
                     ));
             Pose goal = FieldPoses.blueHoop;
-            if (shooter.isFar) goal = FieldPoses.blueHoopFar;
+//            if (shooter.isFar) goal = FieldPoses.blueHoopFar;
             turret.face(goal, correctedPose);
 
 //            lKicker.setPosition(lKickerTarget);
@@ -247,6 +248,8 @@ public class LLBlue extends LinearOpMode {
             shooter.adaptive(drive.getPose().distanceFrom(FieldPoses.blueHoop));
             shooter.periodic();
             drive.updatePose();
+
+            kickers.periodic();
 
             visionRelocalizeLoop(turret.getYaw());
 

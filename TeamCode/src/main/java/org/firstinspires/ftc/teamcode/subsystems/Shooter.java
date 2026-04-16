@@ -87,8 +87,7 @@ public class Shooter extends SubsystemBase {
         setTarget(calcShooterPower(dist));
         if (calcHoodPower(dist) != hoodPos) hoodPos = calcHoodPower(dist);
         f.setPosition(hoodPos);
-        isFar = dist >= 100;
-        on();
+//        isFar = dist >= 100;
     }
 
     double[][] table = {

@@ -26,6 +26,8 @@ public class KickersV2 {
     Queue<Kicker> queue = new ArrayDeque<Kicker>();
 
     public boolean slowed = false;
+
+    private boolean downSignalSent = false, upsSignalSent = false;
     public KickersV2(HardwareMap hardwareMap) {
         lKicker = hardwareMap.servo.get(ApolloHardwareNames.lKicker);
         mKicker = hardwareMap.servo.get(ApolloHardwareNames.mKicker);
@@ -72,9 +74,9 @@ public class KickersV2 {
         return kickerTimer() < KDOWN+KUP;
     }
     private void updateKicker(Servo servo, double upPos, double downPos) {
-        if (kickerGoingUp())           servo.setPosition(upPos);
-        else if (kickerGoingDown())    servo.setPosition(downPos);
-        else                           currentUp = null;
+        if (kickerGoingUp() || !upsSignalSent)           { servo.setPosition(upPos); upsSignalSent = true;}
+        else if (kickerGoingDown() || !downSignalSent)    { servo.setPosition(downPos); downSignalSent = true;}
+        else { currentUp = null;              }
     }
     public boolean kickersActive() {return currentUp != null || queue.peek() != null;}
 }

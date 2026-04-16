@@ -62,7 +62,7 @@ public class LLRed extends LinearOpMode {
     DcMotor fl, bl, fr, br, intake;
     BallSensors2 bs;
     BallSensorsDigital bsd;
-
+    KickersV2 kickers;
     Servo light;
     ElapsedTime lightTimer = new ElapsedTime();
 
@@ -112,7 +112,9 @@ public class LLRed extends LinearOpMode {
 //        lKicker = hardwareMap.servo.get(ApolloHardwareNames.lKicker);
 //        mKicker = hardwareMap.servo.get(ApolloHardwareNames.mKicker);
 //        rKicker = hardwareMap.servo.get(ApolloHardwareNames.rKicker);
-        KickersImp kickers = new KickersImp(hardwareMap);
+//        KickersImp kickers = new KickersImp(hardwareMap);
+        kickers = new KickersV2(hardwareMap);
+
         intake.setDirection(intakeDir);
 
         fl = hardwareMap.dcMotor.get(dt.fl);
@@ -175,9 +177,10 @@ public class LLRed extends LinearOpMode {
             if (gamepad1.bWasPressed()) kickers.kick(Kicker.RIGHT);
             if (gamepad1.aWasPressed()) {
                 bs.read();
-                kickers.kickSequenced(bs.shootSequenceNew());
+                kickers.kickSequenced(bs.shootSequence());
+
             }
-            kickers.slowed = shooter.isFar;
+//            kickers.slowed = shooter.isFar;
 
             if (gamepad2.y) {tilt.extend(); shooter.off(); turret.off();}
             if (gamepad2.a) {tilt.retract(); shooter.on(); turret.on();}
@@ -233,7 +236,7 @@ public class LLRed extends LinearOpMode {
 
             bsd.read();
             boolean kickdexerFull = bsd.leftD() && bsd.middleD() && bsd.rightD();
-            if (gamepad1.right_bumper && !kickdexerFull) intakePower = INTAKE_IN;
+            if (gamepad1.right_bumper && !kickdexerFull && !kickers.kickersActive()) intakePower = INTAKE_IN;
             else if (gamepad1.left_bumper || kickdexerFull) intakePower = INTAKE_OUT;
             else intakePower = INTAKE_OFF;
 
@@ -257,6 +260,8 @@ public class LLRed extends LinearOpMode {
             double pos = REDLIGHT + tri * (PURPLELIGHT - REDLIGHT);
 
             light.setPosition(pos);
+
+            kickers.periodic();
 
             turret.periodic();
             shooter.adaptive(drive.getPose().distanceFrom(FieldPoses.redHoop));

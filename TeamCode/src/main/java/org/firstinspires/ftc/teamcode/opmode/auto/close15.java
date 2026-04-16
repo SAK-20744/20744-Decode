@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.config.ApolloConstants;
+import org.firstinspires.ftc.teamcode.config.FieldPoses;
 import org.firstinspires.ftc.teamcode.config.Robot;
 import org.firstinspires.ftc.teamcode.config.paths.Fast15;
 import org.firstinspires.ftc.teamcode.subsystems.BallSensors2;
@@ -130,6 +131,7 @@ public class close15 extends OpMode {
 
         }
         r.t.face(p.goal, r.f.getPose());
+        r.s.adaptive(r.f.getPose().distanceFrom(p.goal));
         r.periodic();
         sortedShoot();
         telemetry.addData("heading", r.f.getHeading());
@@ -146,7 +148,7 @@ public class close15 extends OpMode {
         telemetry.update();
     }
     public void startShoot() {
-        r.s.close();r.s.downAuto();
+//        r.s.close();r.s.down();
         shootState = 0;
     }
     public void shoot() {

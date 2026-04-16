@@ -57,7 +57,6 @@ public class redFar15 extends OpMode {
     @Override
     public void start() {
         r.t.on();
-        r.s.far();r.s.up();
     }
 
     @Override
@@ -116,6 +115,7 @@ public class redFar15 extends OpMode {
         Pose goal = p.goal;
         if (r.s.isFar) goal = p.goalFar;
         r.t.face(goal, r.f.getPose());
+        r.s.adaptive(r.f.getPose().distanceFrom(p.goal));
         r.periodic();
         sortedShoot();
 
@@ -131,11 +131,9 @@ public class redFar15 extends OpMode {
         telemetry.update();
     }
     public void startShoot() {
-        r.s.far();r.s.up();
         shootState = 0;
     }
     public void startCloseShoot() {
-        r.s.close();r.s.down();
         shootState = 0;
     }
     public void shoot() {
