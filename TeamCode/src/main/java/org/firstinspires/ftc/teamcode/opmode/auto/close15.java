@@ -88,12 +88,11 @@ public class close15 extends OpMode {
             case 11: if (shootState == -1) state++; break;
 
             // gate intake 1
-            case 12: r.i.spinIn(); state++; break;
-            case 13: r.f.followPath(p.next()); state++; break;
-            case 14: if (!r.f.isBusy()) state++; break;
-
-            case 15: stateTimer.reset(); state++; break;
-            case 16: if (stateTimer.seconds() > p.gateIntakeTime) state++; break;
+            case 12: r.f.followPath(p.next()); state++; break;
+            case 13: if (!r.f.isBusy()) state++; break;
+            case 14: r.i.spinIn(); state++; break;
+            case 15: r.f.followPath(p.next()); state++; break;
+            case 16: if (!r.f.isBusy()) state++; break;
 
             case 17: r.f.followPath(p.next()); state++; break;
             case 18: if(r.f.getPathCompletion()>eject) { r.i.spinOut(); state++; } break;
@@ -102,12 +101,11 @@ public class close15 extends OpMode {
             case 21: if (shootState == -1) state++; break;
 
             // gate intake 2
-            case 22: r.i.spinIn(); state++; break;
-            case 23: r.f.followPath(p.next()); state++; break;
-            case 24: if (!r.f.isBusy()) state++; break;
-
-            case 25: stateTimer.reset(); state++; break;
-            case 26: if (stateTimer.seconds() > p.gateIntakeTime || p.fullClassifier) state++; break;
+            case 22: r.f.followPath(p.next()); state++; break;
+            case 23: if (!r.f.isBusy()) state++; break;
+            case 24: r.i.spinIn(); state++; break;
+            case 25: r.f.followPath(p.next()); state++; break;
+            case 26: if (!r.f.isBusy()) state++; break;
 
             case 27: r.f.followPath(p.next()); state++; break;
             case 28: if(r.f.getPathCompletion()>eject) { r.i.spinOut(); state++; } break;
@@ -140,7 +138,7 @@ public class close15 extends OpMode {
         telemetry.addData("shooter at target", r.s.atTarget());
         telemetry.addData("shooter vel", r.s.getVelocity());
         telemetry.addData("shooter target", r.s.getTarget());
-        telemetry.addLine("");
+        telemetry.addLine();
         telemetry.addData("motif", l.motifDetection());
         telemetry.addData("shoot order", bs.shootSequence().toString());
         telemetry.update();
