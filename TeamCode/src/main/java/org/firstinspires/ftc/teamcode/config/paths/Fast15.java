@@ -24,8 +24,10 @@ public class Fast15 {
     public Pose intake2Control = FieldPoses.redBall0Ctrl;
     public Pose intake3 = FieldPoses.redBall2End;
     public Pose intake3Control = FieldPoses.redBall2Ctrl;
-    public Pose gate = FieldPoses.redGatePickup; //new Pose(144-132.781509, 61, Math.toRadians(28+90)); // gate
+    public Pose gateOpen = FieldPoses.redGateOpen2;
+    public Pose gate = FieldPoses.redGatePickup2; //new Pose(144-132.781509, 61, Math.toRadians(28+90)); // gate
     public Pose gateControl = FieldPoses.redBall1Ctrl; //62);
+    public Pose gatePickupControl = FieldPoses.redGatePickupCtrl;
     public Pose park = FieldPoses.redClosePark; //new Pose(36, 12, Math.toRadians(180));
     public Pose goal = FieldPoses.redHoop;
 
@@ -49,8 +51,10 @@ public class Fast15 {
             intake2Control = mirror(intake2Control);
             intake3 = mirror(intake3);
             intake3Control = mirror(intake3Control);
+            gateOpen = mirror(gateOpen);
             gate = mirror(gate);
             gateControl = mirror(gateControl);
+            gatePickupControl = mirror(gatePickupControl);
             park = mirror(park);
             goal = mirror(goal);
         }
@@ -93,9 +97,17 @@ public class Fast15 {
                 .build();
     }
 
+
+    public PathChain gateOpen() { // go to gate from intake1
+        return f.pathBuilder()
+                .addPath(new BezierCurve(score, gateControl, gateOpen))
+                .setBrakingStrength(gateIntakeBreakStrength)
+                .setLinearHeadingInterpolation(score.getHeading(), gateOpen.getHeading(), 0.3)
+                .build();
+    }
     public PathChain gateIntake() { // go to gate from intake1
         return f.pathBuilder()
-                .addPath(new BezierCurve(score, gateControl, gate))
+                .addPath(new BezierCurve(gateOpen, gatePickupControl, gate))
                 .setBrakingStrength(gateIntakeBreakStrength)
                 .setLinearHeadingInterpolation(score.getHeading(), gate.getHeading(), 0.3)
                 .build();
@@ -165,19 +177,21 @@ public class Fast15 {
             case 0: return scoreP();
             case 1: return intake1();
             case 2: return score1();
-            case 3: return gateIntake();
-            case 4: return scoreG();
-            case 5: if (fullClassifier) return intake2(); else return gateIntake();
-            case 6: if (fullClassifier) return score2(); else return scoreG();
-            case 7: if (fullClassifier) return intake3(); else return intake2();
-            case 8: if (fullClassifier) return score3(); else return score2();
+            case 3: return gateOpen();
+            case 4: return gateIntake();
+            case 5: return scoreG();
+            case 6: return gateOpen();
+            case 7: return gateIntake();
+            case 8: return scoreG();
+            case 9: return intake2();
+            case 10: return score2();
 //            case 9: return park();
             default: return null;
         }
     }
 
     public boolean hasNext() {
-        int PATH_COUNT = 8;
+        int PATH_COUNT = 10;
         return index < PATH_COUNT;
     }
 
