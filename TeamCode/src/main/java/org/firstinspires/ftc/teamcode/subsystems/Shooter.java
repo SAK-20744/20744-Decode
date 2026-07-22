@@ -26,6 +26,7 @@ public class Shooter extends SubsystemBase {
     private boolean activated = true;
     public static double close = 1300;
     public static double far = 1650;
+    public static double rpmOffset = 0;
     public static double flipUp = 0.87;
     public static double flipDown = 0.78;
     public static double flipDownAutoOffset = 0.025;
@@ -92,14 +93,14 @@ public class Shooter extends SubsystemBase {
 
     double[][] table = {
 
-            {50.7,800, 0.37},
-            {65.9,875,0.37},
-            {83,940,0.5},
-            {91,1000,0.5},
-            {105,1100,0.6},
-            {125,1300,0.7}, //far shot
-            {136,1345,0.7},
-            {145,1350,0.7}
+            {50.7,800+rpmOffset, 0.37},
+            {65.9,875+rpmOffset,0.37},
+            {83, 940 +rpmOffset,0.5},
+            {91, 1000+rpmOffset,0.5},
+            {105,1100+rpmOffset,0.6},
+            {125,1300+rpmOffset,0.7}, //far shot
+            {136,1345+rpmOffset,0.7},
+            {145,1350+rpmOffset,0.7}
     };
     public double calcShooterPower(double dist) {
         if (dist <= table[0][0]) return table[0][1];
@@ -177,7 +178,8 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean atTarget() {
-        return Math.abs((getTarget()- getVelocity())) < ApolloConstants.shooterVelError;
+//        return Math.abs((getTarget()- getVelocity())) < ApolloConstants.shooterVelError;
+        return getVelocity() >= getTarget()-ApolloConstants.shooterVelError;
     }
 
     public void forDistance(double distance) {

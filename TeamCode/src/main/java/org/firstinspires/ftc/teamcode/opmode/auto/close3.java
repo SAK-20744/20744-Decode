@@ -8,32 +8,33 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.config.ApolloConstants;
 import org.firstinspires.ftc.teamcode.config.Robot;
-import org.firstinspires.ftc.teamcode.config.paths.Fast15;
+import org.firstinspires.ftc.teamcode.config.paths.Just3;
+import org.firstinspires.ftc.teamcode.config.paths.Sorted9;
 import org.firstinspires.ftc.teamcode.subsystems.BallSensors2;
 import org.firstinspires.ftc.teamcode.subsystems.Limelight;
 import org.firstinspires.ftc.teamcode.util.Alliance;
 
 
 @Config
-public class close15 extends OpMode {
+public class close3 extends OpMode {
     Robot r;
     Limelight l;
-    Fast15 p;
+    Just3 p;
     BallSensors2 bs;
     int state = 0;
     int shootState = -1;
     ElapsedTime stateTimer = new ElapsedTime();
 
-    public static double shootPauseTime = 0.5;
+    public static double shootPauseTime = 2;
 
     final Alliance a;
-    public close15(Alliance alliance) {
+    public close3(Alliance alliance) {
         this.a = alliance;
     }
     @Override
     public void init() {
         r = new Robot(hardwareMap, a);
-        p = new Fast15(r);
+        p = new Just3(r);
         r.f.setStartingPose(p.start);
         r.k.init();
         l = new Limelight(hardwareMap);
@@ -55,8 +56,6 @@ public class close15 extends OpMode {
         telemetry.addData("Detected ID: ", l.motifDetection());
         telemetry.addLine();
         telemetry.addData("Turret Angle:", r.t.getTurret());
-        telemetry.addLine();
-        telemetry.addData("full classifier", p.extraGateOpen);
         telemetry.update();
     }
 
@@ -71,47 +70,9 @@ public class close15 extends OpMode {
 
         switch (state) {
             case 0: r.f.followPath(p.next()); state++; break;
-            case 1: if (!r.f.isBusy()) state++; stateTimer.reset(); break;
+            case 1: if (!r.f.isBusy()) { state++; stateTimer.reset(); } break;
             case 2: if (stateTimer.seconds() > shootPauseTime) {startShoot(); state++; } break;
             case 3: if (shootState == -1) state++; break;
-
-            // spike intake 1
-            case 4: r.i.spinIn(); state++; break;
-            case 5: r.f.followPath(p.next()); state++; break;
-            case 6: if (!r.f.isBusy()) state++; break;
-            case 7: r.f.followPath(p.next()); state++; break;
-            case 8: if(r.f.getPathCompletion()>eject) { r.i.spinOut(); state++; } break;
-            case 9: if (!r.f.isBusy()) state++; break;
-            case 10: startShoot(); state++; break;
-            case 11: if (shootState == -1) state++; break;
-
-            // gate intake 1
-            case 12: r.f.followPath(p.next()); state++; break;
-            case 13: if (!r.f.isBusy()) state++; break;
-            case 14: r.i.spinIn(); state++; break;
-            case 15: r.f.followPath(p.next()); state++; break;
-            case 16: if (!r.f.isBusy()) state++; break;
-
-            case 17: r.f.followPath(p.next()); state++; break;
-            case 18: if(r.f.getPathCompletion()>eject) { r.i.spinOut(); state++; } break;
-            case 19: if (!r.f.isBusy()) state++; break;
-            case 20: startShoot(); state++; break;
-            case 21: if (shootState == -1) state++; break;
-
-            // gate open 2
-
-            // spike intake 2
-            case 22: r.i.spinIn(); state++; break;
-            case 23: r.f.followPath(p.next()); state++; break;
-            case 24: if (!r.f.isBusy()) state++; break;
-            case 25: r.f.followPath(p.next()); state++; break;
-            case 26: if(r.f.getPathCompletion()>eject) { r.i.spinOut(); state++; } break;
-            case 27: if (!r.f.isBusy()) state++; break;
-            case 28: startShoot(); state++; break;
-            case 29: if (shootState == -1) state++; break;
-
-            case 30: r.f.followPath(p.next()); state++; break;
-            case 31: if (!r.f.isBusy()) state++; break;
 
 //            case 40: r.f.followPath(p.next()); state++; break;
 //            case 41: if (!r.f.isBusy()) state++; break;
@@ -121,6 +82,10 @@ public class close15 extends OpMode {
         r.s.adaptive(r.f.getPose().distanceFrom(p.goal));
         r.periodic();
         sortedShoot();
+        telemetry.addLine(" --Ball Colors");
+        telemetry.addData("L",bs.leftC());
+        telemetry.addData("M",bs.middleC());
+        telemetry.addData("R",bs.rightC());
         telemetry.addData("heading", r.f.getHeading());
         telemetry.addData("pose", r.f.getPose());
         telemetry.addData("state", state);

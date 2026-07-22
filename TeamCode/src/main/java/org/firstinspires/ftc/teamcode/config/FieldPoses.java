@@ -20,6 +20,7 @@ public class FieldPoses {
     public static Pose redPushFar = new Pose(redFarStart.getX(), -36, -R);
 
     public static Pose redBall0Ctrl = new Pose(TS*0.5, TS*-0.375, -R);
+    public static Pose redBall0Ctrl2 = new Pose(TS*-0.25, TS*-0.375, -R);
     public static Pose redBall0Start = new Pose(TS*0.5, -TS*0.75, -R);
     public static Pose redBall0End = new Pose(TS*0.5, -TS*2.4, -R);
 
@@ -36,18 +37,18 @@ public class FieldPoses {
     public static Pose redGateOpen = new Pose(TS*-0.4, -TS*2.4, -R);
     public static Pose redGateCtrl = new Pose(TS*-0.4, TS*-2, -R);
     public static Pose redGateOpen2 = new Pose(TS*-0.2,TS*-2.5,Math.PI);
-    public static Pose redGatePickup2 = new Pose(TS*-1.5,TS*-2.65,rads(-150));
+    public static Pose redGatePickup2 = new Pose(TS*-2.3,TS*-2.65,rads(-150));
     public static Pose redGatePickupCtrl = new Pose(TS*-1.5, redGateOpen2.getY(), redGatePickup2.getHeading());
     public static Pose redHPPickupStart = new Pose(TS*-2.5, -TS*0.75, -R);
-    public static Pose redHPPickupEnd = new Pose(TS*-3+BOT_WIDTH/2, -TS*3+8/*BOT_LENGTH/2*/, -R);
+    public static Pose redHPPickupEnd = new Pose(TS*-3+BOT_WIDTH/2, -TS*3+6/*BOT_LENGTH/2*/, -R);
 
-    public static Pose redCyclerIntake = new Pose(TS*-3+BOT_WIDTH/2+3, -TS*3+12, rads(-80));
+    public static Pose redCyclerIntake = new Pose(TS*-3+BOT_WIDTH/2+1, -TS*3+8, rads(-80));
 
     public static Pose redReset = new Pose(TS*-3+BOT_WIDTH/2, TS*3-13/*BOT_LENGTH/2*/, R);
     public static Pose redHoop = new Pose(TS*3-2.5,-TS*3+2.5);
     public static Pose redHoopFar = new Pose(TS*3-2.5,-TS*3+2.5);
     public static Pose redTele = new Pose(TS*2.75,-TS*2.75);
-    public static Pose redClosePark = new Pose(27, -15, -R);
+    public static Pose redClosePark = new Pose(30, -15, -R);
     public static Pose redFarPark = new Pose(-36, -16, -R);
     public static Pose redPark = new Pose(redBall2Start.getX(), -BOT_LENGTH*0.75, -R);
 

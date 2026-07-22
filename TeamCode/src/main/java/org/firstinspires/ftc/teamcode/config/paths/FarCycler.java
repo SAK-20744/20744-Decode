@@ -50,29 +50,16 @@ public class FarCycler {
         index = 0;
     }
 
-    public PathChain start() { // intake 1
-        return f.pathBuilder()
-                .addPath(
-                        new BezierCurve(
-                                start,
-                                score
-                        )
-                )
-                .setBrakingStrength(intakeBreakStrength)
-                .setLinearHeadingInterpolation(start.getHeading(), score.getHeading())
-                .build();
-    }
-
     public PathChain intake1() { // intake 1
         return f.pathBuilder()
                 .addPath(
                         new BezierCurve(
-                                score,
+                                start,
                                 hpIntake
                         )
                 )
                 .setBrakingStrength(intakeBreakStrength)
-                .setLinearHeadingInterpolation(score.getHeading(), hpIntake.getHeading(), 0.3)
+                .setLinearHeadingInterpolation(start.getHeading(), hpIntake.getHeading(), 0.3)
                 .build();
     }
 
@@ -137,20 +124,19 @@ public class FarCycler {
 
     public PathChain next() {
         switch (index++) {
-            case 0: return start();
-            case 1: return intake1();
-            case 2: return score1();
-            case 3: return intake2();
-            case 4: return score2();
-            case 5: return cycleIntake();
-            case 6: return cycleScore();
-            case 7: return cycleIntake();
-            case 8: return cycleScore();
-            case 9: return cycleIntake();
-            case 10: return cycleScore();
-            case 11: return cycleIntake();
-            case 12: return cycleScore();
-            case 13: return park();
+            case 0: return intake1();
+            case 1: return score1();
+            case 2: return intake2();
+            case 3: return score2();
+            case 4: return cycleIntake();
+            case 5: return cycleScore();
+            case 6: return cycleIntake();
+            case 7: return cycleScore();
+            case 8: return cycleIntake();
+            case 9: return cycleScore();
+            case 10: return cycleIntake();
+            case 11: return cycleScore();
+            case 12: return park();
             default: return null;
         }
     }

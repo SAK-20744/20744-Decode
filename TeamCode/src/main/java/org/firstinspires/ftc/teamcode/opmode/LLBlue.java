@@ -165,8 +165,8 @@ public class LLBlue extends LinearOpMode {
             }
 //            kickers.slowed = shooter.isFar;
 
-            if (gamepad2.y) {tilt.extend(); shooter.off(); turret.off();}
-            if (gamepad2.a) {tilt.retract(); shooter.on(); turret.on();}
+            if (gamepad2.y && gamepad1.dpad_up) {tilt.extend(); shooter.off(); turret.off();}
+            if (gamepad2.a && gamepad1.dpad_down) {tilt.retract(); shooter.on(); turret.on();}
 
             if(gamepad1.options)
                 drive.setPose(new Pose(drive.getPose().getX(), drive.getPose().getY() , -Math.PI/2));
@@ -244,14 +244,13 @@ public class LLBlue extends LinearOpMode {
 
             light.setPosition(pos);
 
-            turret.periodic();
             shooter.adaptive(drive.getPose().distanceFrom(FieldPoses.blueHoop));
             shooter.periodic();
             drive.updatePose();
 
             kickers.periodic();
 
-            visionRelocalizeLoop(turret.getYaw());
+//            visionRelocalizeLoop(turret.getYaw());
 
             turret.setOffset(TurretScaling * (gamepad2.left_trigger - gamepad2.right_trigger));
             turret.periodic();

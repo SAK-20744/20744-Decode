@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.config.paths;
 
+import static org.firstinspires.ftc.teamcode.config.FieldPoses.mirror;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
@@ -8,12 +10,11 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 
 import org.firstinspires.ftc.teamcode.config.FieldPoses;
-import static org.firstinspires.ftc.teamcode.config.FieldPoses.mirror;
 import org.firstinspires.ftc.teamcode.config.Robot;
 import org.firstinspires.ftc.teamcode.util.Alliance;
 
 @Config
-public class Fast15 {
+public class Sorted9 {
     private final Follower f;
 
     public Pose start = FieldPoses.redCloseStart;
@@ -40,7 +41,7 @@ public class Fast15 {
 
     public static boolean extraGateOpen = false;
 
-    public Fast15(Robot r) {
+    public Sorted9(Robot r) {
         this.f = r.f;
 
         if (r.a.equals(Alliance.BLUE)) {
@@ -199,18 +200,15 @@ public class Fast15 {
             case 0: return scoreP();
             case 1: return intake1();
             case 2: return score1();
-            case 3: return gateOpen();
-            case 4: return gateIntake();
-            case 5: return scoreG();
-            case 6: return intake2();
-            case 7: return score2();
-            case 8: return park();
+            case 3: return intake2();
+            case 4: return score2();
+            case 5: return park();
             default: return null;
         }
     }
 
     public boolean hasNext() {
-        int PATH_COUNT = 8;
+        int PATH_COUNT = 5;
         return index < PATH_COUNT;
     }
 

@@ -55,80 +55,78 @@ public class redFarCycler extends OpMode {
     @Override
     public void start() {
         r.t.on();
-        r.s.close();r.s.down();
     }
 
     @Override
     public void loop() {
 
         switch (state) {
-            case 0: r.f.followPath(p.next()); state++; break;
-            case 1: if (!r.f.isBusy()) state++; break;
-            case 2: r.f.holdPoint(p.score); startShoot(); state++; break;
-            case 3: if (shootState == -1) state++; break;
+            case 0: r.f.holdPoint(p.score); startShoot(); state++; break;
+            case 1: if (shootState == -1) state++; break;
 
             // spike intake 1
-            case 4: r.i.spinIn(); state++; break;
+            case 2: r.i.spinIn(); state++; break;
+            case 3: r.f.followPath(p.next()); state++; break;
+            case 4: if (!r.f.isBusy()) state++; break;
             case 5: r.f.followPath(p.next()); state++; break;
             case 6: if (!r.f.isBusy()) state++; break;
-            case 7: r.f.followPath(p.next()); state++; break;
-            case 8: if (!r.f.isBusy()) state++; break;
-            case 9: r.i.spinOut(); state++; break;
-            case 10: startShoot(); state++; break;
-            case 11: if (shootState == -1) state++; break;
+            case 7: r.i.spinOut(); state++; break;
+            case 8: startShoot(); state++; break;
+            case 9: if (shootState == -1) state++; break;
 
-            case 12: r.i.spinIn(); state++; break;
+            case 10: r.i.spinIn(); state++; break;
+            case 11: r.f.followPath(p.next()); state++; break;
+            case 12: if (!r.f.isBusy()) state++; break;
             case 13: r.f.followPath(p.next()); state++; break;
             case 14: if (!r.f.isBusy()) state++; break;
-            case 15: r.f.followPath(p.next()); state++; break;
-            case 16: if (!r.f.isBusy()) state++; break;
-            case 17: r.i.spinOut(); state++; break;
-            case 18: startShoot(); state++; break;
-            case 19: if (shootState == -1) state++; break;
+            case 15: r.i.spinOut(); state++; break;
+            case 16: startShoot(); state++; break;
+            case 17: if (shootState == -1) state++; break;
 
-            case 20: r.i.spinIn(); state++; break;
+            case 18: r.i.spinIn(); state++; break;
+            case 19: r.f.followPath(p.next()); state++; break;
+            case 20: if (!r.f.isBusy()) state++; break;
             case 21: r.f.followPath(p.next()); state++; break;
             case 22: if (!r.f.isBusy()) state++; break;
-            case 23: r.f.followPath(p.next()); state++; break;
-            case 24: if (!r.f.isBusy()) state++; break;
-            case 25: r.i.spinOut(); state++; break;
-            case 26: startShoot(); state++; break;
-            case 27: if (shootState == -1) state++; break;
+            case 23: r.i.spinOut(); state++; break;
+            case 24: startShoot(); state++; break;
+            case 25: if (shootState == -1) state++; break;
 
-            case 28: r.i.spinIn(); state++; break;
+            case 26: r.i.spinIn(); state++; break;
+            case 27: r.f.followPath(p.next()); state++; break;
+            case 28: if (!r.f.isBusy()) state++; break;
             case 29: r.f.followPath(p.next()); state++; break;
             case 30: if (!r.f.isBusy()) state++; break;
-            case 31: r.f.followPath(p.next()); state++; break;
-            case 32: if (!r.f.isBusy()) state++; break;
-            case 33: r.i.spinOut(); state++; break;
-            case 34: startShoot(); state++; break;
-            case 35: if (shootState == -1) state++; break;
+            case 31: r.i.spinOut(); state++; break;
+            case 32: startShoot(); state++; break;
+            case 33: if (shootState == -1) state++; break;
 
-            case 36: r.i.spinIn(); state++; break;
+            case 34: r.i.spinIn(); state++; break;
+            case 35: r.f.followPath(p.next()); state++; break;
+            case 36: if (!r.f.isBusy()) state++; break;
             case 37: r.f.followPath(p.next()); state++; break;
             case 38: if (!r.f.isBusy()) state++; break;
-            case 39: r.f.followPath(p.next()); state++; break;
-            case 40: if (!r.f.isBusy()) state++; break;
-            case 41: r.i.spinOut(); state++; break;
-            case 42: startShoot(); state++; break;
-            case 43: if (shootState == -1) state++; break;
+            case 39: r.i.spinOut(); state++; break;
+            case 40: startShoot(); state++; break;
+            case 41: if (shootState == -1) state++; break;
 
-            case 44: r.i.spinIn(); state++; break;
+            case 42: r.i.spinIn(); state++; break;
+            case 43: r.f.followPath(p.next()); state++; break;
+            case 44: if (!r.f.isBusy()) state++; break;
             case 45: r.f.followPath(p.next()); state++; break;
             case 46: if (!r.f.isBusy()) state++; break;
-            case 47: r.f.followPath(p.next()); state++; break;
-            case 48: if (!r.f.isBusy()) state++; break;
-            case 49: r.i.spinOut(); state++; break;
-            case 50: startShoot(); state++; break;
-            case 51: if (shootState == -1) state++; break;
+            case 47: r.i.spinOut(); state++; break;
+            case 48: startShoot(); state++; break;
+            case 49: if (shootState == -1) state++; break;
 
-            case 52: r.f.followPath(p.next()); state++; break;
-            case 53: if (!r.f.isBusy()) state++; break;
+            case 50: r.f.followPath(p.next()); state++; break;
+            case 51: if (!r.f.isBusy()) state++; break;
 
         }
         Pose goal = p.goal;
         if (r.s.isFar) goal = p.goalFar;
         r.t.face(goal, r.f.getPose());
+        r.s.adaptive(r.f.getPose().distanceFrom(p.goal));
         r.periodic();
         sortedShoot();
 
@@ -144,7 +142,7 @@ public class redFarCycler extends OpMode {
         telemetry.update();
     }
     public void startShoot() {
-        r.s.far();r.s.up();
+//        r.s.far();r.s.up();
         shootState = 0;
     }
     public void shoot() {
